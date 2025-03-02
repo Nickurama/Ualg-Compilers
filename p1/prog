@@ -1,0 +1,4 @@
+sum = 10
+read b
+sum = sum + b
+write b
