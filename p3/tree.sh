@@ -1,1 +1,1 @@
-./antlr_parsing_tree.sh Cal prog ../prog -gui
+./antlr_parsing_tree.sh PropertyFile.PropertyFile file ../prog -gui

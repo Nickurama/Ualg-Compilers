@@ -1,8 +1,13 @@
 #!/bin/bash
 
-antlr=$1
-grammar_file=$2
-antlr_dir=$3
+antlr=$(echo lib/antlr-*.jar)
+grammar=$1
+grammar_file="$grammar.g4"
+antlr_dir="src/$grammar"
 
-java -jar $antlr $grammar_file -o $antlr_dir
+rm -rf $(echo $antlr_dir/*)
+
+java -jar $antlr -visitor $grammar_file -o $antlr_dir -package $grammar
 owo_print "done parsing antlr code."
+
+java_compile

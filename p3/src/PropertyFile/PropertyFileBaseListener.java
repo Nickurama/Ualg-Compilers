@@ -1,52 +1,41 @@
-// Generated from Cal.g4 by ANTLR 4.13.2
+// Generated from PropertyFile.g4 by ANTLR 4.13.2
+package PropertyFile;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * This class provides an empty implementation of {@link CalListener},
+ * This class provides an empty implementation of {@link PropertyFileListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
 @SuppressWarnings("CheckReturnValue")
-public class CalBaseListener implements CalListener {
+public class PropertyFileBaseListener implements PropertyFileListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProg(CalParser.ProgContext ctx) { }
+	@Override public void enterFile(PropertyFileParser.FileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProg(CalParser.ProgContext ctx) { }
+	@Override public void exitFile(PropertyFileParser.FileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterS(CalParser.SContext ctx) { }
+	@Override public void enterProp(PropertyFileParser.PropContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitS(CalParser.SContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterL(CalParser.LContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitL(CalParser.LContext ctx) { }
+	@Override public void exitProp(PropertyFileParser.PropContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
