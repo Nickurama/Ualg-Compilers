@@ -23,9 +23,9 @@ out_dir="./out"
 src_dir="./src"
 
 args="-gui"
-grammar="LExpr"
+grammar="Tuga"
 grammar_file="$grammar.g4"
-start_rule="s"
+start_rule="tuga"
 program="$1"
 
 # setup grammar in correct placement for grun

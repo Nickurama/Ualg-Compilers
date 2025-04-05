@@ -1,0 +1,7 @@
+/*
+	Exemplo de programa em Tuga
+*/
+escreve 1 + 2 * 3;
+escreve 1 + 4 * 3;
+
+escreve 5 + 9 * 2; escreve 2 + 5 * 32;
