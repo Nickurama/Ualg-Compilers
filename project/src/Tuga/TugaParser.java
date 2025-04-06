@@ -516,123 +516,123 @@ public class TugaParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class LogicAndOpContext extends Binary_opContext {
-		public Token op;
-		public TerminalNode AND() { return getToken(TugaParser.AND, 0); }
-		public LogicAndOpContext(Binary_opContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterLogicAndOp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitLogicAndOp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitLogicAndOp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ArithmeticSumSubOpContext extends Binary_opContext {
-		public Token op;
-		public TerminalNode SUM() { return getToken(TugaParser.SUM, 0); }
-		public TerminalNode SUB() { return getToken(TugaParser.SUB, 0); }
-		public ArithmeticSumSubOpContext(Binary_opContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterArithmeticSumSubOp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitArithmeticSumSubOp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitArithmeticSumSubOp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class LogicEqualsOpContext extends Binary_opContext {
+	public static class EqualsOpContext extends Binary_opContext {
 		public Token op;
 		public TerminalNode EQUALS() { return getToken(TugaParser.EQUALS, 0); }
 		public TerminalNode N_EQUALS() { return getToken(TugaParser.N_EQUALS, 0); }
-		public LogicEqualsOpContext(Binary_opContext ctx) { copyFrom(ctx); }
+		public EqualsOpContext(Binary_opContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterLogicEqualsOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterEqualsOp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitLogicEqualsOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitEqualsOp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitLogicEqualsOp(this);
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitEqualsOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class LogicOrOpContext extends Binary_opContext {
+	public static class OrOpContext extends Binary_opContext {
 		public Token op;
 		public TerminalNode OR() { return getToken(TugaParser.OR, 0); }
-		public LogicOrOpContext(Binary_opContext ctx) { copyFrom(ctx); }
+		public OrOpContext(Binary_opContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterLogicOrOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterOrOp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitLogicOrOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitOrOp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitLogicOrOp(this);
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitOrOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class ArithmeticMultDivOpContext extends Binary_opContext {
+	public static class MultDivOpContext extends Binary_opContext {
 		public Token op;
 		public TerminalNode MLT() { return getToken(TugaParser.MLT, 0); }
 		public TerminalNode DIV() { return getToken(TugaParser.DIV, 0); }
 		public TerminalNode MOD() { return getToken(TugaParser.MOD, 0); }
-		public ArithmeticMultDivOpContext(Binary_opContext ctx) { copyFrom(ctx); }
+		public MultDivOpContext(Binary_opContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterArithmeticMultDivOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterMultDivOp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitArithmeticMultDivOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitMultDivOp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitArithmeticMultDivOp(this);
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitMultDivOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class LogicRelOpContext extends Binary_opContext {
+	public static class SumSubOpContext extends Binary_opContext {
+		public Token op;
+		public TerminalNode SUM() { return getToken(TugaParser.SUM, 0); }
+		public TerminalNode SUB() { return getToken(TugaParser.SUB, 0); }
+		public SumSubOpContext(Binary_opContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterSumSubOp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitSumSubOp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitSumSubOp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class RelOpContext extends Binary_opContext {
 		public Token op;
 		public TerminalNode LESS() { return getToken(TugaParser.LESS, 0); }
 		public TerminalNode GREATER() { return getToken(TugaParser.GREATER, 0); }
 		public TerminalNode LESS_EQ() { return getToken(TugaParser.LESS_EQ, 0); }
 		public TerminalNode GREATER_EQ() { return getToken(TugaParser.GREATER_EQ, 0); }
-		public LogicRelOpContext(Binary_opContext ctx) { copyFrom(ctx); }
+		public RelOpContext(Binary_opContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterLogicRelOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterRelOp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitLogicRelOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitRelOp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitLogicRelOp(this);
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitRelOp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class AndOpContext extends Binary_opContext {
+		public Token op;
+		public TerminalNode AND() { return getToken(TugaParser.AND, 0); }
+		public AndOpContext(Binary_opContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterAndOp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitAndOp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitAndOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -648,14 +648,14 @@ public class TugaParser extends Parser {
 			case MLT:
 			case DIV:
 			case MOD:
-				_localctx = new ArithmeticMultDivOpContext(_localctx);
+				_localctx = new MultDivOpContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(47);
-				((ArithmeticMultDivOpContext)_localctx).op = _input.LT(1);
+				((MultDivOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 896L) != 0)) ) {
-					((ArithmeticMultDivOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+					((MultDivOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				else {
 					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
@@ -666,14 +666,14 @@ public class TugaParser extends Parser {
 				break;
 			case SUM:
 			case SUB:
-				_localctx = new ArithmeticSumSubOpContext(_localctx);
+				_localctx = new SumSubOpContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(48);
-				((ArithmeticSumSubOpContext)_localctx).op = _input.LT(1);
+				((SumSubOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==SUM || _la==SUB) ) {
-					((ArithmeticSumSubOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+					((SumSubOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				else {
 					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
@@ -686,14 +686,14 @@ public class TugaParser extends Parser {
 			case GREATER:
 			case LESS_EQ:
 			case GREATER_EQ:
-				_localctx = new LogicRelOpContext(_localctx);
+				_localctx = new RelOpContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(49);
-				((LogicRelOpContext)_localctx).op = _input.LT(1);
+				((RelOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 15360L) != 0)) ) {
-					((LogicRelOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+					((RelOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				else {
 					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
@@ -704,14 +704,14 @@ public class TugaParser extends Parser {
 				break;
 			case EQUALS:
 			case N_EQUALS:
-				_localctx = new LogicEqualsOpContext(_localctx);
+				_localctx = new EqualsOpContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(50);
-				((LogicEqualsOpContext)_localctx).op = _input.LT(1);
+				((EqualsOpContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !(_la==EQUALS || _la==N_EQUALS) ) {
-					((LogicEqualsOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+					((EqualsOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
 				else {
 					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
@@ -721,19 +721,19 @@ public class TugaParser extends Parser {
 				}
 				break;
 			case AND:
-				_localctx = new LogicAndOpContext(_localctx);
+				_localctx = new AndOpContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(51);
-				((LogicAndOpContext)_localctx).op = match(AND);
+				((AndOpContext)_localctx).op = match(AND);
 				}
 				break;
 			case OR:
-				_localctx = new LogicOrOpContext(_localctx);
+				_localctx = new OrOpContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(52);
-				((LogicOrOpContext)_localctx).op = match(OR);
+				((OrOpContext)_localctx).op = match(OR);
 				}
 				break;
 			default:

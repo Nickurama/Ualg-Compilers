@@ -74,42 +74,42 @@ public class TugaBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements T
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArithmeticMultDivOp(TugaParser.ArithmeticMultDivOpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMultDivOp(TugaParser.MultDivOpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArithmeticSumSubOp(TugaParser.ArithmeticSumSubOpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSumSubOp(TugaParser.SumSubOpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicRelOp(TugaParser.LogicRelOpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRelOp(TugaParser.RelOpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicEqualsOp(TugaParser.LogicEqualsOpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEqualsOp(TugaParser.EqualsOpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicAndOp(TugaParser.LogicAndOpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAndOp(TugaParser.AndOpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicOrOp(TugaParser.LogicOrOpContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOrOp(TugaParser.OrOpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

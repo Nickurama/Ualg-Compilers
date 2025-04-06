@@ -65,47 +65,47 @@ public interface TugaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLogicNegateOp(TugaParser.LogicNegateOpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ArithmeticMultDivOp}
+	 * Visit a parse tree produced by the {@code MultDivOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArithmeticMultDivOp(TugaParser.ArithmeticMultDivOpContext ctx);
+	T visitMultDivOp(TugaParser.MultDivOpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ArithmeticSumSubOp}
+	 * Visit a parse tree produced by the {@code SumSubOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArithmeticSumSubOp(TugaParser.ArithmeticSumSubOpContext ctx);
+	T visitSumSubOp(TugaParser.SumSubOpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LogicRelOp}
+	 * Visit a parse tree produced by the {@code RelOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLogicRelOp(TugaParser.LogicRelOpContext ctx);
+	T visitRelOp(TugaParser.RelOpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LogicEqualsOp}
+	 * Visit a parse tree produced by the {@code EqualsOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLogicEqualsOp(TugaParser.LogicEqualsOpContext ctx);
+	T visitEqualsOp(TugaParser.EqualsOpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LogicAndOp}
+	 * Visit a parse tree produced by the {@code AndOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLogicAndOp(TugaParser.LogicAndOpContext ctx);
+	T visitAndOp(TugaParser.AndOpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LogicOrOp}
+	 * Visit a parse tree produced by the {@code OrOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLogicOrOp(TugaParser.LogicOrOpContext ctx);
+	T visitOrOp(TugaParser.OrOpContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Int}
 	 * labeled alternative in {@link TugaParser#literal}.

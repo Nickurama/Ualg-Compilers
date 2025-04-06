@@ -100,77 +100,77 @@ public interface TugaListener extends ParseTreeListener {
 	 */
 	void exitLogicNegateOp(TugaParser.LogicNegateOpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ArithmeticMultDivOp}
+	 * Enter a parse tree produced by the {@code MultDivOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void enterArithmeticMultDivOp(TugaParser.ArithmeticMultDivOpContext ctx);
+	void enterMultDivOp(TugaParser.MultDivOpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ArithmeticMultDivOp}
+	 * Exit a parse tree produced by the {@code MultDivOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void exitArithmeticMultDivOp(TugaParser.ArithmeticMultDivOpContext ctx);
+	void exitMultDivOp(TugaParser.MultDivOpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ArithmeticSumSubOp}
+	 * Enter a parse tree produced by the {@code SumSubOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void enterArithmeticSumSubOp(TugaParser.ArithmeticSumSubOpContext ctx);
+	void enterSumSubOp(TugaParser.SumSubOpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ArithmeticSumSubOp}
+	 * Exit a parse tree produced by the {@code SumSubOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void exitArithmeticSumSubOp(TugaParser.ArithmeticSumSubOpContext ctx);
+	void exitSumSubOp(TugaParser.SumSubOpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code LogicRelOp}
+	 * Enter a parse tree produced by the {@code RelOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void enterLogicRelOp(TugaParser.LogicRelOpContext ctx);
+	void enterRelOp(TugaParser.RelOpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code LogicRelOp}
+	 * Exit a parse tree produced by the {@code RelOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void exitLogicRelOp(TugaParser.LogicRelOpContext ctx);
+	void exitRelOp(TugaParser.RelOpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code LogicEqualsOp}
+	 * Enter a parse tree produced by the {@code EqualsOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void enterLogicEqualsOp(TugaParser.LogicEqualsOpContext ctx);
+	void enterEqualsOp(TugaParser.EqualsOpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code LogicEqualsOp}
+	 * Exit a parse tree produced by the {@code EqualsOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void exitLogicEqualsOp(TugaParser.LogicEqualsOpContext ctx);
+	void exitEqualsOp(TugaParser.EqualsOpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code LogicAndOp}
+	 * Enter a parse tree produced by the {@code AndOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void enterLogicAndOp(TugaParser.LogicAndOpContext ctx);
+	void enterAndOp(TugaParser.AndOpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code LogicAndOp}
+	 * Exit a parse tree produced by the {@code AndOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void exitLogicAndOp(TugaParser.LogicAndOpContext ctx);
+	void exitAndOp(TugaParser.AndOpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code LogicOrOp}
+	 * Enter a parse tree produced by the {@code OrOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void enterLogicOrOp(TugaParser.LogicOrOpContext ctx);
+	void enterOrOp(TugaParser.OrOpContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code LogicOrOp}
+	 * Exit a parse tree produced by the {@code OrOp}
 	 * labeled alternative in {@link TugaParser#binary_op}.
 	 * @param ctx the parse tree
 	 */
-	void exitLogicOrOp(TugaParser.LogicOrOpContext ctx);
+	void exitOrOp(TugaParser.OrOpContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Int}
 	 * labeled alternative in {@link TugaParser#literal}.

@@ -17,12 +17,12 @@ unary_op : op=SUB									# ArithmeticNegateOp
   | op=NOT											# LogicNegateOp
   ;
 
-binary_op : op=(MLT|DIV|MOD)						# ArithmeticMultDivOp
-  | op=(SUM|SUB)									# ArithmeticSumSubOp
-  | op=(LESS|GREATER|LESS_EQ|GREATER_EQ)			# LogicRelOp
-  | op=(EQUALS|N_EQUALS)							# LogicEqualsOp
-  | op=AND											# LogicAndOp
-  | op=OR											# LogicOrOp
+binary_op : op=(MLT|DIV|MOD)						# MultDivOp
+  | op=(SUM|SUB)									# SumSubOp
+  | op=(LESS|GREATER|LESS_EQ|GREATER_EQ)			# RelOp
+  | op=(EQUALS|N_EQUALS)							# EqualsOp
+  | op=AND											# AndOp
+  | op=OR											# OrOp
   ;
 
 literal : INT										# Int
