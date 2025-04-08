@@ -18,6 +18,19 @@ public class CodeSemanticChecker extends TugaBaseVisitor<TugaType>
 		this.types = types;
 	}
 
+	// @Override
+	// public TugaType visitExpr(TugaParser.ExprContext ctx)
+	// {
+	// 	System.out.println(visit(ctx));
+	// 	return visit(ctx);
+	// }
+
+	// @Override
+	// public TugaType visitBinaryOp(TugaParser.BinaryOpContext ctx)
+	// {
+	// 	return visit(ctx.binary_op());
+	// }
+
 	@Override
 	public TugaType visitMultDivOp(TugaParser.MultDivOpContext ctx)
 	{
