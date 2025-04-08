@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.*;
 
 import Tuga.*;
+import Types.*;
 import CodeSemanticChecker.*;
 // import CodeGenerator.*;
 // import VirtualMachine.*;
@@ -48,8 +49,10 @@ public class TugaCompileAndRun
 				return;
 			}
 
-			CodeSemanticChecker semanticChecker = new CodeSemanticChecker();
-			semanticChecker.visit(tree);
+
+			ParseTreeProperty<TugaType> types = new ParseTreeProperty<TugaType>();
+			CodeSemanticChecker semanticChecker = new CodeSemanticChecker(types);
+			System.out.println(semanticChecker.visit(tree));
 		}
 		catch (java.io.IOException e)
 		{

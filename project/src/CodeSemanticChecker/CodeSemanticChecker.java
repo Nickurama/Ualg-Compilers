@@ -5,40 +5,44 @@ import org.antlr.v4.runtime.tree.*;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
+
 import Tuga.*;
+import Types.*;
 
-public class CodeSemanticChecker extends TugaBaseVisitor<Void>
+public class CodeSemanticChecker extends TugaBaseVisitor<TugaType>
 {
-	// @Override
-	// public Void visitBinaryOp(TugaParser.BinaryOpContext ctx)
-	// {
-	// 	if (ctx.children)
-	// 	visit(ctx.expr(0));
-	// 	return null;
-	// }
+	private ParseTreeProperty<TugaType> types;
 
-	@Override
-	public Void visitMultDivOp(TugaParser.MultDivOpContext ctx)
+	public CodeSemanticChecker(ParseTreeProperty<TugaType> types)
 	{
-		System.out.println("Multiplication detected");
-		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		double leftValue = visit(parentContext.expr(0));
-		System.out.println(visit(parentContext.expr(0)));
-		// double x = visit(ctx.expr(0)) * visit(ctx.expr(1));
-		return null;
+		this.types = types;
 	}
 
-	// @Override
-	// public Void visitSumSubOp(TugaParser.SumSubOpContext ctx)
-	// {
-	// 	double x = visit(ctx.expr(0)) + visit(ctx.expr(1));
-	// 	return null;
-	// }
+	@Override
+	public TugaType visitMultDivOp(TugaParser.MultDivOpContext ctx)
+	{
+		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
+		TugaType leftType = visit(parentContext.expr(0));
+		TugaType rightType = visit(parentContext.expr(1));
+
+		if (leftType.isNumerical() && rightType.isNumerical())
+		{
+			if (leftType == TugaType.DOUBLE || rightType == TugaType.DOUBLE)
+			{
+				if (ctx.op.getType() == TugaParser.MOD)
+					return TugaType.ERROR;
+				return TugaType.DOUBLE;
+			}
+			return TugaType.INT;
+		}
+
+		return TugaType.ERROR;
+	}
 
 	@Override
-	public Void visitInt(TugaParser.IntContext ctx)
+	public TugaType visitInt(TugaParser.IntContext ctx)
 	{
-		Integer.valueOf(ctx.INT().getText());
-		return null;
+		// Integer.valueOf(ctx.INT().getText());
+		return TugaType.INT;
 	}
 }
