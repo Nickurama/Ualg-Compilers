@@ -164,25 +164,34 @@ public class TugaParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class InstContext extends ParserRuleContext {
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public TerminalNode END_INST() { return getToken(TugaParser.END_INST, 0); }
 		public InstContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_inst; }
+	 
+		public InstContext() { }
+		public void copyFrom(InstContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class PrintInstContext extends InstContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode END_INST() { return getToken(TugaParser.END_INST, 0); }
+		public PrintInstContext(InstContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterInst(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterPrintInst(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitInst(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitPrintInst(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitInst(this);
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitPrintInst(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -191,6 +200,7 @@ public class TugaParser extends Parser {
 		InstContext _localctx = new InstContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_inst);
 		try {
+			_localctx = new PrintInstContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(19);

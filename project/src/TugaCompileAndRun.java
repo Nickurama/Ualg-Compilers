@@ -7,9 +7,8 @@ import java.util.*;
 
 import Tuga.*;
 import Types.*;
-import CodeSemanticChecker.*;
-// import CodeGenerator.*;
-// import VirtualMachine.*;
+import SemanticAnalyser.*;
+import ErrorListeners.*;
 
 public class TugaCompileAndRun
 {
@@ -17,6 +16,7 @@ public class TugaCompileAndRun
 	{
 		boolean showLexerErrors = true;
 		boolean showParserErrors = true;
+		boolean showSemanticErrors = true;
 
 		String inputFile = null;
 		if ( args.length>0 ) inputFile = args[0];
@@ -26,17 +26,24 @@ public class TugaCompileAndRun
 			if (inputFile != null)
 				is = new FileInputStream(inputFile);
 			CharStream input = CharStreams.fromStream(is);
-			MyErrorListener errorListener = new MyErrorListener(showLexerErrors, showParserErrors);
+			TugaErrorListener errorListener = new TugaErrorListener(showLexerErrors, showParserErrors, showSemanticErrors);
 
 			TugaLexer lexer = new TugaLexer(input);
 			lexer.removeErrorListeners();
-			lexer.addErrorListener( errorListener );
+			lexer.addErrorListener(errorListener);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 			TugaParser parser = new TugaParser(tokens);
 			parser.removeErrorListeners();
-			parser.addErrorListener( errorListener );
+			parser.addErrorListener(errorListener);
 			ParseTree tree = parser.tuga();
+
+			ParseTreeProperty<TugaType> types = new ParseTreeProperty<TugaType>();
+			TugaSemanticAnalyser semanticAnalyser = new TugaSemanticAnalyser(types);
+			semanticAnalyser.removeErrorListeners();
+			semanticAnalyser.addErrorListener(errorListener);
+			semanticAnalyser.visit(tree);
+			semanticAnalyser.findErrors(tree);
 
 			if (errorListener.getNumLexerErrors() > 0)
 			{
@@ -48,11 +55,25 @@ public class TugaCompileAndRun
 				System.out.println("Input has parsing errors");
 				return;
 			}
+			if (errorListener.getNumSemanticErrors() > 0)
+			{
+				System.out.println("Input has semantic errors");
+				return;
+			}
 
 
-			ParseTreeProperty<TugaType> types = new ParseTreeProperty<TugaType>();
-			CodeSemanticChecker semanticChecker = new CodeSemanticChecker(types);
-			System.out.println(semanticChecker.visit(tree));
+			// ParseTreeProperty<TugaType> types = new ParseTreeProperty<TugaType>();
+			// TugaSemanticAnalyser semanticAnalyser = new TugaSemanticAnalyser(types);
+			// try
+			// {
+			// 	semanticAnalyser.visit(tree);
+			// }
+			// catch (IllegalStateException e)
+			// {
+			// 	ArrayList<String> errors = TugaSemanticAnalyser.findErrors(tree, types);
+			// 	for (String error : errors)
+			// 		System.err.println(error);
+			// }
 		}
 		catch (java.io.IOException e)
 		{

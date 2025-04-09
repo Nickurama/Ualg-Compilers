@@ -17,11 +17,12 @@ public interface TugaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTuga(TugaParser.TugaContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TugaParser#inst}.
+	 * Visit a parse tree produced by the {@code PrintInst}
+	 * labeled alternative in {@link TugaParser#inst}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInst(TugaParser.InstContext ctx);
+	T visitPrintInst(TugaParser.PrintInstContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code UnaryOp}
 	 * labeled alternative in {@link TugaParser#expr}.

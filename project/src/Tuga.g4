@@ -4,7 +4,8 @@ grammar Tuga;
 tuga : inst+ EOF;
 
 // instructions
-inst : 'escreve' expr END_INST;
+inst : 'escreve' expr END_INST						# PrintInst
+	;
 
 // expressions
 expr : LPAREN expr RPAREN							# ParenExpr

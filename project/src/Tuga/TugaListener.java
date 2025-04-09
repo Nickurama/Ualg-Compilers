@@ -18,15 +18,17 @@ public interface TugaListener extends ParseTreeListener {
 	 */
 	void exitTuga(TugaParser.TugaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TugaParser#inst}.
+	 * Enter a parse tree produced by the {@code PrintInst}
+	 * labeled alternative in {@link TugaParser#inst}.
 	 * @param ctx the parse tree
 	 */
-	void enterInst(TugaParser.InstContext ctx);
+	void enterPrintInst(TugaParser.PrintInstContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TugaParser#inst}.
+	 * Exit a parse tree produced by the {@code PrintInst}
+	 * labeled alternative in {@link TugaParser#inst}.
 	 * @param ctx the parse tree
 	 */
-	void exitInst(TugaParser.InstContext ctx);
+	void exitPrintInst(TugaParser.PrintInstContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code UnaryOp}
 	 * labeled alternative in {@link TugaParser#expr}.

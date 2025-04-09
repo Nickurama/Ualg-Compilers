@@ -29,13 +29,13 @@ public class TugaBaseListener implements TugaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInst(TugaParser.InstContext ctx) { }
+	@Override public void enterPrintInst(TugaParser.PrintInstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInst(TugaParser.InstContext ctx) { }
+	@Override public void exitPrintInst(TugaParser.PrintInstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
