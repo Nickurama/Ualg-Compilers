@@ -55,26 +55,17 @@ public class TugaErrorListener extends BaseErrorListener
 			case ErrorType.LEXER:
 				this.numLexerErrors++;
 				if (this.showLexerErrors)
-				{
-					System.err.printf("Lexer error\n");
 					System.err.printf("line %d:%d error: %s\n", line, charPositionInLine, msg);
-				}
 				break;
 			case ErrorType.PARSER:
 				this.numParsingErrors++;
 				if (this.showParserErrors)
-				{
-					System.err.printf("Parsing error\n");
 					System.err.printf("line %d:%d error: %s\n", line, charPositionInLine, msg);
-				}
 				break;
 			case ErrorType.SEMANTIC:
 				this.numSemanticErrors++;
 				if (this.showSemanticErrors)
-				{
-					System.err.printf("Semantic error\n");
 					System.err.printf("line %d:%d error: %s\n", line, charPositionInLine, msg);
-				}
 				break;
 			default:
 				throw new IllegalStateException("Cannot have a syntax error of unknown type");

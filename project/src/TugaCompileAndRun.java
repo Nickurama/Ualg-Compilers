@@ -19,8 +19,10 @@ public class TugaCompileAndRun
 		boolean showSemanticErrors = true;
 
 		String inputFile = null;
-		if ( args.length>0 ) inputFile = args[0];
+		if (args.length > 0)
+			inputFile = args[0];
 		InputStream is = System.in;
+
 		try
 		{
 			if (inputFile != null)
@@ -57,23 +59,9 @@ public class TugaCompileAndRun
 			}
 			if (errorListener.getNumSemanticErrors() > 0)
 			{
-				System.out.println("Input has semantic errors");
+				System.out.println("Input has type checking errors");
 				return;
 			}
-
-
-			// ParseTreeProperty<TugaType> types = new ParseTreeProperty<TugaType>();
-			// TugaSemanticAnalyser semanticAnalyser = new TugaSemanticAnalyser(types);
-			// try
-			// {
-			// 	semanticAnalyser.visit(tree);
-			// }
-			// catch (IllegalStateException e)
-			// {
-			// 	ArrayList<String> errors = TugaSemanticAnalyser.findErrors(tree, types);
-			// 	for (String error : errors)
-			// 		System.err.println(error);
-			// }
 		}
 		catch (java.io.IOException e)
 		{

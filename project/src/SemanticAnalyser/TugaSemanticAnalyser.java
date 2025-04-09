@@ -1,6 +1,7 @@
 package SemanticAnalyser;
 
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.*;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -21,22 +22,6 @@ public class TugaSemanticAnalyser extends TugaBaseVisitor<TugaType>
 		this.types = types;
 		this.listeners = new ArrayList<TugaErrorListener>();
 	}
-
-	// @Override
-	// public TugaType visit(ParseTree tree)
-	// {
-	// 	this.tree = tree;
-	// 	return super.visit(this.tree);
-	// }
-
-	// @Override
-	// public TugaType visitPrintInst(TugaParser.PrintInstContext ctx)
-	// {
-	// 	// TugaType type = visit(ctx.expr());
-	// 	// if (type == TugaType.ERROR)
-	// 	// 	throw new IllegalStateException("Top level expression evaluated to type ERROR");
-	// 	return null;
-	// }
 
 	@Override
 	public TugaType visitBinaryOp(TugaParser.BinaryOpContext ctx)
@@ -93,6 +78,38 @@ public class TugaSemanticAnalyser extends TugaBaseVisitor<TugaType>
 
 			types.put(ctx, TugaType.INT);
 			return TugaType.INT;
+		}
+
+		types.put(ctx, TugaType.ERROR);
+		return TugaType.ERROR;
+	}
+
+	@Override
+	public TugaType visitArithmeticNegateOp(TugaParser.ArithmeticNegateOpContext ctx)
+	{
+		TugaParser.UnaryOpContext parentContext = (TugaParser.UnaryOpContext)ctx.getParent();
+		TugaType type = visit(parentContext.expr());
+
+		if (type == TugaType.INT || type == TugaType.DOUBLE)
+		{
+			types.put(ctx, type);
+			return type;
+		}
+
+		types.put(ctx, TugaType.ERROR);
+		return TugaType.ERROR;
+	}
+
+	@Override
+	public TugaType visitLogicNegateOp(TugaParser.LogicNegateOpContext ctx)
+	{
+		TugaParser.UnaryOpContext parentContext = (TugaParser.UnaryOpContext)ctx.getParent();
+		TugaType type = visit(parentContext.expr());
+
+		if (type == TugaType.BOOL)
+		{
+			types.put(ctx, type);
+			return type;
 		}
 
 		types.put(ctx, TugaType.ERROR);
@@ -172,30 +189,30 @@ public class TugaSemanticAnalyser extends TugaBaseVisitor<TugaType>
 		int line = 0;
 		int charPositionInLine = 0;
 		String msg = "";
-		String words = "";
+		String text = "";
 
 		if (node instanceof TugaParser.UnaryOpContext)
 		{
 			TugaParser.UnaryOpContext ctx = (TugaParser.UnaryOpContext)node;
 			line = ctx.getStart().getLine();
 			charPositionInLine = ctx.getStart().getCharPositionInLine();
-			words = ctx.getText();
+			text = getOriginalText(ctx);
 		}
 		else if (node instanceof TugaParser.BinaryOpContext)
 		{
 			TugaParser.BinaryOpContext ctx = (TugaParser.BinaryOpContext)node;
 			line = ctx.getStart().getLine();
 			charPositionInLine = ctx.getStart().getCharPositionInLine();
-			words = ctx.getText();
+			text = getOriginalText(ctx);
 		}
 		else
 		{
 			throw new IllegalStateException("Should not get an error of anything that isn't a binary or unary operator.");
 		}
 		
-		msg += "\n>     " + words + "     <\n";
+		msg += "\n>     " + text + "     <\n";
 		msg += "      ";
-		for (int i = 0; i < words.length(); i++)
+		for (int i = 0; i < text.length(); i++)
 			msg += "^";
 
 		raiseError(line, charPositionInLine, msg);
@@ -205,5 +222,18 @@ public class TugaSemanticAnalyser extends TugaBaseVisitor<TugaType>
 	{
 		for (TugaErrorListener listener : this.listeners)
 			listener.syntaxError(TugaErrorListener.ErrorType.SEMANTIC, line, charPositionInLine, msg);
+	}
+
+	private static String getOriginalText(ParserRuleContext ctx)
+	{
+		if (ctx.start == null || ctx.stop == null)
+			return ctx.getText();
+
+		CharStream charStream = ctx.start.getInputStream();
+
+		int startIndex = ctx.start.getStartIndex();
+		int stopIndex = ctx.stop.getStopIndex();
+
+		return charStream.getText(Interval.of(startIndex, stopIndex));
 	}
 }
