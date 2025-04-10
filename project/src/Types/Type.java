@@ -1,6 +1,6 @@
 package Types;
 
-public enum TugaType
+public enum Type
 {
 	INT()
 	{

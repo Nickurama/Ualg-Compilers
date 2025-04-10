@@ -11,253 +11,253 @@ import Tuga.*;
 import Types.*;
 import ErrorListeners.*;
 
-public class TugaSemanticAnalyser extends TugaBaseVisitor<TugaType>
+public class SemanticAnalyser extends TugaBaseVisitor<Type>
 {
-	private ParseTreeProperty<TugaType> types;
+	private ParseTreeProperty<Type> types;
 	private ArrayList<TugaErrorListener> listeners;
 	private ParseTree tree;
 
-	public TugaSemanticAnalyser(ParseTreeProperty<TugaType> types)
+	public SemanticAnalyser(ParseTreeProperty<Type> types)
 	{
 		this.types = types;
 		this.listeners = new ArrayList<TugaErrorListener>();
 	}
 
 	@Override
-	public TugaType visitBinaryOp(TugaParser.BinaryOpContext ctx)
+	public Type visitBinaryOp(TugaParser.BinaryOpContext ctx)
 	{
-		TugaType result = visit(ctx.binary_op());
+		Type result = visit(ctx.binary_op());
 		types.put(ctx, result);
 		return result;
 	}
 
 	@Override
-	public TugaType visitUnaryOp(TugaParser.UnaryOpContext ctx)
+	public Type visitUnaryOp(TugaParser.UnaryOpContext ctx)
 	{
-		TugaType result = visit(ctx.unary_op());
+		Type result = visit(ctx.unary_op());
 		types.put(ctx, result);
 		return result;
 	}
 
 	@Override
-	public TugaType visitParenExpr(TugaParser.ParenExprContext ctx)
+	public Type visitParenExpr(TugaParser.ParenExprContext ctx)
 	{
-		TugaType result = visit(ctx.expr());
+		Type result = visit(ctx.expr());
 		types.put(ctx, result);
 		return result;
 	}
 
 	@Override
-	public TugaType visitLiteralExpr(TugaParser.LiteralExprContext ctx)
+	public Type visitLiteralExpr(TugaParser.LiteralExprContext ctx)
 	{
-		TugaType result = visit(ctx.literal());
+		Type result = visit(ctx.literal());
 		types.put(ctx, result);
 		return result;
 	}
 
 	@Override
-	public TugaType visitMultDivOp(TugaParser.MultDivOpContext ctx)
+	public Type visitMultDivOp(TugaParser.MultDivOpContext ctx)
 	{
 		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		TugaType leftType = visit(parentContext.expr(0));
-		TugaType rightType = visit(parentContext.expr(1));
+		Type leftType = visit(parentContext.expr(0));
+		Type rightType = visit(parentContext.expr(1));
 
 		if (!leftType.isNumerical() || !rightType.isNumerical())
 		{
-			types.put(ctx, TugaType.ERROR);
-			return TugaType.ERROR;
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
 		}
 
-		if (leftType == TugaType.INT && rightType == TugaType.INT)
+		if (leftType == Type.INT && rightType == Type.INT)
 		{
-			types.put(ctx, TugaType.INT);
-			return TugaType.INT;
+			types.put(ctx, Type.INT);
+			return Type.INT;
 		}
 
 		if (ctx.op.getType() == TugaParser.MOD)
 		{
-			types.put(ctx, TugaType.ERROR);
-			return TugaType.ERROR;
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
 		}
 
-		types.put(ctx, TugaType.DOUBLE);
-		return TugaType.DOUBLE;
+		types.put(ctx, Type.DOUBLE);
+		return Type.DOUBLE;
 	}
 
 	@Override
-	public TugaType visitSumSubOp(TugaParser.SumSubOpContext ctx)
+	public Type visitSumSubOp(TugaParser.SumSubOpContext ctx)
 	{
 		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		TugaType leftType = visit(parentContext.expr(0));
-		TugaType rightType = visit(parentContext.expr(1));
+		Type leftType = visit(parentContext.expr(0));
+		Type rightType = visit(parentContext.expr(1));
 
-		if (ctx.op.getType() == TugaParser.SUM && (leftType == TugaType.STRING || rightType == TugaType.STRING))
+		if (ctx.op.getType() == TugaParser.SUM && (leftType == Type.STRING || rightType == Type.STRING))
 		{
-			types.put(ctx, TugaType.STRING);
-			return TugaType.STRING;
+			types.put(ctx, Type.STRING);
+			return Type.STRING;
 		}
 
 		if (!leftType.isNumerical() || !rightType.isNumerical())
 		{
-			types.put(ctx, TugaType.ERROR);
-			return TugaType.ERROR;
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
 		}
 
-		if (leftType == TugaType.DOUBLE || rightType == TugaType.DOUBLE)
+		if (leftType == Type.DOUBLE || rightType == Type.DOUBLE)
 		{
-			types.put(ctx, TugaType.DOUBLE);
-			return TugaType.DOUBLE;
+			types.put(ctx, Type.DOUBLE);
+			return Type.DOUBLE;
 		}
 
-		types.put(ctx, TugaType.INT);
-		return TugaType.INT;
+		types.put(ctx, Type.INT);
+		return Type.INT;
 	}
 
 	@Override
-	public TugaType visitAndOp(TugaParser.AndOpContext ctx)
+	public Type visitAndOp(TugaParser.AndOpContext ctx)
 	{
 		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		TugaType leftType = visit(parentContext.expr(0));
-		TugaType rightType = visit(parentContext.expr(1));
+		Type leftType = visit(parentContext.expr(0));
+		Type rightType = visit(parentContext.expr(1));
 
-		if (leftType != TugaType.BOOL || rightType != TugaType.BOOL)
+		if (leftType != Type.BOOL || rightType != Type.BOOL)
 		{
-			types.put(ctx, TugaType.ERROR);
-			return TugaType.ERROR;
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
 		}
 
-		types.put(ctx, TugaType.BOOL);
-		return TugaType.BOOL;
+		types.put(ctx, Type.BOOL);
+		return Type.BOOL;
 	}
 
 	@Override
-	public TugaType visitOrOp(TugaParser.OrOpContext ctx)
+	public Type visitOrOp(TugaParser.OrOpContext ctx)
 	{
 		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		TugaType leftType = visit(parentContext.expr(0));
-		TugaType rightType = visit(parentContext.expr(1));
+		Type leftType = visit(parentContext.expr(0));
+		Type rightType = visit(parentContext.expr(1));
 
-		if (leftType != TugaType.BOOL || rightType != TugaType.BOOL)
+		if (leftType != Type.BOOL || rightType != Type.BOOL)
 		{
-			types.put(ctx, TugaType.ERROR);
-			return TugaType.ERROR;
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
 		}
 
-		types.put(ctx, TugaType.BOOL);
-		return TugaType.BOOL;
+		types.put(ctx, Type.BOOL);
+		return Type.BOOL;
 	}
 
 	@Override
-	public TugaType visitRelOp(TugaParser.RelOpContext ctx)
+	public Type visitRelOp(TugaParser.RelOpContext ctx)
 	{
 		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		TugaType leftType = visit(parentContext.expr(0));
-		TugaType rightType = visit(parentContext.expr(1));
+		Type leftType = visit(parentContext.expr(0));
+		Type rightType = visit(parentContext.expr(1));
 
 		if (!leftType.isNumerical() || !rightType.isNumerical())
 		{
-			types.put(ctx, TugaType.ERROR);
-			return TugaType.ERROR;
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
 		}
 
-		types.put(ctx, TugaType.BOOL);
-		return TugaType.BOOL;
+		types.put(ctx, Type.BOOL);
+		return Type.BOOL;
 	}
 
 	@Override
-	public TugaType visitEqualsOp(TugaParser.EqualsOpContext ctx)
+	public Type visitEqualsOp(TugaParser.EqualsOpContext ctx)
 	{
 		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		TugaType leftType = visit(parentContext.expr(0));
-		TugaType rightType = visit(parentContext.expr(1));
+		Type leftType = visit(parentContext.expr(0));
+		Type rightType = visit(parentContext.expr(1));
 
 		if (leftType.isNumerical() && rightType.isNumerical())
 		{
-			types.put(ctx, TugaType.BOOL);
-			return TugaType.BOOL;
+			types.put(ctx, Type.BOOL);
+			return Type.BOOL;
 		}
 
-		if (leftType == TugaType.STRING && rightType == TugaType.STRING)
+		if (leftType == Type.STRING && rightType == Type.STRING)
 		{
-			types.put(ctx, TugaType.BOOL);
-			return TugaType.BOOL;
+			types.put(ctx, Type.BOOL);
+			return Type.BOOL;
 		}
 
-		if (leftType == TugaType.BOOL && rightType == TugaType.BOOL)
+		if (leftType == Type.BOOL && rightType == Type.BOOL)
 		{
-			types.put(ctx, TugaType.BOOL);
-			return TugaType.BOOL;
+			types.put(ctx, Type.BOOL);
+			return Type.BOOL;
 		}
 
-		types.put(ctx, TugaType.ERROR);
-		return TugaType.ERROR;
+		types.put(ctx, Type.ERROR);
+		return Type.ERROR;
 	}
 
 	@Override
-	public TugaType visitArithmeticNegateOp(TugaParser.ArithmeticNegateOpContext ctx)
+	public Type visitArithmeticNegateOp(TugaParser.ArithmeticNegateOpContext ctx)
 	{
 		TugaParser.UnaryOpContext parentContext = (TugaParser.UnaryOpContext)ctx.getParent();
-		TugaType type = visit(parentContext.expr());
+		Type type = visit(parentContext.expr());
 
-		if (type == TugaType.INT || type == TugaType.DOUBLE)
+		if (type == Type.INT || type == Type.DOUBLE)
 		{
 			types.put(ctx, type);
 			return type;
 		}
 
-		types.put(ctx, TugaType.ERROR);
-		return TugaType.ERROR;
+		types.put(ctx, Type.ERROR);
+		return Type.ERROR;
 	}
 
 	@Override
-	public TugaType visitLogicNegateOp(TugaParser.LogicNegateOpContext ctx)
+	public Type visitLogicNegateOp(TugaParser.LogicNegateOpContext ctx)
 	{
 		TugaParser.UnaryOpContext parentContext = (TugaParser.UnaryOpContext)ctx.getParent();
-		TugaType type = visit(parentContext.expr());
+		Type type = visit(parentContext.expr());
 
-		if (type == TugaType.BOOL)
+		if (type == Type.BOOL)
 		{
 			types.put(ctx, type);
 			return type;
 		}
 
-		types.put(ctx, TugaType.ERROR);
-		return TugaType.ERROR;
+		types.put(ctx, Type.ERROR);
+		return Type.ERROR;
 	}
 
 	@Override
-	public TugaType visitInt(TugaParser.IntContext ctx)
+	public Type visitInt(TugaParser.IntContext ctx)
 	{
-		return TugaType.INT;
+		return Type.INT;
 	}
 
 	@Override
-	public TugaType visitString(TugaParser.StringContext ctx)
+	public Type visitString(TugaParser.StringContext ctx)
 	{
-		return TugaType.STRING;
+		return Type.STRING;
 	}
 
 	@Override
-	public TugaType visitDouble(TugaParser.DoubleContext ctx)
+	public Type visitDouble(TugaParser.DoubleContext ctx)
 	{
-		return TugaType.DOUBLE;
+		return Type.DOUBLE;
 	}
 
 	@Override
-	public TugaType visitTrue(TugaParser.TrueContext ctx)
+	public Type visitTrue(TugaParser.TrueContext ctx)
 	{
-		return TugaType.BOOL;
+		return Type.BOOL;
 	}
 
 	@Override
-	public TugaType visitFalse(TugaParser.FalseContext ctx)
+	public Type visitFalse(TugaParser.FalseContext ctx)
 	{
-		return TugaType.BOOL;
+		return Type.BOOL;
 	}
 
 	public void findErrors(ParseTree node)
 	{
-		if (this.types.get(node) == TugaType.ERROR && node instanceof TugaParser.ExprContext && !doChildrenHaveErrors(node))
+		if (this.types.get(node) == Type.ERROR && node instanceof TugaParser.ExprContext && !doChildrenHaveErrors(node))
 			raiseError((TugaParser.ExprContext)node);
 
 		for (int i = 0; i < node.getChildCount(); i++) // dfs
@@ -269,7 +269,7 @@ public class TugaSemanticAnalyser extends TugaBaseVisitor<TugaType>
 		for (int i = 0; i < node.getChildCount(); i++)
 		{
 			ParseTree child = node.getChild(i);
-			if (this.types.get(child) == TugaType.ERROR && child instanceof TugaParser.ExprContext)
+			if (this.types.get(child) == Type.ERROR && child instanceof TugaParser.ExprContext)
 				return true;
 		}
 		return false;

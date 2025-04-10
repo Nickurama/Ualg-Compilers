@@ -40,8 +40,8 @@ public class TugaCompileAndRun
 			parser.addErrorListener(errorListener);
 			ParseTree tree = parser.tuga();
 
-			ParseTreeProperty<TugaType> types = new ParseTreeProperty<TugaType>();
-			TugaSemanticAnalyser semanticAnalyser = new TugaSemanticAnalyser(types);
+			ParseTreeProperty<Type> types = new ParseTreeProperty<Type>();
+			SemanticAnalyser semanticAnalyser = new SemanticAnalyser(types);
 			semanticAnalyser.removeErrorListeners();
 			semanticAnalyser.addErrorListener(errorListener);
 			semanticAnalyser.visit(tree);
