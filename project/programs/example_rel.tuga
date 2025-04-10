@@ -1,0 +1,6 @@
+escreve 2 < 5;
+escreve 2.3 <= 5;
+escreve 2 > 5;
+escreve 2 >= 5.1;
+escreve 2 < verdadeiro;
+escreve "owo" < 2;

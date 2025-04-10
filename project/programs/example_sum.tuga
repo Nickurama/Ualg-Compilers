@@ -1,1 +1,3 @@
 escreve 3.145 + "owo" + "hewwo";
+escreve 3.145 - "owo" + "hewwo";
+escreve 3.145 + 3 + "hewwo";

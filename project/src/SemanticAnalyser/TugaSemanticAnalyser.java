@@ -148,6 +148,52 @@ public class TugaSemanticAnalyser extends TugaBaseVisitor<TugaType>
 	}
 
 	@Override
+	public TugaType visitRelOp(TugaParser.RelOpContext ctx)
+	{
+		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
+		TugaType leftType = visit(parentContext.expr(0));
+		TugaType rightType = visit(parentContext.expr(1));
+
+		if (!leftType.isNumerical() || !rightType.isNumerical())
+		{
+			types.put(ctx, TugaType.ERROR);
+			return TugaType.ERROR;
+		}
+
+		types.put(ctx, TugaType.BOOL);
+		return TugaType.BOOL;
+	}
+
+	@Override
+	public TugaType visitEqualsOp(TugaParser.EqualsOpContext ctx)
+	{
+		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
+		TugaType leftType = visit(parentContext.expr(0));
+		TugaType rightType = visit(parentContext.expr(1));
+
+		if (leftType.isNumerical() && rightType.isNumerical())
+		{
+			types.put(ctx, TugaType.BOOL);
+			return TugaType.BOOL;
+		}
+
+		if (leftType == TugaType.STRING && rightType == TugaType.STRING)
+		{
+			types.put(ctx, TugaType.BOOL);
+			return TugaType.BOOL;
+		}
+
+		if (leftType == TugaType.BOOL && rightType == TugaType.BOOL)
+		{
+			types.put(ctx, TugaType.BOOL);
+			return TugaType.BOOL;
+		}
+
+		types.put(ctx, TugaType.ERROR);
+		return TugaType.ERROR;
+	}
+
+	@Override
 	public TugaType visitArithmeticNegateOp(TugaParser.ArithmeticNegateOpContext ctx)
 	{
 		TugaParser.UnaryOpContext parentContext = (TugaParser.UnaryOpContext)ctx.getParent();

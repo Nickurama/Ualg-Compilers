@@ -1,0 +1,6 @@
+escreve "owo" igual "uwu";
+escreve "owo" diferente "uwu";
+escreve "owo" diferente 3;
+escreve 5.1 igual 3;
+escreve verdadeiro igual 3;
+escreve verdadeiro igual falso;
