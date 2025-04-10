@@ -1,0 +1,5 @@
+escreve verdadeiro ou falso;
+escreve verdadeiro + 1;
+escreve verdadeiro e falso;
+escreve verdadeiro e (falso ou verdadeiro);
+escreve verdadeiro ou (falso e 2);
