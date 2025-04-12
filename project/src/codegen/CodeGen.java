@@ -47,6 +47,12 @@ public class CodeGen extends TugaBaseVisitor<Void>
 		code.add(new Instruction(op, args));
 	}
 
+	public int emitConst(Type type, Object value)
+	{
+		constantPool.add(new Value(type, value));
+		return constantPool.size() - 1;
+	}
+
 	@Override
 	public Void visitPrintInst(TugaParser.PrintInstContext ctx)
 	{
@@ -60,10 +66,15 @@ public class CodeGen extends TugaBaseVisitor<Void>
 		else if (types.get(ctx.expr()) == Type.STRING)
 			emit(OpCode.sprint);
 		else
-		{
-			// FIXME throw error
-		}
+			throw new IllegalStateException("Unknown print type");
 
+		return null;
+	}
+
+	@Override
+	public Void visitBinaryOp(TugaParser.BinaryOpContext ctx)
+	{
+		visit(ctx.binary_op());
 		return null;
 	}
 
@@ -78,21 +89,13 @@ public class CodeGen extends TugaBaseVisitor<Void>
 		// get operator
 		OpCode op = OpCode.imult;
 		if (ctx.op.getType() == TugaParser.MLT)
-		{
 			op = OpCode.imult;
-		}
 		else if (ctx.op.getType() == TugaParser.DIV)
-		{
 			op = OpCode.idiv;
-		}
 		else if (ctx.op.getType() == TugaParser.MOD)
-		{
 			op = OpCode.imod;
-		}
 		else
-		{
-			// FIXME throw error
-		}
+			throw new IllegalStateException("Unknown operator.");
 
 		// get operator type
 		if (leftType == Type.DOUBLE || rightType == Type.DOUBLE)
@@ -115,6 +118,8 @@ public class CodeGen extends TugaBaseVisitor<Void>
 			visit(parentCtx.expr(1));
 			emit(OpCode.itod);
 		}
+		else
+			visit(parentCtx.expr(1));
 		emit(op);
 
 		return null;
@@ -133,7 +138,8 @@ public class CodeGen extends TugaBaseVisitor<Void>
 	public Void visitDouble(TugaParser.DoubleContext ctx)
 	{
 		double value = Double.valueOf(ctx.DOUBLE().getText());
-		// emit(OpCode.iconst, value);
+		int index = emitConst(Type.DOUBLE, value);
+		emit(OpCode.dconst, index);
 
 		return null;
 	}
