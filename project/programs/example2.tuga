@@ -1,11 +1,2 @@
-/*
-	Exemplo de programa em Tuga
-*/
-escreve 1 + 2 * 3;
-escreve 1 + 2.0 * 3;
-escreve "ola mundo";
-escreve 7 % (1 + 4);
-escreve verdadeiro e (5 < 3.14159);
-escreve "pi = " + 3.14159;
-escreve "ma" + "ria" igual "maria";
-escreve -1 + 7 * 3;
+escreve 1 + 2 * 3.0;
+escreve "ola " + "maria";

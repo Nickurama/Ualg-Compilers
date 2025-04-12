@@ -31,9 +31,9 @@ public class TugaCompileAndRun
 
 	public static void main(String[] args) throws Exception
 	{
-		showLexerErrors = true;
-		showParserErrors = true;
-		showTypeCheckingErrors = true;
+		showLexerErrors = false;
+		showParserErrors = false;
+		showTypeCheckingErrors = false;
 		showTrace = false;
 		showAsm = false;
 		isDirect = false;

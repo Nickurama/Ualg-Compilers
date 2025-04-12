@@ -336,6 +336,14 @@ public class CodeGen extends TugaBaseVisitor<Void>
 	}
 
 	@Override
+	public Void visitTuga(TugaParser.TugaContext ctx)
+	{
+		super.visitTuga(ctx);
+		emit(OpCode.halt);
+		return null;
+	}
+
+	@Override
 	public Void visitInt(TugaParser.IntContext ctx)
 	{
 		int value = Integer.valueOf(ctx.INT().getText());
