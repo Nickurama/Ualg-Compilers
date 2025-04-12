@@ -1,0 +1,46 @@
+escreve "equals";
+escreve "";
+
+escreve "verdadeiro";
+escreve 1 diferente 2;
+escreve "";
+
+escreve "falso";
+escreve 1 diferente 1;
+escreve "";
+
+escreve "falso";
+escreve 1 diferente 1.0;
+escreve "";
+
+escreve "verdadeiro";
+escreve 1 diferente 1.1;
+escreve "";
+
+escreve "falso";
+escreve 1.1 diferente 1.1;
+escreve "";
+
+escreve "verdadeiro";
+escreve verdadeiro diferente falso;
+escreve "";
+
+escreve "falso";
+escreve verdadeiro diferente verdadeiro;
+escreve "";
+
+escreve "falso";
+escreve falso diferente falso;
+escreve "";
+
+escreve "verdadeiro";
+escreve "owo" diferente "uwu";
+escreve "";
+
+escreve "falso";
+escreve "owo" diferente "owo";
+escreve "";
+
+escreve "verdadeiro";
+escreve "owo" diferente "owoo";
+escreve "";

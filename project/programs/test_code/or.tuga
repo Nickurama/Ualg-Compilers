@@ -1,0 +1,18 @@
+escreve "or";
+escreve "";
+
+escreve "verdadeiro";
+escreve falso ou verdadeiro;
+escreve "";
+
+escreve "falso";
+escreve falso ou falso;
+escreve "";
+
+escreve "verdadeiro";
+escreve verdadeiro ou (falso ou falso);
+escreve "";
+
+escreve "falso";
+escreve nao (verdadeiro ou falso);
+escreve "";

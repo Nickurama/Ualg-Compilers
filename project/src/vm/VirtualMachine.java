@@ -380,7 +380,7 @@ public class VirtualMachine
 		Value leftValue = stack.pop();
 		checkType(rightValue, Type.STRING);
 		checkType(leftValue, Type.STRING);
-		Value result = new Value(Type.BOOL, leftValue.getString() != rightValue.getString());
+		Value result = new Value(Type.BOOL, !leftValue.getString().equals(rightValue.getString()));
 		stack.push(result);
 	}
 

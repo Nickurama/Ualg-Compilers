@@ -154,6 +154,68 @@ public class CodeGen extends TugaBaseVisitor<Void>
 	}
 
 	@Override
+	public Void visitEqualsOp(TugaParser.EqualsOpContext ctx)
+	{
+		Type leftType = types.get(ctx.expr(0));
+		Type rightType = types.get(ctx.expr(1));
+
+		// get operator
+		OpCode op = OpCode.ieq;
+		if (ctx.op.getType() == TugaParser.EQUALS)
+			op = OpCode.ieq;
+		else if (ctx.op.getType() == TugaParser.N_EQUALS)
+			op = OpCode.ineq;
+		else
+			throw new IllegalStateException("Unknown operator.");
+
+		// get operator type
+		if (leftType == Type.DOUBLE || rightType == Type.DOUBLE)
+		{
+			if (op == OpCode.ieq)
+				op = OpCode.deq;
+			else if (op == OpCode.ineq)
+				op = OpCode.dneq;
+		}
+		else if (leftType == Type.STRING && rightType == Type.STRING)
+		{
+			if (op == OpCode.ieq)
+				op = OpCode.seq;
+			else if (op == OpCode.ineq)
+				op = OpCode.sneq;
+		}
+		else if (leftType == Type.BOOL && rightType == Type.BOOL)
+		{
+			if (op == OpCode.ieq)
+				op = OpCode.beq;
+			else if (op == OpCode.ineq)
+				op = OpCode.bneq;
+		}
+
+		convertToDoubleIfNeeded(ctx.expr(0), ctx.expr(1));
+		emit(op);
+
+		return null;
+	}
+
+	@Override
+	public Void visitAndOp(TugaParser.AndOpContext ctx)
+	{
+		visit(ctx.expr(0));
+		visit(ctx.expr(1));
+		emit(OpCode.and);
+		return null;
+	}
+
+	@Override
+	public Void visitOrOp(TugaParser.OrOpContext ctx)
+	{
+		visit(ctx.expr(0));
+		visit(ctx.expr(1));
+		emit(OpCode.or);
+		return null;
+	}
+
+	@Override
 	public Void visitArithmeticNegateOp(TugaParser.ArithmeticNegateOpContext ctx)
 	{
 		visit(ctx.expr());

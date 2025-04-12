@@ -1,0 +1,26 @@
+escreve "and";
+escreve "";
+
+escreve "falso";
+escreve falso e verdadeiro;
+escreve "";
+
+escreve "falso";
+escreve falso e falso;
+escreve "";
+
+escreve "verdadeiro";
+escreve verdadeiro e verdadeiro;
+escreve "";
+
+escreve "falso";
+escreve verdadeiro e (falso e falso);
+escreve "";
+
+escreve "verdadeiro";
+escreve verdadeiro e (verdadeiro ou falso);
+escreve "";
+
+escreve "verdadeiro";
+escreve nao (verdadeiro e falso);
+escreve "";

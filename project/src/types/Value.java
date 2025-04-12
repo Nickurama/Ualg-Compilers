@@ -16,14 +16,14 @@ public class Value
 		return this.type;
 	}
 
-	public Integer getInt()
+	public int getInt()
 	{
 		if (this.type != Type.INT)
 			throw new IllegalStateException("Cannot get the INT value from a " + this.type + ".");
 		return (Integer) value;
 	}
 
-	public Double getDouble()
+	public double getDouble()
 	{
 		if (this.type != Type.DOUBLE)
 			throw new IllegalStateException("Cannot get the DOUBLE value from a " + this.type + ".");
@@ -37,7 +37,7 @@ public class Value
 		return (String) value;
 	}
 
-	public Boolean getBool()
+	public boolean getBool()
 	{
 		if (this.type != Type.BOOL)
 			throw new IllegalStateException("Cannot get the BOOL value from a " + this.type + ".");
