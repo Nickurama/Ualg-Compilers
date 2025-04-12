@@ -1,0 +1,34 @@
+escreve "less_eq";
+escreve "";
+
+escreve "verdadeiro";
+escreve 1 <= 2;
+escreve "";
+
+escreve "verdadeiro";
+escreve 1 <= 1;
+escreve "";
+
+escreve "falso";
+escreve 2 <= 1;
+escreve "";
+
+escreve "verdadeiro";
+escreve 1 <= 1.0;
+escreve "";
+
+escreve "verdadeiro";
+escreve 1 <= 1.1;
+escreve "";
+
+escreve "falso";
+escreve 1.1 <= 1;
+escreve "";
+
+escreve "falso";
+escreve 1.1 <= 1.0;
+escreve "";
+
+escreve "verdadeiro";
+escreve 1.1 <= 1.1;
+escreve "";

@@ -153,6 +153,55 @@ public class CodeGen extends TugaBaseVisitor<Void>
 		return null;
 	}
 
+	public Void visitRelOp(TugaParser.RelOpContext ctx)
+	{
+		Type leftType = types.get(ctx.expr(0));
+		Type rightType = types.get(ctx.expr(1));
+
+		// get operator
+		boolean swap = false;
+		OpCode op = OpCode.ileq;
+		if (ctx.op.getType() == TugaParser.LESS)
+		{
+			swap = false;
+			op = OpCode.ilt;
+		}
+		else if (ctx.op.getType() == TugaParser.LESS_EQ)
+		{
+			swap = false;
+			op = OpCode.ileq;
+		}
+		else if (ctx.op.getType() == TugaParser.GREATER)
+		{
+			swap = true;
+			op = OpCode.ilt;
+		}
+		else if (ctx.op.getType() == TugaParser.GREATER_EQ)
+		{
+			swap = true;
+			op = OpCode.ileq;
+		}
+		else
+			throw new IllegalStateException("Unknown operator.");
+
+		// get operator type
+		if (leftType == Type.DOUBLE || rightType == Type.DOUBLE)
+		{
+			if (op == OpCode.ilt)
+				op = OpCode.dlt;
+			else if (op == OpCode.ileq)
+				op = OpCode.dleq;
+		}
+
+		if (!swap)
+			convertToDoubleIfNeeded(ctx.expr(0), ctx.expr(1));
+		else
+			convertToDoubleIfNeeded(ctx.expr(1), ctx.expr(0));
+		emit(op);
+
+		return null;
+	}
+
 	@Override
 	public Void visitEqualsOp(TugaParser.EqualsOpContext ctx)
 	{
