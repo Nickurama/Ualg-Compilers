@@ -8,3 +8,7 @@ escreve "";
 escreve "12";
 escreve 3 + 2 + 7;
 escreve "";
+
+escreve "6.1";
+escreve 3.0 + (-2.1) + 5.2;
+escreve "";

@@ -153,7 +153,16 @@ public class CodeGen extends TugaBaseVisitor<Void>
 			throw new IllegalStateException("Unknown operator.");
 
 		// get operator type
-		if (leftType == Type.DOUBLE || rightType == Type.DOUBLE)
+		if ((leftType == Type.STRING || rightType == Type.STRING) &&
+				ctx.op.getType() == TugaParser.SUM) // concat
+		{
+			op = OpCode.sconcat;
+			visit(ctx.expr(0));
+			parseString(leftType);
+			visit(ctx.expr(1));
+			parseString(rightType);
+		}
+		else if (leftType == Type.DOUBLE || rightType == Type.DOUBLE)
 		{
 			if (op == OpCode.iadd)
 				op = OpCode.dadd;
@@ -161,10 +170,29 @@ public class CodeGen extends TugaBaseVisitor<Void>
 				op = OpCode.dsub;
 		}
 
-		convertToDoubleIfNeeded(ctx.expr(0), ctx.expr(1));
+		if (op != OpCode.sconcat)
+			convertToDoubleIfNeeded(ctx.expr(0), ctx.expr(1));
 		emit(op);
 
 		return null;
+	}
+
+	private void parseString(Type type)
+	{
+		switch (type)
+		{
+			case Type.INT:
+				emit(OpCode.itos);
+				break;
+			case Type.DOUBLE:
+				emit(OpCode.dtos);
+				break;
+			case Type.BOOL:
+				emit(OpCode.btos);
+				break;
+			default:
+				break;
+		}
 	}
 
 	@Override

@@ -1,0 +1,39 @@
+escreve "concat";
+escreve "";
+
+escreve "strverdadeiro";
+escreve "str" + verdadeiro;
+escreve "";
+
+escreve "strfalso";
+escreve "str" + falso;
+escreve "";
+
+escreve "falsostr";
+escreve falso + "str";
+escreve "";
+
+escreve "1str";
+escreve 1 + "str";
+escreve "";
+
+escreve "str3";
+escreve "str" + (1 + 2);
+escreve "";
+
+escreve "str12";
+escreve "str" + 1 + 2;
+escreve "";
+
+escreve "1.0str";
+escreve 1.0 + "str";
+escreve "";
+
+escreve "str3.1";
+escreve "str" + 3.1;
+escreve "";
+
+escreve "str hello world";
+escreve "str" + " hello" + " world";
+escreve "";
+
