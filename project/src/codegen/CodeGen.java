@@ -1,6 +1,7 @@
 package codegen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
@@ -15,13 +16,15 @@ public class CodeGen extends TugaBaseVisitor<Void>
 {
 	private ArrayList<Instruction> code;
 	private ArrayList<Value> constantPool;
+	private HashMap<Value, Integer> constantPoolHash;
 	private ParseTreeProperty<Type> types;
 
 	public CodeGen(ParseTreeProperty<Type> types)
 	{
 		super();
-		code = new ArrayList<Instruction>();
-		constantPool = new ArrayList<Value>();
+		this.code = new ArrayList<Instruction>();
+		this.constantPool = new ArrayList<Value>();
+		this.constantPoolHash = new HashMap<Value, Integer>();
 		this.types = types;
 	}
 
@@ -49,8 +52,19 @@ public class CodeGen extends TugaBaseVisitor<Void>
 
 	public int emitConst(Type type, Object value)
 	{
-		constantPool.add(new Value(type, value));
-		return constantPool.size() - 1;
+		Value key = new Value(type, value);
+		int index;
+		if (constantPoolHash.containsKey(key))
+		{
+			index = constantPoolHash.get(key);
+		}
+		else
+		{
+			constantPool.add(key);
+			index = constantPool.size() - 1;
+			constantPoolHash.put(key, index);
+		}
+		return index;
 	}
 
 	@Override
@@ -153,6 +167,7 @@ public class CodeGen extends TugaBaseVisitor<Void>
 		return null;
 	}
 
+	@Override
 	public Void visitRelOp(TugaParser.RelOpContext ctx)
 	{
 		Type leftType = types.get(ctx.expr(0));
