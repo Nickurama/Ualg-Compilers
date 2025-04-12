@@ -1,0 +1,10 @@
+escreve "sum";
+escreve "";
+
+escreve "5";
+escreve 3 + 2;
+escreve "";
+
+escreve "12";
+escreve 3 + 2 + 7;
+escreve "";

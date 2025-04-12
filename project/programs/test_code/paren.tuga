@@ -1,0 +1,13 @@
+escreve "paren";
+escreve "";
+
+escreve "26166.0672";
+escreve ((3 * 4) * (3.2 * 1)) * ((1 * 2) * ((3.9 * 5.2) * (2 * 4)) * 2.1);
+escreve "";
+
+escreve "verdadeiro";
+escreve nao (verdadeiro e falso);
+escreve "";
+
+escreve "8";
+escreve 2 * (3 + 1);

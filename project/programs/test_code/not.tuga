@@ -1,0 +1,14 @@
+escreve "not";
+escreve "";
+
+escreve "verdadeiro";
+escreve nao falso;
+escreve "";
+
+escreve "falso";
+escreve nao verdadeiro;
+escreve "";
+
+escreve "verdadeiro";
+escreve nao (verdadeiro e falso);
+escreve "";

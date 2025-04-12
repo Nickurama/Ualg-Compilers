@@ -49,7 +49,7 @@ NOT:		'nao' ;
 // types
 INT : [0-9]+ ;
 DOUBLE: [0-9]+ '.' [0-9]+ ;
-STRING: '"' ALL_CHARS+ '"' ;
+STRING: '"' ~["]* '"' ;
 TRUE : 'verdadeiro' ;
 FALSE : 'falso' ;
 
@@ -58,5 +58,6 @@ WS : [ \t\r\n]+ -> skip ;
 SL_COMMENT : '//' .*? (EOF|'\n') -> skip ; // single-line comment
 ML_COMMENT : '/*' .*? '*/' -> skip ; // multi-line comment
 
-fragment
-ALL_CHARS : [ a-zA-Z=] ;
+// fragment
+// ALL_CHARS : [ a-zA-Z\\|.,!@#$%^&*()_+=\[\]{}'";:<>/?\-] ;
+// ALL_CHARS : ~["]* ;

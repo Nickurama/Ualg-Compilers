@@ -1,0 +1,14 @@
+escreve "neg";
+escreve "";
+
+escreve "-1";
+escreve -1;
+escreve "";
+
+escreve "-6";
+escreve 3 * -2;
+escreve "";
+
+escreve "5.2";
+escreve 3.2 - -2;
+escreve "";

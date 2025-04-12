@@ -1,0 +1,17 @@
+escreve "divs";
+escreve "";
+
+escreve "2";
+escreve 4 / 2;
+escreve "";
+
+escreve "1.6";
+escreve 3.2 / 2;
+escreve "";
+
+escreve "1.304347826";
+escreve 3 / 2.3;
+escreve "";
+
+escreve "1.391304348";
+escreve 3.2 / 2.3;

@@ -1,0 +1,17 @@
+escreve "mods";
+escreve "";
+
+escreve "0";
+escreve 4 % 2; // 0
+escreve "";
+
+escreve "0";
+escreve 3 % 1; // 0
+escreve "";
+
+escreve "2";
+escreve 17 % 3; // 2
+escreve "";
+
+escreve "7";
+escreve 7 % 10; // 7

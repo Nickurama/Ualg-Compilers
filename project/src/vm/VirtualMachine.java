@@ -295,7 +295,7 @@ public class VirtualMachine
 		checkType(leftValue, Type.DOUBLE);
 		if (rightValue.getDouble() == 0)
 			runtimeError("division by 0");
-		Value result = new Value(Type.DOUBLE, leftValue.getDouble() % rightValue.getDouble());
+		Value result = new Value(Type.DOUBLE, leftValue.getDouble() / rightValue.getDouble());
 		stack.push(result);
 	}
 
@@ -448,7 +448,7 @@ public class VirtualMachine
 	{
 		Value value = stack.pop();
 		checkType(value, Type.BOOL);
-		Value newValue = new Value(Type.STRING, !value.getBool());
+		Value newValue = new Value(Type.BOOL, !value.getBool());
 		stack.push(newValue);
 	}
 

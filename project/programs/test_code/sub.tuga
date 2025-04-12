@@ -1,0 +1,13 @@
+escreve "sub";
+escreve "";
+
+escreve "1";
+escreve 3 - 2;
+escreve "";
+
+escreve "-2";
+escreve 3 + 2 - 7;
+escreve "";
+
+escreve "-4";
+escreve 3 - 2 - 5;
