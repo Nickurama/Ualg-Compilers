@@ -23,22 +23,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	}
 
 	@Override
-	public Type visitBinaryOp(TugaParser.BinaryOpContext ctx)
-	{
-		Type result = visit(ctx.binary_op());
-		types.put(ctx, result);
-		return result;
-	}
-
-	@Override
-	public Type visitUnaryOp(TugaParser.UnaryOpContext ctx)
-	{
-		Type result = visit(ctx.unary_op());
-		types.put(ctx, result);
-		return result;
-	}
-
-	@Override
 	public Type visitParenExpr(TugaParser.ParenExprContext ctx)
 	{
 		Type result = visit(ctx.expr());
@@ -57,13 +41,12 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitMultDivOp(TugaParser.MultDivOpContext ctx)
 	{
-		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		Type leftType = visit(parentContext.expr(0));
-		Type rightType = visit(parentContext.expr(1));
+		Type leftType = visit(ctx.expr(0));
+		Type rightType = visit(ctx.expr(1));
 
 		if (!leftType.isNumerical() || !rightType.isNumerical())
 		{
-			types.put(ctx, Type.ERROR);
+			setError(ctx);
 			return Type.ERROR;
 		}
 
@@ -75,7 +58,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 
 		if (ctx.op.getType() == TugaParser.MOD)
 		{
-			types.put(ctx, Type.ERROR);
+			setError(ctx);
 			return Type.ERROR;
 		}
 
@@ -86,9 +69,8 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitSumSubOp(TugaParser.SumSubOpContext ctx)
 	{
-		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		Type leftType = visit(parentContext.expr(0));
-		Type rightType = visit(parentContext.expr(1));
+		Type leftType = visit(ctx.expr(0));
+		Type rightType = visit(ctx.expr(1));
 
 		if (ctx.op.getType() == TugaParser.SUM && (leftType == Type.STRING || rightType == Type.STRING))
 		{
@@ -98,7 +80,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 
 		if (!leftType.isNumerical() || !rightType.isNumerical())
 		{
-			types.put(ctx, Type.ERROR);
+			setError(ctx);
 			return Type.ERROR;
 		}
 
@@ -115,13 +97,12 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitAndOp(TugaParser.AndOpContext ctx)
 	{
-		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		Type leftType = visit(parentContext.expr(0));
-		Type rightType = visit(parentContext.expr(1));
+		Type leftType = visit(ctx.expr(0));
+		Type rightType = visit(ctx.expr(1));
 
 		if (leftType != Type.BOOL || rightType != Type.BOOL)
 		{
-			types.put(ctx, Type.ERROR);
+			setError(ctx);
 			return Type.ERROR;
 		}
 
@@ -132,13 +113,12 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitOrOp(TugaParser.OrOpContext ctx)
 	{
-		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		Type leftType = visit(parentContext.expr(0));
-		Type rightType = visit(parentContext.expr(1));
+		Type leftType = visit(ctx.expr(0));
+		Type rightType = visit(ctx.expr(1));
 
 		if (leftType != Type.BOOL || rightType != Type.BOOL)
 		{
-			types.put(ctx, Type.ERROR);
+			setError(ctx);
 			return Type.ERROR;
 		}
 
@@ -149,13 +129,12 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitRelOp(TugaParser.RelOpContext ctx)
 	{
-		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		Type leftType = visit(parentContext.expr(0));
-		Type rightType = visit(parentContext.expr(1));
+		Type leftType = visit(ctx.expr(0));
+		Type rightType = visit(ctx.expr(1));
 
 		if (!leftType.isNumerical() || !rightType.isNumerical())
 		{
-			types.put(ctx, Type.ERROR);
+			setError(ctx);
 			return Type.ERROR;
 		}
 
@@ -166,9 +145,8 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitEqualsOp(TugaParser.EqualsOpContext ctx)
 	{
-		TugaParser.BinaryOpContext parentContext = (TugaParser.BinaryOpContext)ctx.getParent();
-		Type leftType = visit(parentContext.expr(0));
-		Type rightType = visit(parentContext.expr(1));
+		Type leftType = visit(ctx.expr(0));
+		Type rightType = visit(ctx.expr(1));
 
 		if (leftType.isNumerical() && rightType.isNumerical())
 		{
@@ -188,15 +166,14 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 			return Type.BOOL;
 		}
 
-		types.put(ctx, Type.ERROR);
+		setError(ctx);
 		return Type.ERROR;
 	}
 
 	@Override
 	public Type visitArithmeticNegateOp(TugaParser.ArithmeticNegateOpContext ctx)
 	{
-		TugaParser.UnaryOpContext parentContext = (TugaParser.UnaryOpContext)ctx.getParent();
-		Type type = visit(parentContext.expr());
+		Type type = visit(ctx.expr());
 
 		if (type == Type.INT || type == Type.DOUBLE)
 		{
@@ -204,15 +181,14 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 			return type;
 		}
 
-		types.put(ctx, Type.ERROR);
+		setError(ctx);
 		return Type.ERROR;
 	}
 
 	@Override
 	public Type visitLogicNegateOp(TugaParser.LogicNegateOpContext ctx)
 	{
-		TugaParser.UnaryOpContext parentContext = (TugaParser.UnaryOpContext)ctx.getParent();
-		Type type = visit(parentContext.expr());
+		Type type = visit(ctx.expr());
 
 		if (type == Type.BOOL)
 		{
@@ -220,7 +196,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 			return type;
 		}
 
-		types.put(ctx, Type.ERROR);
+		setError(ctx);
 		return Type.ERROR;
 	}
 
@@ -254,8 +230,22 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		return Type.BOOL;
 	}
 
+	private void setError(ParseTree node)
+	{
+		types.put(node, Type.ERROR);
+		findError(node);
+	}
+
+	private void findError(ParseTree node)
+	{
+		// non recursive
+		if (this.types.get(node) == Type.ERROR && node instanceof TugaParser.ExprContext && !doChildrenHaveErrors(node))
+			raiseError((TugaParser.ExprContext)node);
+	}
+
 	public void findErrors(ParseTree node)
 	{
+		// recursive
 		if (this.types.get(node) == Type.ERROR && node instanceof TugaParser.ExprContext && !doChildrenHaveErrors(node))
 			raiseError((TugaParser.ExprContext)node);
 
@@ -299,16 +289,9 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		String msg = "";
 		String text = "";
 
-		if (node instanceof TugaParser.UnaryOpContext)
+		if (node instanceof TugaParser.ExprContext)
 		{
-			TugaParser.UnaryOpContext ctx = (TugaParser.UnaryOpContext)node;
-			line = ctx.getStart().getLine();
-			charPositionInLine = ctx.getStart().getCharPositionInLine();
-			text = getOriginalText(ctx);
-		}
-		else if (node instanceof TugaParser.BinaryOpContext)
-		{
-			TugaParser.BinaryOpContext ctx = (TugaParser.BinaryOpContext)node;
+			TugaParser.ExprContext ctx = (TugaParser.ExprContext)node;
 			line = ctx.getStart().getLine();
 			charPositionInLine = ctx.getStart().getCharPositionInLine();
 			text = getOriginalText(ctx);

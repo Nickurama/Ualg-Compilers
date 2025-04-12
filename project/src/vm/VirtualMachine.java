@@ -28,7 +28,7 @@ public class VirtualMachine
 		if (showTrace)
 		{
 			//dumpInstructions();
-			dumpInstructionsAndBytecodes();
+			// dumpInstructionsAndBytecodes();
 		}
 		this.ip = 0;
 	}
@@ -59,28 +59,33 @@ public class VirtualMachine
 		System.exit(1);
 	}
 
-	public void dumpInstructionsAndBytecodes()
+	public void dumpConstantPool()
 	{
-		System.out.println("Disassembled instructions");
-		int byte_i = 0;
-		int code_i = 0;
-		while (code_i < code.length)
-		{
-			StringBuilder builder = new StringBuilder();
-			builder.append(String.format("%02X ", bytecodes[byte_i++]));
-			for (int i = 0; i < code[code_i].nArgs(); i++)
-				for (int k = 0; k < 4; k++) // 4 bytes for each integer argument
-					builder.append(String.format("%02X ", bytecodes[byte_i++]));
-			String result = String.format("%5s: %-15s // %s", code_i, code[code_i], builder.toString());
-			System.out.println(result);
-		}
+		for (int i = 0; i < constantPool.length; i++)
+			System.out.println(i + ": " + constantPool[i]);
 	}
+
+	// public void dumpInstructionsAndBytecodes()
+	// {
+	// 	System.out.println("Disassembled instructions");
+	// 	int byte_i = 0;
+	// 	int code_i = 0;
+	// 	while (code_i < code.length)
+	// 	{
+	// 		StringBuilder builder = new StringBuilder();
+	// 		builder.append(String.format("%02X ", bytecodes[byte_i++]));
+	// 		for (int i = 0; i < code[code_i].nArgs(); i++)
+	// 			for (int k = 0; k < 4; k++) // 4 bytes for each integer argument
+	// 				builder.append(String.format("%02X ", bytecodes[byte_i++]));
+	// 		String result = String.format("%5s: %-15s // %s", code_i, code[code_i], builder.toString());
+	// 		System.out.println(result);
+	// 	}
+	// }
 
 	public void dumpInstructions()
 	{
-		System.out.println("Disassembled instructions");
-		for (Instruction inst : code)
-			System.out.println(inst);
+		for (int i = 0; i < code.length; i++)
+			System.out.println(i + ": " + code[i]);
 	}
 
 	private void checkType(Value value, Type expectedType)

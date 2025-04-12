@@ -50,4 +50,33 @@ public class Value
 			throw new IllegalStateException("Cannot get the ERROR value from a " + this.type + ".");
 		return (String) value;
 	}
+
+	@Override
+	public String toString()
+	{
+		String result;
+		switch (this.type)
+		{
+			case Type.INT:
+				result = String.valueOf(getInt());
+				break;
+			case Type.DOUBLE:
+				result = String.valueOf(getDouble());
+				break;
+			case Type.STRING:
+				result = "\"" + getString() + "\"";
+				break;
+			case Type.BOOL:
+				result = String.valueOf(getBool());
+				break;
+			case Type.ERROR:
+				result = "ERROR";
+				break;
+			default:
+				result = "UNKNOWN";
+				break;
+
+		}
+		return result;
+	}
 }

@@ -8,22 +8,16 @@ inst : 'escreve' expr END_INST						# PrintInst
 	;
 
 // expressions
-expr : LPAREN expr RPAREN							# ParenExpr
-  | unary_op expr 									# UnaryOp
-  | expr binary_op expr	 							# BinaryOp
-  | literal											# LiteralExpr
-  ;
-
-unary_op : op=SUB									# ArithmeticNegateOp
-  | op=NOT											# LogicNegateOp
-  ;
-
-binary_op : op=(MLT|DIV|MOD)						# MultDivOp
-  | op=(SUM|SUB)									# SumSubOp
-  | op=(LESS|GREATER|LESS_EQ|GREATER_EQ)			# RelOp
-  | op=(EQUALS|N_EQUALS)							# EqualsOp
-  | op=AND											# AndOp
-  | op=OR											# OrOp
+expr : LPAREN expr RPAREN									# ParenExpr
+  | op=SUB expr												# ArithmeticNegateOp
+  | op=NOT expr												# LogicNegateOp
+  | expr op=(MLT|DIV|MOD) expr								# MultDivOp
+  | expr op=(SUM|SUB) expr									# SumSubOp
+  | expr op=(LESS|GREATER|LESS_EQ|GREATER_EQ) expr			# RelOp
+  | expr op=(EQUALS|N_EQUALS) expr							# EqualsOp
+  | expr op=AND expr										# AndOp
+  | expr op=OR expr											# OrOp
+  | literal													# LiteralExpr
   ;
 
 literal : INT										# Int

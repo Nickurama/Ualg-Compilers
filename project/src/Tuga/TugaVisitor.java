@@ -24,12 +24,40 @@ public interface TugaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrintInst(TugaParser.PrintInstContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code UnaryOp}
+	 * Visit a parse tree produced by the {@code EqualsOp}
 	 * labeled alternative in {@link TugaParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUnaryOp(TugaParser.UnaryOpContext ctx);
+	T visitEqualsOp(TugaParser.EqualsOpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code OrOp}
+	 * labeled alternative in {@link TugaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrOp(TugaParser.OrOpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultDivOp}
+	 * labeled alternative in {@link TugaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultDivOp(TugaParser.MultDivOpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SumSubOp}
+	 * labeled alternative in {@link TugaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSumSubOp(TugaParser.SumSubOpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LogicNegateOp}
+	 * labeled alternative in {@link TugaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicNegateOp(TugaParser.LogicNegateOpContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LiteralExpr}
 	 * labeled alternative in {@link TugaParser#expr}.
@@ -38,6 +66,13 @@ public interface TugaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLiteralExpr(TugaParser.LiteralExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code RelOp}
+	 * labeled alternative in {@link TugaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelOp(TugaParser.RelOpContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ParenExpr}
 	 * labeled alternative in {@link TugaParser#expr}.
 	 * @param ctx the parse tree
@@ -45,68 +80,19 @@ public interface TugaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParenExpr(TugaParser.ParenExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code BinaryOp}
-	 * labeled alternative in {@link TugaParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBinaryOp(TugaParser.BinaryOpContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code ArithmeticNegateOp}
-	 * labeled alternative in {@link TugaParser#unary_op}.
+	 * labeled alternative in {@link TugaParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArithmeticNegateOp(TugaParser.ArithmeticNegateOpContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LogicNegateOp}
-	 * labeled alternative in {@link TugaParser#unary_op}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLogicNegateOp(TugaParser.LogicNegateOpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code MultDivOp}
-	 * labeled alternative in {@link TugaParser#binary_op}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMultDivOp(TugaParser.MultDivOpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code SumSubOp}
-	 * labeled alternative in {@link TugaParser#binary_op}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSumSubOp(TugaParser.SumSubOpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code RelOp}
-	 * labeled alternative in {@link TugaParser#binary_op}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRelOp(TugaParser.RelOpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EqualsOp}
-	 * labeled alternative in {@link TugaParser#binary_op}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEqualsOp(TugaParser.EqualsOpContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code AndOp}
-	 * labeled alternative in {@link TugaParser#binary_op}.
+	 * labeled alternative in {@link TugaParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAndOp(TugaParser.AndOpContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code OrOp}
-	 * labeled alternative in {@link TugaParser#binary_op}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOrOp(TugaParser.OrOpContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Int}
 	 * labeled alternative in {@link TugaParser#literal}.

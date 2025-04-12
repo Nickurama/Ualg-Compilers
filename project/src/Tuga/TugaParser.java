@@ -22,11 +22,10 @@ public class TugaParser extends Parser {
 		AND=16, OR=17, NOT=18, INT=19, DOUBLE=20, STRING=21, TRUE=22, FALSE=23, 
 		WS=24, SL_COMMENT=25, ML_COMMENT=26;
 	public static final int
-		RULE_tuga = 0, RULE_inst = 1, RULE_expr = 2, RULE_unary_op = 3, RULE_binary_op = 4, 
-		RULE_literal = 5;
+		RULE_tuga = 0, RULE_inst = 1, RULE_expr = 2, RULE_literal = 3;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"tuga", "inst", "expr", "unary_op", "binary_op", "literal"
+			"tuga", "inst", "expr", "literal"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -133,21 +132,21 @@ public class TugaParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(13); 
+			setState(9); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(12);
+				setState(8);
 				inst();
 				}
 				}
-				setState(15); 
+				setState(11); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==T__0 );
-			setState(17);
+			setState(13);
 			match(EOF);
 			}
 		}
@@ -203,11 +202,11 @@ public class TugaParser extends Parser {
 			_localctx = new PrintInstContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(19);
+			setState(15);
 			match(T__0);
-			setState(20);
+			setState(16);
 			expr(0);
-			setState(21);
+			setState(17);
 			match(END_INST);
 			}
 		}
@@ -235,25 +234,128 @@ public class TugaParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class UnaryOpContext extends ExprContext {
-		public Unary_opContext unary_op() {
-			return getRuleContext(Unary_opContext.class,0);
+	public static class EqualsOpContext extends ExprContext {
+		public Token op;
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
 		}
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
 		}
-		public UnaryOpContext(ExprContext ctx) { copyFrom(ctx); }
+		public TerminalNode EQUALS() { return getToken(TugaParser.EQUALS, 0); }
+		public TerminalNode N_EQUALS() { return getToken(TugaParser.N_EQUALS, 0); }
+		public EqualsOpContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterUnaryOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterEqualsOp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitUnaryOp(this);
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitEqualsOp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitUnaryOp(this);
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitEqualsOp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class OrOpContext extends ExprContext {
+		public Token op;
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode OR() { return getToken(TugaParser.OR, 0); }
+		public OrOpContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterOrOp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitOrOp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitOrOp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class MultDivOpContext extends ExprContext {
+		public Token op;
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode MLT() { return getToken(TugaParser.MLT, 0); }
+		public TerminalNode DIV() { return getToken(TugaParser.DIV, 0); }
+		public TerminalNode MOD() { return getToken(TugaParser.MOD, 0); }
+		public MultDivOpContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterMultDivOp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitMultDivOp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitMultDivOp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class SumSubOpContext extends ExprContext {
+		public Token op;
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode SUM() { return getToken(TugaParser.SUM, 0); }
+		public TerminalNode SUB() { return getToken(TugaParser.SUB, 0); }
+		public SumSubOpContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterSumSubOp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitSumSubOp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitSumSubOp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class LogicNegateOpContext extends ExprContext {
+		public Token op;
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode NOT() { return getToken(TugaParser.NOT, 0); }
+		public LogicNegateOpContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterLogicNegateOp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitLogicNegateOp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitLogicNegateOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -274,6 +376,34 @@ public class TugaParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitLiteralExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class RelOpContext extends ExprContext {
+		public Token op;
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode LESS() { return getToken(TugaParser.LESS, 0); }
+		public TerminalNode GREATER() { return getToken(TugaParser.GREATER, 0); }
+		public TerminalNode LESS_EQ() { return getToken(TugaParser.LESS_EQ, 0); }
+		public TerminalNode GREATER_EQ() { return getToken(TugaParser.GREATER_EQ, 0); }
+		public RelOpContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterRelOp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitRelOp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitRelOp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -300,166 +430,13 @@ public class TugaParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class BinaryOpContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public Binary_opContext binary_op() {
-			return getRuleContext(Binary_opContext.class,0);
-		}
-		public BinaryOpContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterBinaryOp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitBinaryOp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitBinaryOp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final ExprContext expr() throws RecognitionException {
-		return expr(0);
-	}
-
-	private ExprContext expr(int _p) throws RecognitionException {
-		ParserRuleContext _parentctx = _ctx;
-		int _parentState = getState();
-		ExprContext _localctx = new ExprContext(_ctx, _parentState);
-		ExprContext _prevctx = _localctx;
-		int _startState = 4;
-		enterRecursionRule(_localctx, 4, RULE_expr, _p);
-		try {
-			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(32);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case LPAREN:
-				{
-				_localctx = new ParenExprContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-
-				setState(24);
-				match(LPAREN);
-				setState(25);
-				expr(0);
-				setState(26);
-				match(RPAREN);
-				}
-				break;
-			case SUB:
-			case NOT:
-				{
-				_localctx = new UnaryOpContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(28);
-				unary_op();
-				setState(29);
-				expr(3);
-				}
-				break;
-			case INT:
-			case DOUBLE:
-			case STRING:
-			case TRUE:
-			case FALSE:
-				{
-				_localctx = new LiteralExprContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(31);
-				literal();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			_ctx.stop = _input.LT(-1);
-			setState(40);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					if ( _parseListeners!=null ) triggerExitRuleEvent();
-					_prevctx = _localctx;
-					{
-					{
-					_localctx = new BinaryOpContext(new ExprContext(_parentctx, _parentState));
-					pushNewRecursionContext(_localctx, _startState, RULE_expr);
-					setState(34);
-					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-					setState(35);
-					binary_op();
-					setState(36);
-					expr(3);
-					}
-					} 
-				}
-				setState(42);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			unrollRecursionContexts(_parentctx);
-		}
-		return _localctx;
-	}
-
-	@SuppressWarnings("CheckReturnValue")
-	public static class Unary_opContext extends ParserRuleContext {
-		public Unary_opContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_unary_op; }
-	 
-		public Unary_opContext() { }
-		public void copyFrom(Unary_opContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class LogicNegateOpContext extends Unary_opContext {
+	public static class ArithmeticNegateOpContext extends ExprContext {
 		public Token op;
-		public TerminalNode NOT() { return getToken(TugaParser.NOT, 0); }
-		public LogicNegateOpContext(Unary_opContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterLogicNegateOp(this);
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
 		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitLogicNegateOp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitLogicNegateOp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ArithmeticNegateOpContext extends Unary_opContext {
-		public Token op;
 		public TerminalNode SUB() { return getToken(TugaParser.SUB, 0); }
-		public ArithmeticNegateOpContext(Unary_opContext ctx) { copyFrom(ctx); }
+		public ArithmeticNegateOpContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterArithmeticNegateOp(this);
@@ -474,164 +451,17 @@ public class TugaParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-
-	public final Unary_opContext unary_op() throws RecognitionException {
-		Unary_opContext _localctx = new Unary_opContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_unary_op);
-		try {
-			setState(45);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case SUB:
-				_localctx = new ArithmeticNegateOpContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(43);
-				((ArithmeticNegateOpContext)_localctx).op = match(SUB);
-				}
-				break;
-			case NOT:
-				_localctx = new LogicNegateOpContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(44);
-				((LogicNegateOpContext)_localctx).op = match(NOT);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
 	@SuppressWarnings("CheckReturnValue")
-	public static class Binary_opContext extends ParserRuleContext {
-		public Binary_opContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_binary_op; }
-	 
-		public Binary_opContext() { }
-		public void copyFrom(Binary_opContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class EqualsOpContext extends Binary_opContext {
+	public static class AndOpContext extends ExprContext {
 		public Token op;
-		public TerminalNode EQUALS() { return getToken(TugaParser.EQUALS, 0); }
-		public TerminalNode N_EQUALS() { return getToken(TugaParser.N_EQUALS, 0); }
-		public EqualsOpContext(Binary_opContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterEqualsOp(this);
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
 		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitEqualsOp(this);
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitEqualsOp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class OrOpContext extends Binary_opContext {
-		public Token op;
-		public TerminalNode OR() { return getToken(TugaParser.OR, 0); }
-		public OrOpContext(Binary_opContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterOrOp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitOrOp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitOrOp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class MultDivOpContext extends Binary_opContext {
-		public Token op;
-		public TerminalNode MLT() { return getToken(TugaParser.MLT, 0); }
-		public TerminalNode DIV() { return getToken(TugaParser.DIV, 0); }
-		public TerminalNode MOD() { return getToken(TugaParser.MOD, 0); }
-		public MultDivOpContext(Binary_opContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterMultDivOp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitMultDivOp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitMultDivOp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class SumSubOpContext extends Binary_opContext {
-		public Token op;
-		public TerminalNode SUM() { return getToken(TugaParser.SUM, 0); }
-		public TerminalNode SUB() { return getToken(TugaParser.SUB, 0); }
-		public SumSubOpContext(Binary_opContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterSumSubOp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitSumSubOp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitSumSubOp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class RelOpContext extends Binary_opContext {
-		public Token op;
-		public TerminalNode LESS() { return getToken(TugaParser.LESS, 0); }
-		public TerminalNode GREATER() { return getToken(TugaParser.GREATER, 0); }
-		public TerminalNode LESS_EQ() { return getToken(TugaParser.LESS_EQ, 0); }
-		public TerminalNode GREATER_EQ() { return getToken(TugaParser.GREATER_EQ, 0); }
-		public RelOpContext(Binary_opContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterRelOp(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TugaListener ) ((TugaListener)listener).exitRelOp(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TugaVisitor ) return ((TugaVisitor<? extends T>)visitor).visitRelOp(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class AndOpContext extends Binary_opContext {
-		public Token op;
 		public TerminalNode AND() { return getToken(TugaParser.AND, 0); }
-		public AndOpContext(Binary_opContext ctx) { copyFrom(ctx); }
+		public AndOpContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof TugaListener ) ((TugaListener)listener).enterAndOp(this);
@@ -647,107 +477,204 @@ public class TugaParser extends Parser {
 		}
 	}
 
-	public final Binary_opContext binary_op() throws RecognitionException {
-		Binary_opContext _localctx = new Binary_opContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_binary_op);
+	public final ExprContext expr() throws RecognitionException {
+		return expr(0);
+	}
+
+	private ExprContext expr(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		ExprContext _localctx = new ExprContext(_ctx, _parentState);
+		ExprContext _prevctx = _localctx;
+		int _startState = 4;
+		enterRecursionRule(_localctx, 4, RULE_expr, _p);
 		int _la;
 		try {
-			setState(53);
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(29);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case MLT:
-			case DIV:
-			case MOD:
-				_localctx = new MultDivOpContext(_localctx);
-				enterOuterAlt(_localctx, 1);
+			case LPAREN:
 				{
-				setState(47);
-				((MultDivOpContext)_localctx).op = _input.LT(1);
-				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 896L) != 0)) ) {
-					((MultDivOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
+				_localctx = new ParenExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
+				setState(20);
+				match(LPAREN);
+				setState(21);
+				expr(0);
+				setState(22);
+				match(RPAREN);
 				}
 				break;
-			case SUM:
 			case SUB:
-				_localctx = new SumSubOpContext(_localctx);
-				enterOuterAlt(_localctx, 2);
 				{
-				setState(48);
-				((SumSubOpContext)_localctx).op = _input.LT(1);
-				_la = _input.LA(1);
-				if ( !(_la==SUM || _la==SUB) ) {
-					((SumSubOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
+				_localctx = new ArithmeticNegateOpContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(24);
+				((ArithmeticNegateOpContext)_localctx).op = match(SUB);
+				setState(25);
+				expr(9);
 				}
 				break;
-			case LESS:
-			case GREATER:
-			case LESS_EQ:
-			case GREATER_EQ:
-				_localctx = new RelOpContext(_localctx);
-				enterOuterAlt(_localctx, 3);
+			case NOT:
 				{
-				setState(49);
-				((RelOpContext)_localctx).op = _input.LT(1);
-				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 15360L) != 0)) ) {
-					((RelOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
+				_localctx = new LogicNegateOpContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(26);
+				((LogicNegateOpContext)_localctx).op = match(NOT);
+				setState(27);
+				expr(8);
 				}
 				break;
-			case EQUALS:
-			case N_EQUALS:
-				_localctx = new EqualsOpContext(_localctx);
-				enterOuterAlt(_localctx, 4);
+			case INT:
+			case DOUBLE:
+			case STRING:
+			case TRUE:
+			case FALSE:
 				{
-				setState(50);
-				((EqualsOpContext)_localctx).op = _input.LT(1);
-				_la = _input.LA(1);
-				if ( !(_la==EQUALS || _la==N_EQUALS) ) {
-					((EqualsOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				}
-				break;
-			case AND:
-				_localctx = new AndOpContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(51);
-				((AndOpContext)_localctx).op = match(AND);
-				}
-				break;
-			case OR:
-				_localctx = new OrOpContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(52);
-				((OrOpContext)_localctx).op = match(OR);
+				_localctx = new LiteralExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(28);
+				literal();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(51);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					setState(49);
+					_errHandler.sync(this);
+					switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+					case 1:
+						{
+						_localctx = new MultDivOpContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(31);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(32);
+						((MultDivOpContext)_localctx).op = _input.LT(1);
+						_la = _input.LA(1);
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 896L) != 0)) ) {
+							((MultDivOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						}
+						else {
+							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+							_errHandler.reportMatch(this);
+							consume();
+						}
+						setState(33);
+						expr(8);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new SumSubOpContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(34);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(35);
+						((SumSubOpContext)_localctx).op = _input.LT(1);
+						_la = _input.LA(1);
+						if ( !(_la==SUM || _la==SUB) ) {
+							((SumSubOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						}
+						else {
+							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+							_errHandler.reportMatch(this);
+							consume();
+						}
+						setState(36);
+						expr(7);
+						}
+						break;
+					case 3:
+						{
+						_localctx = new RelOpContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(37);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(38);
+						((RelOpContext)_localctx).op = _input.LT(1);
+						_la = _input.LA(1);
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 15360L) != 0)) ) {
+							((RelOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						}
+						else {
+							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+							_errHandler.reportMatch(this);
+							consume();
+						}
+						setState(39);
+						expr(6);
+						}
+						break;
+					case 4:
+						{
+						_localctx = new EqualsOpContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(40);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(41);
+						((EqualsOpContext)_localctx).op = _input.LT(1);
+						_la = _input.LA(1);
+						if ( !(_la==EQUALS || _la==N_EQUALS) ) {
+							((EqualsOpContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						}
+						else {
+							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+							_errHandler.reportMatch(this);
+							consume();
+						}
+						setState(42);
+						expr(5);
+						}
+						break;
+					case 5:
+						{
+						_localctx = new AndOpContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(43);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(44);
+						((AndOpContext)_localctx).op = match(AND);
+						setState(45);
+						expr(4);
+						}
+						break;
+					case 6:
+						{
+						_localctx = new OrOpContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(46);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(47);
+						((OrOpContext)_localctx).op = match(OR);
+						setState(48);
+						expr(3);
+						}
+						break;
+					}
+					} 
+				}
+				setState(53);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -756,7 +683,7 @@ public class TugaParser extends Parser {
 			_errHandler.recover(this, re);
 		}
 		finally {
-			exitRule();
+			unrollRecursionContexts(_parentctx);
 		}
 		return _localctx;
 	}
@@ -866,16 +793,16 @@ public class TugaParser extends Parser {
 
 	public final LiteralContext literal() throws RecognitionException {
 		LiteralContext _localctx = new LiteralContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_literal);
+		enterRule(_localctx, 6, RULE_literal);
 		try {
-			setState(60);
+			setState(59);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case INT:
 				_localctx = new IntContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(55);
+				setState(54);
 				match(INT);
 				}
 				break;
@@ -883,7 +810,7 @@ public class TugaParser extends Parser {
 				_localctx = new DoubleContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(56);
+				setState(55);
 				match(DOUBLE);
 				}
 				break;
@@ -891,7 +818,7 @@ public class TugaParser extends Parser {
 				_localctx = new StringContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(57);
+				setState(56);
 				match(STRING);
 				}
 				break;
@@ -899,7 +826,7 @@ public class TugaParser extends Parser {
 				_localctx = new TrueContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(58);
+				setState(57);
 				match(TRUE);
 				}
 				break;
@@ -907,7 +834,7 @@ public class TugaParser extends Parser {
 				_localctx = new FalseContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(59);
+				setState(58);
 				match(FALSE);
 				}
 				break;
@@ -936,54 +863,64 @@ public class TugaParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
+			return precpred(_ctx, 7);
+		case 1:
+			return precpred(_ctx, 6);
+		case 2:
+			return precpred(_ctx, 5);
+		case 3:
+			return precpred(_ctx, 4);
+		case 4:
+			return precpred(_ctx, 3);
+		case 5:
 			return precpred(_ctx, 2);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u001a?\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
-		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
-		"\u0005\u0007\u0005\u0001\u0000\u0004\u0000\u000e\b\u0000\u000b\u0000\f"+
-		"\u0000\u000f\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001"+
-		"\u0001\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u0002!\b\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0005\u0002\'\b\u0002"+
-		"\n\u0002\f\u0002*\t\u0002\u0001\u0003\u0001\u0003\u0003\u0003.\b\u0003"+
-		"\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
-		"\u0003\u00046\b\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005"+
-		"\u0001\u0005\u0003\u0005=\b\u0005\u0001\u0005\u0000\u0001\u0004\u0006"+
-		"\u0000\u0002\u0004\u0006\b\n\u0000\u0004\u0001\u0000\u0007\t\u0001\u0000"+
-		"\u0005\u0006\u0001\u0000\n\r\u0001\u0000\u000e\u000fF\u0000\r\u0001\u0000"+
-		"\u0000\u0000\u0002\u0013\u0001\u0000\u0000\u0000\u0004 \u0001\u0000\u0000"+
-		"\u0000\u0006-\u0001\u0000\u0000\u0000\b5\u0001\u0000\u0000\u0000\n<\u0001"+
-		"\u0000\u0000\u0000\f\u000e\u0003\u0002\u0001\u0000\r\f\u0001\u0000\u0000"+
-		"\u0000\u000e\u000f\u0001\u0000\u0000\u0000\u000f\r\u0001\u0000\u0000\u0000"+
-		"\u000f\u0010\u0001\u0000\u0000\u0000\u0010\u0011\u0001\u0000\u0000\u0000"+
-		"\u0011\u0012\u0005\u0000\u0000\u0001\u0012\u0001\u0001\u0000\u0000\u0000"+
-		"\u0013\u0014\u0005\u0001\u0000\u0000\u0014\u0015\u0003\u0004\u0002\u0000"+
-		"\u0015\u0016\u0005\u0002\u0000\u0000\u0016\u0003\u0001\u0000\u0000\u0000"+
-		"\u0017\u0018\u0006\u0002\uffff\uffff\u0000\u0018\u0019\u0005\u0003\u0000"+
-		"\u0000\u0019\u001a\u0003\u0004\u0002\u0000\u001a\u001b\u0005\u0004\u0000"+
-		"\u0000\u001b!\u0001\u0000\u0000\u0000\u001c\u001d\u0003\u0006\u0003\u0000"+
-		"\u001d\u001e\u0003\u0004\u0002\u0003\u001e!\u0001\u0000\u0000\u0000\u001f"+
-		"!\u0003\n\u0005\u0000 \u0017\u0001\u0000\u0000\u0000 \u001c\u0001\u0000"+
-		"\u0000\u0000 \u001f\u0001\u0000\u0000\u0000!(\u0001\u0000\u0000\u0000"+
-		"\"#\n\u0002\u0000\u0000#$\u0003\b\u0004\u0000$%\u0003\u0004\u0002\u0003"+
-		"%\'\u0001\u0000\u0000\u0000&\"\u0001\u0000\u0000\u0000\'*\u0001\u0000"+
-		"\u0000\u0000(&\u0001\u0000\u0000\u0000()\u0001\u0000\u0000\u0000)\u0005"+
-		"\u0001\u0000\u0000\u0000*(\u0001\u0000\u0000\u0000+.\u0005\u0006\u0000"+
-		"\u0000,.\u0005\u0012\u0000\u0000-+\u0001\u0000\u0000\u0000-,\u0001\u0000"+
-		"\u0000\u0000.\u0007\u0001\u0000\u0000\u0000/6\u0007\u0000\u0000\u0000"+
-		"06\u0007\u0001\u0000\u000016\u0007\u0002\u0000\u000026\u0007\u0003\u0000"+
-		"\u000036\u0005\u0010\u0000\u000046\u0005\u0011\u0000\u00005/\u0001\u0000"+
-		"\u0000\u000050\u0001\u0000\u0000\u000051\u0001\u0000\u0000\u000052\u0001"+
-		"\u0000\u0000\u000053\u0001\u0000\u0000\u000054\u0001\u0000\u0000\u0000"+
-		"6\t\u0001\u0000\u0000\u00007=\u0005\u0013\u0000\u00008=\u0005\u0014\u0000"+
-		"\u00009=\u0005\u0015\u0000\u0000:=\u0005\u0016\u0000\u0000;=\u0005\u0017"+
-		"\u0000\u0000<7\u0001\u0000\u0000\u0000<8\u0001\u0000\u0000\u0000<9\u0001"+
-		"\u0000\u0000\u0000<:\u0001\u0000\u0000\u0000<;\u0001\u0000\u0000\u0000"+
-		"=\u000b\u0001\u0000\u0000\u0000\u0006\u000f (-5<";
+		"\u0004\u0001\u001a>\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0001\u0000\u0004\u0000\n\b"+
+		"\u0000\u000b\u0000\f\u0000\u000b\u0001\u0000\u0001\u0000\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0001\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0003\u0002\u001e\b\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
+		"\u0002\u0001\u0002\u0001\u0002\u0005\u00022\b\u0002\n\u0002\f\u00025\t"+
+		"\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0003"+
+		"\u0003<\b\u0003\u0001\u0003\u0000\u0001\u0004\u0004\u0000\u0002\u0004"+
+		"\u0006\u0000\u0004\u0001\u0000\u0007\t\u0001\u0000\u0005\u0006\u0001\u0000"+
+		"\n\r\u0001\u0000\u000e\u000fG\u0000\t\u0001\u0000\u0000\u0000\u0002\u000f"+
+		"\u0001\u0000\u0000\u0000\u0004\u001d\u0001\u0000\u0000\u0000\u0006;\u0001"+
+		"\u0000\u0000\u0000\b\n\u0003\u0002\u0001\u0000\t\b\u0001\u0000\u0000\u0000"+
+		"\n\u000b\u0001\u0000\u0000\u0000\u000b\t\u0001\u0000\u0000\u0000\u000b"+
+		"\f\u0001\u0000\u0000\u0000\f\r\u0001\u0000\u0000\u0000\r\u000e\u0005\u0000"+
+		"\u0000\u0001\u000e\u0001\u0001\u0000\u0000\u0000\u000f\u0010\u0005\u0001"+
+		"\u0000\u0000\u0010\u0011\u0003\u0004\u0002\u0000\u0011\u0012\u0005\u0002"+
+		"\u0000\u0000\u0012\u0003\u0001\u0000\u0000\u0000\u0013\u0014\u0006\u0002"+
+		"\uffff\uffff\u0000\u0014\u0015\u0005\u0003\u0000\u0000\u0015\u0016\u0003"+
+		"\u0004\u0002\u0000\u0016\u0017\u0005\u0004\u0000\u0000\u0017\u001e\u0001"+
+		"\u0000\u0000\u0000\u0018\u0019\u0005\u0006\u0000\u0000\u0019\u001e\u0003"+
+		"\u0004\u0002\t\u001a\u001b\u0005\u0012\u0000\u0000\u001b\u001e\u0003\u0004"+
+		"\u0002\b\u001c\u001e\u0003\u0006\u0003\u0000\u001d\u0013\u0001\u0000\u0000"+
+		"\u0000\u001d\u0018\u0001\u0000\u0000\u0000\u001d\u001a\u0001\u0000\u0000"+
+		"\u0000\u001d\u001c\u0001\u0000\u0000\u0000\u001e3\u0001\u0000\u0000\u0000"+
+		"\u001f \n\u0007\u0000\u0000 !\u0007\u0000\u0000\u0000!2\u0003\u0004\u0002"+
+		"\b\"#\n\u0006\u0000\u0000#$\u0007\u0001\u0000\u0000$2\u0003\u0004\u0002"+
+		"\u0007%&\n\u0005\u0000\u0000&\'\u0007\u0002\u0000\u0000\'2\u0003\u0004"+
+		"\u0002\u0006()\n\u0004\u0000\u0000)*\u0007\u0003\u0000\u0000*2\u0003\u0004"+
+		"\u0002\u0005+,\n\u0003\u0000\u0000,-\u0005\u0010\u0000\u0000-2\u0003\u0004"+
+		"\u0002\u0004./\n\u0002\u0000\u0000/0\u0005\u0011\u0000\u000002\u0003\u0004"+
+		"\u0002\u00031\u001f\u0001\u0000\u0000\u00001\"\u0001\u0000\u0000\u0000"+
+		"1%\u0001\u0000\u0000\u00001(\u0001\u0000\u0000\u00001+\u0001\u0000\u0000"+
+		"\u00001.\u0001\u0000\u0000\u000025\u0001\u0000\u0000\u000031\u0001\u0000"+
+		"\u0000\u000034\u0001\u0000\u0000\u00004\u0005\u0001\u0000\u0000\u0000"+
+		"53\u0001\u0000\u0000\u00006<\u0005\u0013\u0000\u00007<\u0005\u0014\u0000"+
+		"\u00008<\u0005\u0015\u0000\u00009<\u0005\u0016\u0000\u0000:<\u0005\u0017"+
+		"\u0000\u0000;6\u0001\u0000\u0000\u0000;7\u0001\u0000\u0000\u0000;8\u0001"+
+		"\u0000\u0000\u0000;9\u0001\u0000\u0000\u0000;:\u0001\u0000\u0000\u0000"+
+		"<\u0007\u0001\u0000\u0000\u0000\u0005\u000b\u001d13;";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

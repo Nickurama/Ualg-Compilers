@@ -72,19 +72,10 @@ public class CodeGen extends TugaBaseVisitor<Void>
 	}
 
 	@Override
-	public Void visitBinaryOp(TugaParser.BinaryOpContext ctx)
-	{
-		visit(ctx.binary_op());
-		return null;
-	}
-
-	@Override
 	public Void visitMultDivOp(TugaParser.MultDivOpContext ctx)
 	{
-		TugaParser.BinaryOpContext parentCtx = (TugaParser.BinaryOpContext)ctx.getParent();
-
-		Type leftType = types.get(parentCtx.expr(0));
-		Type rightType = types.get(parentCtx.expr(1));
+		Type leftType = types.get(ctx.expr(0));
+		Type rightType = types.get(ctx.expr(1));
 
 		// get operator
 		OpCode op = OpCode.imult;
@@ -107,19 +98,19 @@ public class CodeGen extends TugaBaseVisitor<Void>
 		}
 
 		// convert and apply
-		visit(parentCtx.expr(0));
+		visit(ctx.expr(0));
 		if (leftType == Type.INT && rightType == Type.DOUBLE)
 		{
 			emit(OpCode.itod);
-			visit(parentCtx.expr(1));
+			visit(ctx.expr(1));
 		}
 		else if (leftType == Type.DOUBLE && rightType == Type.INT)
 		{
-			visit(parentCtx.expr(1));
+			visit(ctx.expr(1));
 			emit(OpCode.itod);
 		}
 		else
-			visit(parentCtx.expr(1));
+			visit(ctx.expr(1));
 		emit(op);
 
 		return null;

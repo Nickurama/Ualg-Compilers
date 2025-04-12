@@ -27,6 +27,7 @@ public class TugaCompileAndRun
 	private static boolean showTrace;
 	private static boolean showAsm;
 	private static boolean isDirect;
+	private static boolean dumps;
 
 	public static void main(String[] args) throws Exception
 	{
@@ -36,6 +37,7 @@ public class TugaCompileAndRun
 		showTrace = false;
 		showAsm = false;
 		isDirect = false;
+		dumps = true; // mooshak
 
 		String inputFile = null;
 		if (args.length > 0)
@@ -78,7 +80,6 @@ public class TugaCompileAndRun
 			semanticAnalyser.removeErrorListeners();
 			semanticAnalyser.addErrorListener(errorListener);
 			semanticAnalyser.visit(tree);
-			semanticAnalyser.findErrors(tree);
 
 			// Error handling
 			if (errorListener.getNumLexerErrors() > 0)
@@ -110,11 +111,22 @@ public class TugaCompileAndRun
 			if (!isDirect)
 				bytecodes = BytesIO.read(BYTECODES_FILE);
 			VirtualMachine vm = new VirtualMachine(bytecodes, showTrace);
+			if (dumps)
+				runDumps(vm);
 			vm.run();
 		}
 		catch (java.io.IOException e)
 		{
 			System.out.println(e);
 		}
+	}
+
+	public static void runDumps(VirtualMachine vm)
+	{
+		System.out.println("*** Constant pool ***");
+		vm.dumpConstantPool();
+		System.out.println("*** Instructions ***");
+		vm.dumpInstructions();
+		System.out.println("*** VM output ***");
 	}
 }
