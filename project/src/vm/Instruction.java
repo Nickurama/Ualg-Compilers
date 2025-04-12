@@ -1,4 +1,4 @@
-package VirtualMachine;
+package vm;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -62,8 +62,14 @@ public class Instruction
 		{
 			while (in.available() > 0)
 			{
-				System.out.println("available: " + in.available());
-				instructions.add(readFrom(in));
+				try
+				{
+					instructions.add(readFrom(in));
+				}
+				catch (EOFException e)
+				{
+					break;
+				}
 			}
 
 			in.close();

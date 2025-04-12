@@ -6,21 +6,36 @@ import java.io.InputStream;
 import java.util.*;
 
 import Tuga.*;
-import Types.*;
-import SemanticAnalyser.*;
-import ErrorListeners.*;
+import errorlisteners.*;
+import semantic.*;
+import types.*;
 
 public class TugaCompileAndRun
 {
+	public static final String FLAG_TRACE = "-trace";
+
+	private static boolean showLexerErrors;
+	private static boolean showParserErrors;
+	private static boolean showTypeCheckingErrors;
+	private static boolean showTrace;
+
 	public static void main(String[] args) throws Exception
 	{
-		boolean showLexerErrors = true;
-		boolean showParserErrors = true;
-		boolean showSemanticErrors = true;
+		showLexerErrors = true;
+		showParserErrors = true;
+		showTypeCheckingErrors = true;
+		showTrace = false;
 
 		String inputFile = null;
 		if (args.length > 0)
+		{
 			inputFile = args[0];
+			for (int i = 1; i < args.length; i++)
+			{
+				if (args[i].equals(FLAG_TRACE))
+					showTrace = true;
+			}
+		}
 		InputStream is = System.in;
 
 		try
@@ -28,7 +43,7 @@ public class TugaCompileAndRun
 			if (inputFile != null)
 				is = new FileInputStream(inputFile);
 			CharStream input = CharStreams.fromStream(is);
-			TugaErrorListener errorListener = new TugaErrorListener(showLexerErrors, showParserErrors, showSemanticErrors);
+			TugaErrorListener errorListener = new TugaErrorListener(showLexerErrors, showParserErrors, showTypeCheckingErrors);
 
 			TugaLexer lexer = new TugaLexer(input);
 			lexer.removeErrorListeners();

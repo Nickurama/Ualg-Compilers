@@ -1,4 +1,4 @@
-package VirtualMachine;
+package vm;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

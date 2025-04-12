@@ -1,4 +1,4 @@
-package SemanticAnalyser;
+package semantic;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.Interval;
@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.util.*;
 
 import Tuga.*;
-import Types.*;
-import ErrorListeners.*;
+import errorlisteners.*;
+import types.*;
 
 public class SemanticAnalyser extends TugaBaseVisitor<Type>
 {

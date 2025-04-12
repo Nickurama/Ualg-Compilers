@@ -1,8 +1,7 @@
-package VirtualMachine;
+package vm;
 
 import java.util.*;
-
-import Types.*;
+import types.*;
 
 public class VirtualMachine
 {
