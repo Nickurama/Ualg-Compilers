@@ -10,7 +10,7 @@ public class Instruction
 
 	public Instruction(OpCode opCode, int ...args)
 	{
-		if (this.opCode.nArgs() != args.length)
+		if (opCode.nArgs() != args.length)
 			throw new IllegalArgumentException("opCode requires exactly " + opCode.nArgs() + " arguments.");
 		this.opCode = opCode;
 		this.args = args;
@@ -54,53 +54,53 @@ public class Instruction
 		return new Instruction(op, args);
 	}
 
-	public static Instruction[] decode(byte[] bytecodes)
-	{
-		ArrayList<Instruction> instructions = new ArrayList<Instruction>();
-		DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytecodes));
-		try
-		{
-			while (in.available() > 0)
-			{
-				try
-				{
-					instructions.add(readFrom(in));
-				}
-				catch (EOFException e)
-				{
-					break;
-				}
-			}
-
-			in.close();
-		}
-		catch (IOException e)
-		{
-			System.err.println("IO error on decoding bytecodes:\n" + e.getMessage());
-		}
-
-		Instruction[] result = new Instruction[instructions.size()];
-		return instructions.toArray(result);
-	}
-
-	public static byte[] encode(Instruction[] instructions)
-	{
-		byte[] result = null;
-		try
-		{
-			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			DataOutputStream out = new DataOutputStream(byteOut);
-
-			for (Instruction inst : instructions)
-				inst.writeTo(out);
-
-			result = byteOut.toByteArray();
-		}
-		catch (IOException e)
-		{
-			System.err.println("IO error on enconding instructions:\n" + e.getMessage());
-		}
-
-		return result;
-	}
+	// public static Instruction[] decode(byte[] bytecodes)
+	// {
+	// 	ArrayList<Instruction> instructions = new ArrayList<Instruction>();
+	// 	DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytecodes));
+	// 	try
+	// 	{
+	// 		while (in.available() > 0)
+	// 		{
+	// 			try
+	// 			{
+	// 				instructions.add(readFrom(in));
+	// 			}
+	// 			catch (EOFException e)
+	// 			{
+	// 				break;
+	// 			}
+	// 		}
+	//
+	// 		in.close();
+	// 	}
+	// 	catch (IOException e)
+	// 	{
+	// 		System.err.println("IO error on decoding bytecodes:\n" + e.getMessage());
+	// 	}
+	//
+	// 	Instruction[] result = new Instruction[instructions.size()];
+	// 	return instructions.toArray(result);
+	// }
+	//
+	// public static byte[] encode(Instruction[] instructions)
+	// {
+	// 	byte[] result = null;
+	// 	try
+	// 	{
+	// 		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+	// 		DataOutputStream out = new DataOutputStream(byteOut);
+	//
+	// 		for (Instruction inst : instructions)
+	// 			inst.writeTo(out);
+	//
+	// 		result = byteOut.toByteArray();
+	// 	}
+	// 	catch (IOException e)
+	// 	{
+	// 		System.err.println("IO error on enconding instructions:\n" + e.getMessage());
+	// 	}
+	//
+	// 	return result;
+	// }
 }

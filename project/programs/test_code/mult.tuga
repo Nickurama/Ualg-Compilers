@@ -1,0 +1,5 @@
+escreve 1;
+escreve 3 * 2;
+escreve 3.2 * 2;
+escreve 3 * 2.3;
+escreve 3.2 * 2.3;

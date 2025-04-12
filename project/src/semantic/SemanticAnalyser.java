@@ -15,7 +15,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 {
 	private ParseTreeProperty<Type> types;
 	private ArrayList<TugaErrorListener> listeners;
-	private ParseTree tree;
 
 	public SemanticAnalyser(ParseTreeProperty<Type> types)
 	{

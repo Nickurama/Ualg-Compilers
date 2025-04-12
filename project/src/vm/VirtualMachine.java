@@ -1,32 +1,36 @@
 package vm;
 
+import java.io.*;
 import java.util.*;
+
+import io.BytecodeEncoder;
 import types.*;
 
 public class VirtualMachine
 {
 	private boolean showTrace;
 	private boolean halt;
-	private final byte[] bytecodes;
-	private Instruction[] code;
-	private int ip;
 	private final Stack<Value> stack;
-	private final ArrayList<Value> constantPool;
+	private final byte[] bytecodes;
+	private final Value[] constantPool;
+	private final Instruction[] code;
+	private int ip;
 
 	public VirtualMachine(byte[] bytecodes, boolean showTrace)
 	{
 		this.showTrace = showTrace;
 		this.halt = false;
+		this.stack = new Stack<Value>();
 		this.bytecodes = bytecodes;
-		this.code = Instruction.decode(bytecodes);
+		BytecodeEncoder encoder = new BytecodeEncoder(bytecodes);
+		this.constantPool = encoder.getConstantPool();
+		this.code = encoder.getInstructions();
 		if (showTrace)
 		{
 			//dumpInstructions();
 			dumpInstructionsAndBytecodes();
 		}
 		this.ip = 0;
-		this.stack = new Stack<Value>();
-		this.constantPool = new ArrayList<Value>();
 	}
 
 	public void run()
@@ -96,14 +100,14 @@ public class VirtualMachine
 
 	private void exec_dconst(int arg)
 	{
-		Value value = constantPool.get(arg);
+		Value value = constantPool[arg];
 		checkType(value, Type.DOUBLE);
 		stack.push(value);
 	}
 
 	private void exec_sconst(int arg)
 	{
-		Value value = constantPool.get(arg);
+		Value value = constantPool[arg];
 		checkType(value, Type.STRING);
 		stack.push(value);
 	}
