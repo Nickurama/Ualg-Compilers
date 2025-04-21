@@ -1,6 +1,6 @@
 a: inteiro;
 b: inteiro;
-c, d, e: string;
+c, d, eg: string;
 f, g: booleano;
 h: real;
 _name: inteiro;
@@ -10,7 +10,7 @@ a <- 4;
 b <- 9;
 c <- "ola";
 d - "bom dia"; // invalid
-e <- "owo";
+eg <- "owo";
 f <- falso;
 d <- bom dia; // invalid
 g <- verdadeiro;
@@ -21,7 +21,7 @@ name_0w0 <- "0w0";
 
 escreve a;
 escreve b + 2;
-escreve c + d + e + (a * h + b);
+escreve c + d + eg + (a * h + b);
 escreve f e g ou falso;
 escreve 2 + _name;
 escreve 3 * name_0w0;

@@ -18,17 +18,183 @@ public interface TugaListener extends ParseTreeListener {
 	 */
 	void exitTuga(TugaParser.TugaContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code VarDecl}
+	 * labeled alternative in {@link TugaParser#var_decl}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarDecl(TugaParser.VarDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code VarDecl}
+	 * labeled alternative in {@link TugaParser#var_decl}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarDecl(TugaParser.VarDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TugaParser#inst}.
+	 * @param ctx the parse tree
+	 */
+	void enterInst(TugaParser.InstContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TugaParser#inst}.
+	 * @param ctx the parse tree
+	 */
+	void exitInst(TugaParser.InstContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code PrintInst}
-	 * labeled alternative in {@link TugaParser#inst}.
+	 * labeled alternative in {@link TugaParser#print}.
 	 * @param ctx the parse tree
 	 */
 	void enterPrintInst(TugaParser.PrintInstContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code PrintInst}
-	 * labeled alternative in {@link TugaParser#inst}.
+	 * labeled alternative in {@link TugaParser#print}.
 	 * @param ctx the parse tree
 	 */
 	void exitPrintInst(TugaParser.PrintInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code AssignInst}
+	 * labeled alternative in {@link TugaParser#assign}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignInst(TugaParser.AssignInstContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code AssignInst}
+	 * labeled alternative in {@link TugaParser#assign}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignInst(TugaParser.AssignInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ScopeInst}
+	 * labeled alternative in {@link TugaParser#scope}.
+	 * @param ctx the parse tree
+	 */
+	void enterScopeInst(TugaParser.ScopeInstContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ScopeInst}
+	 * labeled alternative in {@link TugaParser#scope}.
+	 * @param ctx the parse tree
+	 */
+	void exitScopeInst(TugaParser.ScopeInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code IfInst}
+	 * labeled alternative in {@link TugaParser#if}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfInst(TugaParser.IfInstContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code IfInst}
+	 * labeled alternative in {@link TugaParser#if}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfInst(TugaParser.IfInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code InlineIfInst}
+	 * labeled alternative in {@link TugaParser#if}.
+	 * @param ctx the parse tree
+	 */
+	void enterInlineIfInst(TugaParser.InlineIfInstContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code InlineIfInst}
+	 * labeled alternative in {@link TugaParser#if}.
+	 * @param ctx the parse tree
+	 */
+	void exitInlineIfInst(TugaParser.InlineIfInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ElseInst}
+	 * labeled alternative in {@link TugaParser#else}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseInst(TugaParser.ElseInstContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ElseInst}
+	 * labeled alternative in {@link TugaParser#else}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseInst(TugaParser.ElseInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code InlineElseInst}
+	 * labeled alternative in {@link TugaParser#else}.
+	 * @param ctx the parse tree
+	 */
+	void enterInlineElseInst(TugaParser.InlineElseInstContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code InlineElseInst}
+	 * labeled alternative in {@link TugaParser#else}.
+	 * @param ctx the parse tree
+	 */
+	void exitInlineElseInst(TugaParser.InlineElseInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code WhileInst}
+	 * labeled alternative in {@link TugaParser#while}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileInst(TugaParser.WhileInstContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code WhileInst}
+	 * labeled alternative in {@link TugaParser#while}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileInst(TugaParser.WhileInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code InlineWhileInst}
+	 * labeled alternative in {@link TugaParser#while}.
+	 * @param ctx the parse tree
+	 */
+	void enterInlineWhileInst(TugaParser.InlineWhileInstContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code InlineWhileInst}
+	 * labeled alternative in {@link TugaParser#while}.
+	 * @param ctx the parse tree
+	 */
+	void exitInlineWhileInst(TugaParser.InlineWhileInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EmptyInst}
+	 * labeled alternative in {@link TugaParser#empty}.
+	 * @param ctx the parse tree
+	 */
+	void enterEmptyInst(TugaParser.EmptyInstContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EmptyInst}
+	 * labeled alternative in {@link TugaParser#empty}.
+	 * @param ctx the parse tree
+	 */
+	void exitEmptyInst(TugaParser.EmptyInstContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code VarSingle}
+	 * labeled alternative in {@link TugaParser#vars}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarSingle(TugaParser.VarSingleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code VarSingle}
+	 * labeled alternative in {@link TugaParser#vars}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarSingle(TugaParser.VarSingleContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code VarMultiple}
+	 * labeled alternative in {@link TugaParser#vars}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarMultiple(TugaParser.VarMultipleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code VarMultiple}
+	 * labeled alternative in {@link TugaParser#vars}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarMultiple(TugaParser.VarMultipleContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code IDExpr}
+	 * labeled alternative in {@link TugaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIDExpr(TugaParser.IDExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code IDExpr}
+	 * labeled alternative in {@link TugaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIDExpr(TugaParser.IDExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code EqualsOp}
 	 * labeled alternative in {@link TugaParser#expr}.

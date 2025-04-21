@@ -50,5 +50,13 @@ se (1 + 1 <= 2)
 		fim
 
 
+se (1 + 1 <= 2)
+	se (5 * 2 igual 2 + 8)
+		se (verdadeiro ou (falso e verdadeiro))
+			escreve "haiii :3";
+		senao
+			escreve "owo";
+
+
 se (verdadeiro)
 	escreve "owo";

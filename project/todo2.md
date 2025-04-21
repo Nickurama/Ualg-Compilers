@@ -1,7 +1,7 @@
 # Variables
 ## Grammar
-- [ ] make variable declaration syntatically correct
-- [ ] make variable expressions syntatically correct
+- [x] make variable declaration syntatically correct
+- [x] make variable expressions syntatically correct
 - [x] make tests
 ## Code Generation
 - [ ] generate code for variables
@@ -11,7 +11,6 @@
 - [ ] semantic (type) checking of variables (in expressions)
 - [ ] undeclared variable semantic error
 - [ ] already declared variable semantic error
-- [ ] check if variables have reserved names
 - [ ] make tests
 ## Virtual Machine
 - [ ] add memory
@@ -22,7 +21,7 @@
 
 # Variable setting
 ## Grammar
-- [ ] make variable setting syntatically correct
+- [x] make variable setting syntatically correct
 - [x] make tests
 ## Code Generation
 - [ ] generate code for variable setting
@@ -36,7 +35,7 @@
 
 # Scopes
 ## Grammar
-- [ ] make scopes syntatically correct
+- [x] make scopes syntatically correct
 - [x] make tests
 ## Code Generation
 - [ ] generate code for scopes
@@ -47,9 +46,9 @@
 
 # If / else
 ## Grammar
-- [ ] make if syntatically correct
-- [ ] make else syntatically correct
-- [ ] make single instruction syntatically correct
+- [x] make if syntatically correct
+- [x] make else syntatically correct
+- [x] make single instruction syntatically correct
 - [x] make tests
 ## Code Generation
 - [ ] generate code for if

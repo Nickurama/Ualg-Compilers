@@ -5,7 +5,7 @@ escreve a;
 
 inicio
 	escreve b + 2;
-	escreve c + d + e + (a * h + b);
+	escreve c + d + eg + (a * h + b);
 fim
 
 inicio
