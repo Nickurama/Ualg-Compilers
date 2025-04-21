@@ -2,7 +2,7 @@
 
 cd src
 antlr=$(echo ../lib/antlr-*.jar)
-grammar=$1
+grammar="Tuga"
 grammar_file="$grammar.g4"
 antlr_dir="$grammar"
 

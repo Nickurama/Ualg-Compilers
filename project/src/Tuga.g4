@@ -4,7 +4,9 @@ grammar Tuga;
 tuga : var_decl* inst+ EOF;
 
 // variable declarations
-var_decl : vars ':' TYPE END_INST							# VarDecl
+var_decl : vars ':' type=(
+		T_INT|T_DOUBLE|T_STRING|T_BOOL
+	) END_INST												# VarDecl
 	;
 
 // instructions
@@ -87,6 +89,12 @@ OR:			'ou' ;
 NOT:		'nao' ;
 
 // types
+T_INT:		'inteiro' ;
+T_DOUBLE:	'real' ;
+T_STRING:	'string' ;
+T_BOOL:		'booleano' ;
+
+// raw types
 INT : [0-9]+ ;
 DOUBLE: [0-9]+ '.' [0-9]+ ;
 STRING: '"' ~["]* '"' ;
@@ -94,7 +102,6 @@ TRUE : 'verdadeiro' ;
 FALSE : 'falso' ;
 
 // variables
-TYPE : 'booleano' | 'inteiro' | 'real' | 'string' ;
 ID : [a-zA-Z_] [a-zA-Z0-9_]* ;
 
 // skips

@@ -20,6 +20,9 @@ public class TugaCompileAndRun
 	public static final String FLAG_TRACE = "-trace";
 	public static final String FLAG_ASM = "-asm";
 	public static final String FLAG_DIRECT = "-direct";
+	public static final String FLAG_PARSE_ONLY = "-parse";
+	public static final String FLAG_COMPILE_ONLY = "-compile";
+	public static final String FLAG_RUN_ONLY = "-run";
 
 	private static boolean showLexerErrors;
 	private static boolean showParserErrors;
@@ -28,16 +31,22 @@ public class TugaCompileAndRun
 	private static boolean showAsm;
 	private static boolean isDirect;
 	private static boolean dumps;
+	private static boolean parseOnly;
+	private static boolean compileOnly;
+	private static boolean runOnly;
 
 	public static void main(String[] args) throws Exception
 	{
 		showLexerErrors = false;
 		showParserErrors = false;
-		showTypeCheckingErrors = false;
+		showTypeCheckingErrors = true;
 		showTrace = false;
 		showAsm = false;
 		isDirect = false;
 		dumps = true; // mooshak
+		parseOnly = false;
+		compileOnly = false;
+		runOnly = false;
 
 		String inputFile = null;
 		if (args.length > 0)
@@ -47,69 +56,91 @@ public class TugaCompileAndRun
 			{
 				if (args[i].equals(FLAG_TRACE))
 					showTrace = true;
-				if (args[i].equals(FLAG_ASM))
+				else if (args[i].equals(FLAG_ASM))
 					showAsm = true;
-				if (args[i].equals(FLAG_ASM))
+				else if (args[i].equals(FLAG_ASM))
 					isDirect = true;
+				else if (args[i].equals(FLAG_PARSE_ONLY))
+					parseOnly = true;
+				else if (args[i].equals(FLAG_COMPILE_ONLY))
+					compileOnly = true;
+				else if (args[i].equals(FLAG_RUN_ONLY))
+					runOnly = true;
 			}
 		}
 		InputStream is = System.in;
 
+		if ((parseOnly && (compileOnly || runOnly))
+			|| (compileOnly && (parseOnly || runOnly))
+			|| (runOnly && (parseOnly || compileOnly)))
+			throw new IllegalStateException("Cannot have more than 1: -compile -run -parse");
+
 		try
 		{
-			if (inputFile != null)
-				is = new FileInputStream(inputFile);
-			CharStream input = CharStreams.fromStream(is);
-			TugaErrorListener errorListener = new TugaErrorListener(showLexerErrors, showParserErrors, showTypeCheckingErrors);
-
-			// Lexer
-			TugaLexer lexer = new TugaLexer(input);
-			lexer.removeErrorListeners();
-			lexer.addErrorListener(errorListener);
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-			// Parser
-			TugaParser parser = new TugaParser(tokens);
-			parser.removeErrorListeners();
-			parser.addErrorListener(errorListener);
-			ParseTree tree = parser.tuga();
-
-			// Semantic Analyser
-			ParseTreeProperty<Type> types = new ParseTreeProperty<Type>();
-			SemanticAnalyser semanticAnalyser = new SemanticAnalyser(types);
-			semanticAnalyser.removeErrorListeners();
-			semanticAnalyser.addErrorListener(errorListener);
-			semanticAnalyser.visit(tree);
-
-			// Error handling
-			if (errorListener.getNumLexerErrors() > 0)
+			byte[] bytecodes = null;
+			if (!runOnly)
 			{
-				System.out.println("Input has lexical errors");
-				return;
-			}
-			if (errorListener.getNumParsingErrors() > 0)
-			{
-				System.out.println("Input has parsing errors");
-				return;
-			}
-			if (errorListener.getNumSemanticErrors() > 0)
-			{
-				System.out.println("Input has type checking errors");
-				return;
-			}
+				if (inputFile != null)
+					is = new FileInputStream(inputFile);
+				CharStream input = CharStreams.fromStream(is);
+				TugaErrorListener errorListener = new TugaErrorListener(showLexerErrors, showParserErrors, showTypeCheckingErrors);
 
-			// Code Generation
-			CodeGen codeGen = new CodeGen(types);
-			codeGen.visit(tree);
-			if (showAsm)
-				codeGen.dumpCode();
-			byte[] bytecodes = codeGen.getBytecode();
-			if (!isDirect)
-				BytesIO.write(bytecodes, BYTECODES_FILE);
+				// Lexer
+				TugaLexer lexer = new TugaLexer(input);
+				lexer.removeErrorListeners();
+				lexer.addErrorListener(errorListener);
+				CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+				// Parser
+				TugaParser parser = new TugaParser(tokens);
+				parser.removeErrorListeners();
+				parser.addErrorListener(errorListener);
+				ParseTree tree = parser.tuga();
+
+				// Semantic Analyser
+				ParseTreeProperty<Type> types = new ParseTreeProperty<Type>();
+				SemanticAnalyser semanticAnalyser = new SemanticAnalyser(types);
+				semanticAnalyser.removeErrorListeners();
+				semanticAnalyser.addErrorListener(errorListener);
+				semanticAnalyser.visit(tree);
+
+				// Error handling
+				if (errorListener.getNumLexerErrors() > 0)
+				{
+					System.out.println("Input has lexical errors");
+					return;
+				}
+				if (errorListener.getNumParsingErrors() > 0)
+				{
+					System.out.println("Input has parsing errors");
+					return;
+				}
+				if (errorListener.getNumSemanticErrors() > 0 && !showTypeCheckingErrors)
+				{
+					System.out.println("Input has type checking errors");
+					return;
+				}
+
+				if (parseOnly)
+					return;
+
+				// Code Generation
+				CodeGen codeGen = new CodeGen(types);
+				codeGen.visit(tree);
+				if (showAsm)
+					codeGen.dumpCode();
+				bytecodes = codeGen.getBytecode();
+				if (!isDirect)
+					BytesIO.write(bytecodes, BYTECODES_FILE);
+			}
+			if (compileOnly)
+				return;
 
 			// Code Running (vm)
 			if (!isDirect)
 				bytecodes = BytesIO.read(BYTECODES_FILE);
+			if (bytecodes == null)
+				throw new IllegalStateException("Could not get bytecodes");
 			VirtualMachine vm = new VirtualMachine(bytecodes, showTrace);
 			if (dumps)
 				runDumps(vm);

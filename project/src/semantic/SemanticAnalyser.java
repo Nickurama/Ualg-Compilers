@@ -3,8 +3,6 @@ package semantic;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.*;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.*;
 
 import Tuga.*;
@@ -15,11 +13,15 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 {
 	private ParseTreeProperty<Type> types;
 	private ArrayList<TugaErrorListener> listeners;
+	private Type currentVisitingVarType;
+	private HashMap<String, Type> varTypes;
 
 	public SemanticAnalyser(ParseTreeProperty<Type> types)
 	{
 		this.types = types;
 		this.listeners = new ArrayList<TugaErrorListener>();
+		this.currentVisitingVarType = null;
+		this.varTypes = new HashMap<String, Type>();
 	}
 
 	@Override
@@ -201,6 +203,62 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	}
 
 	@Override
+	public Type visitVarDecl(TugaParser.VarDeclContext ctx)
+	{
+		switch (ctx.type.getType()) {
+			case TugaParser.T_INT:
+				this.currentVisitingVarType = Type.INT;
+				break;
+			case TugaParser.T_DOUBLE:
+				this.currentVisitingVarType = Type.DOUBLE;
+				break;
+			case TugaParser.T_STRING:
+				this.currentVisitingVarType = Type.STRING;
+				break;
+			case TugaParser.T_BOOL:
+				this.currentVisitingVarType = Type.BOOL;
+				break;
+			default:
+				throw new IllegalStateException("Invalid variable type.");
+		}
+
+		visit(ctx.vars());
+
+		return this.currentVisitingVarType;
+	}
+
+	@Override
+	public Type visitVarSingle(TugaParser.VarSingleContext ctx)
+	{
+		if (this.varTypes.containsKey(ctx.ID().getText()))
+		{
+			int line = ctx.getStart().getLine();
+			int charPositionInLine = ctx.getStart().getCharPositionInLine();
+			String text = "Variable \'" + ctx.ID().getText() + "\' already declared.";
+			raiseError(line, charPositionInLine, text);
+		}
+
+		this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
+		return this.currentVisitingVarType;
+	}
+
+	@Override
+	public Type visitVarMultiple(TugaParser.VarMultipleContext ctx)
+	{
+		if (this.varTypes.containsKey(ctx.ID().getText()))
+		{
+			int line = ctx.getStart().getLine();
+			int charPositionInLine = ctx.getStart().getCharPositionInLine();
+			String text = "Variable \'" + ctx.ID().getText() + "\' already declared.";
+			raiseError(line, charPositionInLine, text);
+		}
+
+		this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
+		visit(ctx.vars());
+		return this.currentVisitingVarType;
+	}
+
+	@Override
 	public Type visitInt(TugaParser.IntContext ctx)
 	{
 		return Type.INT;
@@ -230,6 +288,20 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		return Type.BOOL;
 	}
 
+	@Override
+	public Type visitIDExpr(TugaParser.IDExprContext ctx)
+	{
+		Type result = this.varTypes.get(ctx.ID().getText());
+		if (result == null)
+		{
+			int line = ctx.getStart().getLine();
+			int charPositionInLine = ctx.getStart().getCharPositionInLine();
+			String text = "Variable \'" + ctx.ID().getText() + "\' hasn't been declared.";
+			raiseError(line, charPositionInLine, text);
+		}
+		return result;
+	}
+
 	private void setError(ParseTree node)
 	{
 		types.put(node, Type.ERROR);
@@ -241,16 +313,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		// non recursive
 		if (this.types.get(node) == Type.ERROR && node instanceof TugaParser.ExprContext && !doChildrenHaveErrors(node))
 			raiseError((TugaParser.ExprContext)node);
-	}
-
-	public void findErrors(ParseTree node)
-	{
-		// recursive
-		if (this.types.get(node) == Type.ERROR && node instanceof TugaParser.ExprContext && !doChildrenHaveErrors(node))
-			raiseError((TugaParser.ExprContext)node);
-
-		for (int i = 0; i < node.getChildCount(); i++) // dfs
-			findErrors(node.getChild(i));
 	}
 
 	public boolean doChildrenHaveErrors(ParseTree node)
@@ -267,13 +329,9 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	public void addErrorListener(TugaErrorListener listener)
 	{
 		if (listener == null)
-		{
 			throw new NullPointerException("listener cannot be null.");
-		}
 		else
-		{
 			this.listeners.add(listener);
-		}
 	}
 	
 	public void removeErrorListeners()

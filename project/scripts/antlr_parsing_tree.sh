@@ -1,23 +1,10 @@
 #!/bin/bash
 
 # requires "grun" from the arch "antlr4" package
-# third argument (program file) must be prefixed with "../" (because of cd before grun)
 
-# usage: ./antlr_parsing_tree.sh grammar_name start_rule ./program args
-# the above usage is obsolte and has been hardcoded
-
-# out_dir="./out"
-# src_dir="./src"
-# grammar="$1"
-# grammar_file="$grammar.g4"
-# start_rule="$2"
-# program="$3"
-# shift
-# shift
-# shift
-# args="$@"
-
-# new usage: ./antlr_parsing_tree.sh ./program
+# usage: ./antlr_parsing_tree.sh ./program
+# note: the './' before './program' is mandatory
+# obs: the script looks very weird and redundant, but every operation is required
 
 out_dir="./out"
 src_dir="./src"

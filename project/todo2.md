@@ -8,10 +8,10 @@
 - [ ] variable usage in expressions
 - [ ] make tests
 ## Semantic check
-- [ ] semantic (type) checking of variables (in expressions)
-- [ ] undeclared variable semantic error
-- [ ] already declared variable semantic error
-- [ ] make tests
+- [x] semantic (type) checking of variables (in expressions)
+- [x] undeclared variable semantic error
+- [x] already declared variable semantic error
+- [x] make tests
 ## Virtual Machine
 - [ ] add memory
 - [ ] null type
@@ -63,8 +63,8 @@
 
 # While
 ## Grammar
-- [ ] make while syntatically correct
-- [ ] make single instruction syntatically correct
+- [x] make while syntatically correct
+- [x] make single instruction syntatically correct
 - [x] make tests
 ## Code Generation
 - [ ] generate code for while
@@ -76,5 +76,5 @@
 
 # Misc
 - [ ] make error messages like the examples show
-- [ ] allow for empty instruction
+- [x] allow for empty instruction
 - [x] make tests

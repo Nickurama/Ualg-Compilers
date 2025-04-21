@@ -1,0 +1,4 @@
+a: inteiro;
+a: inteiro; // invalid
+
+escreve a;
