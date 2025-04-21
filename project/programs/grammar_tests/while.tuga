@@ -1,0 +1,24 @@
+enquanto (x < 10)
+inicio
+	escreve x;
+	x <- x + 1;
+fim
+
+
+enquanto (verdadeiro)
+inicio
+	escreve 1;
+fim
+
+
+enquanto (3 * 2 > 3 e "owo" igual "owo")
+	escreve "bom dia";
+
+
+enquanto (verdadeiro)
+inicio
+	enquanto (falso)
+	inicio
+		escreve "ola";
+	fim
+fim

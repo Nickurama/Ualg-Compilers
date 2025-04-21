@@ -1,7 +1,8 @@
 # Variables
 ## Grammar
 - [ ] make variable declaration syntatically correct
-- [ ] make tests
+- [ ] make variable expressions syntatically correct
+- [x] make tests
 ## Code Generation
 - [ ] generate code for variables
 - [ ] variable usage in expressions
@@ -22,7 +23,7 @@
 # Variable setting
 ## Grammar
 - [ ] make variable setting syntatically correct
-- [ ] make tests
+- [x] make tests
 ## Code Generation
 - [ ] generate code for variable setting
 - [ ] make tests
@@ -36,7 +37,7 @@
 # Scopes
 ## Grammar
 - [ ] make scopes syntatically correct
-- [ ] make tests
+- [x] make tests
 ## Code Generation
 - [ ] generate code for scopes
 - [ ] make tests
@@ -49,7 +50,7 @@
 - [ ] make if syntatically correct
 - [ ] make else syntatically correct
 - [ ] make single instruction syntatically correct
-- [ ] make tests
+- [x] make tests
 ## Code Generation
 - [ ] generate code for if
 - [ ] generate code for else
@@ -65,7 +66,7 @@
 ## Grammar
 - [ ] make while syntatically correct
 - [ ] make single instruction syntatically correct
-- [ ] make tests
+- [x] make tests
 ## Code Generation
 - [ ] generate code for while
 - [ ] make tests
@@ -77,3 +78,4 @@
 # Misc
 - [ ] make error messages like the examples show
 - [ ] allow for empty instruction
+- [x] make tests

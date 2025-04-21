@@ -1,0 +1,6 @@
+escreve c + d + e + (a * h + b);
+fim // invalid
+escreve f e g ou falso;
+escreve 2 + _name;
+escreve 3 * name_0w0;
+inicio // invalid

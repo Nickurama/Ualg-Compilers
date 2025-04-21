@@ -1,0 +1,11 @@
+enquanto verdadeiro // invalid
+	x <- x + 1;
+
+
+enquanto (verdadeiro)
+inicio
+	enquanto (falso)
+	inicio
+		escreve "ola";
+	// invalid, missing one "fim"
+fim 

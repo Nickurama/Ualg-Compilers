@@ -1,0 +1,20 @@
+senao // invalid
+	escreve "uwu";
+
+
+se (1 + 1 <= 2)
+	se (5 * 2 igual 2 + 8)
+		se (verdadeiro ou (falso e verdadeiro))
+			escreve "haiii :3";
+		senao // invalid without scope
+			escreve "owo";
+
+
+se verdadeiro // invalid
+	escreve "owo";
+
+
+se (x < 10)
+	escreve "owo";
+senao (x > 10) // invalid
+	escreve "uwu";

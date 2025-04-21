@@ -1,0 +1,5 @@
+a: owo; // invalid
+b: inteiro;
+2c: inteiro; // invalid
+d: inteiro;
+e@f: inteiro; // invalid

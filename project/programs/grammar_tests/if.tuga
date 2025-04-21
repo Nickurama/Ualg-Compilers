@@ -1,0 +1,54 @@
+se (x < 10)
+	escreve "ola";
+senao
+	inicio
+		escreve x;
+		x <- x + 1;
+	fim
+
+
+se (x < 10)
+	escreve "menor";
+senao
+	escreve "maior";
+
+
+se (x < 10)
+	inicio
+		se (x <= 5)
+			inicio
+				escreve "menor ou igual a 5";
+			fim
+		senao
+			inicio
+				escreve "entre 5 e 10";
+			fim
+	fim
+senao
+	inicio
+		escreve "maior ou igual a 10";
+	fim
+
+
+se (x < 10)
+	escreve "hewwo";
+se (x > 10)
+	escreve "owo";
+
+
+se (1 + 1 <= 2)
+	se (5 * 2 igual 2 + 8 e "ola" igual "ola")
+		se (verdadeiro ou (falso e verdadeiro))
+			escreve "haiii :3";
+
+
+se (1 + 1 <= 2)
+	se (5 * 2 igual 2 + 8)
+		inicio
+			se (verdadeiro ou (falso e verdadeiro))
+				escreve "haiii :3";
+		fim
+
+
+se (verdadeiro)
+	escreve "owo";

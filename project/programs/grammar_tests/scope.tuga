@@ -1,0 +1,19 @@
+inicio
+fim
+
+escreve a;
+
+inicio
+	escreve b + 2;
+	escreve c + d + e + (a * h + b);
+fim
+
+inicio
+	inicio
+		escreve f e g ou falso;
+		inicio
+			escreve 2 + _name;
+		fim
+	fim
+	escreve 3 * name_0w0;
+fim
