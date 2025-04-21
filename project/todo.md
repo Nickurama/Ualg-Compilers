@@ -1,1 +1,0 @@
-- hashmap so I don't have to repeat constant values
