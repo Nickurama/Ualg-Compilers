@@ -1,0 +1,27 @@
+i: inteiro;
+s: string;
+b: booleano;
+d: real;
+
+i <- "owo"; // invalid
+i <- 1.3; // invalid
+i <- falso; // invalid
+
+s <- 1; // invalid
+s <- 1.3; // invalid
+s <- falso; // invalid
+s <- i; // invalid
+
+b <- "owo"; // invalid
+b <- 1; // invalid
+b <- 1.3; // invalid
+b <- s; //invalid
+
+d <- "owo"; // invalid
+d <- falso; // invalid
+
+owo <- "owo"; // invalid
+
+i <- 2 * verdadeiro; // invalid
+
+escreve 137;

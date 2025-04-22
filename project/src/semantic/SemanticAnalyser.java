@@ -25,6 +25,51 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	}
 
 	@Override
+	public Type visitAssignInst(TugaParser.AssignInstContext ctx)
+	{
+		String var = ctx.ID().getText();
+		if (!this.varTypes.containsKey(var))
+		{
+			raiseUndeclaredVarError(ctx, var);
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
+		}
+
+		final String operator = "<-";
+		Type varType = this.varTypes.get(var);
+		Type exprType = visit(ctx.expr());
+
+		Type result = Type.ERROR;
+
+		if (varType == Type.INT && exprType == Type.INT)
+			result = Type.INT;
+		else if (varType == Type.DOUBLE && (exprType == Type.INT || exprType == Type.DOUBLE))
+			result = Type.DOUBLE;
+		else if (varType == Type.BOOL && exprType == Type.BOOL)
+			result = Type.BOOL;
+		else if (varType == Type.STRING && exprType == Type.STRING)
+			result = Type.STRING;
+		else if (exprType == Type.ERROR)
+		{
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
+		}
+
+		if (result == Type.ERROR)
+		{
+			types.put(ctx, Type.ERROR);
+			raiseTypeError(ctx, operator, varType, exprType);
+		}
+
+		return result;
+	}
+
+	public int getLine(ParserRuleContext ctx)
+	{
+		return ctx.getStart().getLine();
+	}
+
+	@Override
 	public Type visitParenExpr(TugaParser.ParenExprContext ctx)
 	{
 		Type result = visit(ctx.expr());
@@ -43,12 +88,13 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitMultDivOp(TugaParser.MultDivOpContext ctx)
 	{
+		String operator = ctx.op.getText();
 		Type leftType = visit(ctx.expr(0));
 		Type rightType = visit(ctx.expr(1));
 
 		if (!leftType.isNumerical() || !rightType.isNumerical())
 		{
-			setError(ctx);
+			setError(ctx, operator, leftType, rightType);
 			return Type.ERROR;
 		}
 
@@ -60,7 +106,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 
 		if (ctx.op.getType() == TugaParser.MOD)
 		{
-			setError(ctx);
+			setError(ctx, operator, leftType, rightType);
 			return Type.ERROR;
 		}
 
@@ -71,6 +117,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitSumSubOp(TugaParser.SumSubOpContext ctx)
 	{
+		String operator = ctx.op.getText();
 		Type leftType = visit(ctx.expr(0));
 		Type rightType = visit(ctx.expr(1));
 
@@ -82,7 +129,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 
 		if (!leftType.isNumerical() || !rightType.isNumerical())
 		{
-			setError(ctx);
+			setError(ctx, operator, leftType, rightType);
 			return Type.ERROR;
 		}
 
@@ -99,12 +146,13 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitAndOp(TugaParser.AndOpContext ctx)
 	{
+		String operator = ctx.op.getText();
 		Type leftType = visit(ctx.expr(0));
 		Type rightType = visit(ctx.expr(1));
 
 		if (leftType != Type.BOOL || rightType != Type.BOOL)
 		{
-			setError(ctx);
+			setError(ctx, operator, leftType, rightType);
 			return Type.ERROR;
 		}
 
@@ -115,12 +163,13 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitOrOp(TugaParser.OrOpContext ctx)
 	{
+		String operator = ctx.op.getText();
 		Type leftType = visit(ctx.expr(0));
 		Type rightType = visit(ctx.expr(1));
 
 		if (leftType != Type.BOOL || rightType != Type.BOOL)
 		{
-			setError(ctx);
+			setError(ctx, operator, leftType, rightType);
 			return Type.ERROR;
 		}
 
@@ -131,12 +180,13 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitRelOp(TugaParser.RelOpContext ctx)
 	{
+		String operator = ctx.op.getText();
 		Type leftType = visit(ctx.expr(0));
 		Type rightType = visit(ctx.expr(1));
 
 		if (!leftType.isNumerical() || !rightType.isNumerical())
 		{
-			setError(ctx);
+			setError(ctx, operator, leftType, rightType);
 			return Type.ERROR;
 		}
 
@@ -147,6 +197,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitEqualsOp(TugaParser.EqualsOpContext ctx)
 	{
+		String operator = ctx.op.getText();
 		Type leftType = visit(ctx.expr(0));
 		Type rightType = visit(ctx.expr(1));
 
@@ -168,13 +219,14 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 			return Type.BOOL;
 		}
 
-		setError(ctx);
+		setError(ctx, operator, leftType, rightType);
 		return Type.ERROR;
 	}
 
 	@Override
 	public Type visitArithmeticNegateOp(TugaParser.ArithmeticNegateOpContext ctx)
 	{
+		String operator = ctx.op.getText();
 		Type type = visit(ctx.expr());
 
 		if (type == Type.INT || type == Type.DOUBLE)
@@ -183,13 +235,14 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 			return type;
 		}
 
-		setError(ctx);
+		setError(ctx, operator, type);
 		return Type.ERROR;
 	}
 
 	@Override
 	public Type visitLogicNegateOp(TugaParser.LogicNegateOpContext ctx)
 	{
+		String operator = ctx.op.getText();
 		Type type = visit(ctx.expr());
 
 		if (type == Type.BOOL)
@@ -198,7 +251,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 			return type;
 		}
 
-		setError(ctx);
+		setError(ctx, operator, type);
 		return Type.ERROR;
 	}
 
@@ -231,12 +284,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	public Type visitVarSingle(TugaParser.VarSingleContext ctx)
 	{
 		if (this.varTypes.containsKey(ctx.ID().getText()))
-		{
-			int line = ctx.getStart().getLine();
-			int charPositionInLine = ctx.getStart().getCharPositionInLine();
-			String text = "Variable \'" + ctx.ID().getText() + "\' already declared.";
-			raiseError(line, charPositionInLine, text);
-		}
+			raiseAlreadyDeclaredVarError(ctx, ctx.ID().getText());
 
 		this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
 		return this.currentVisitingVarType;
@@ -246,12 +294,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	public Type visitVarMultiple(TugaParser.VarMultipleContext ctx)
 	{
 		if (this.varTypes.containsKey(ctx.ID().getText()))
-		{
-			int line = ctx.getStart().getLine();
-			int charPositionInLine = ctx.getStart().getCharPositionInLine();
-			String text = "Variable \'" + ctx.ID().getText() + "\' already declared.";
-			raiseError(line, charPositionInLine, text);
-		}
+			raiseAlreadyDeclaredVarError(ctx, ctx.ID().getText());
 
 		this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
 		visit(ctx.vars());
@@ -293,26 +336,45 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	{
 		Type result = this.varTypes.get(ctx.ID().getText());
 		if (result == null)
-		{
-			int line = ctx.getStart().getLine();
-			int charPositionInLine = ctx.getStart().getCharPositionInLine();
-			String text = "Variable \'" + ctx.ID().getText() + "\' hasn't been declared.";
-			raiseError(line, charPositionInLine, text);
-		}
+			raiseUndeclaredVarError(ctx, ctx.ID().getText());
 		return result;
 	}
 
-	private void setError(ParseTree node)
+	private void raiseUndeclaredVarError(ParserRuleContext ctx, String variable)
 	{
-		types.put(node, Type.ERROR);
-		findError(node);
+		int line = ctx.getStart().getLine();
+		int charPositionInLine = ctx.getStart().getCharPositionInLine();
+		// String text = "Variable \'" + ctx.ID().getText() + "\' hasn't been declared.";
+		String text = "variavel \'" + variable + "\' nao foi declarada";
+		raiseError(line, charPositionInLine, text);
 	}
 
-	private void findError(ParseTree node)
+	private void raiseAlreadyDeclaredVarError(ParserRuleContext ctx, String variable)
 	{
-		// non recursive
-		if (this.types.get(node) == Type.ERROR && node instanceof TugaParser.ExprContext && !doChildrenHaveErrors(node))
-			raiseError((TugaParser.ExprContext)node);
+		int line = ctx.getStart().getLine();
+		int charPositionInLine = ctx.getStart().getCharPositionInLine();
+		// String text = "Variable \'" + ctx.ID().getText() + "\' already declared.";
+		String text = "variavel \'" + variable + "\' ja foi declarada";
+		raiseError(line, charPositionInLine, text);
+	}
+
+	private void setError(ParserRuleContext node, String operator, Type type)
+	{
+		types.put(node, Type.ERROR);
+		if (isLeafError(node))
+			raiseTypeError(node, operator, type);
+	}
+
+	private void setError(ParserRuleContext node, String operator, Type type1, Type type2)
+	{
+		types.put(node, Type.ERROR);
+		if (isLeafError(node))
+			raiseTypeError(node, operator, type1, type2);
+	}
+
+	private boolean isLeafError(ParseTree node)
+	{
+		return this.types.get(node) == Type.ERROR && node instanceof TugaParser.ExprContext && !doChildrenHaveErrors(node);
 	}
 
 	public boolean doChildrenHaveErrors(ParseTree node)
@@ -338,6 +400,32 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	{
 		if (!this.listeners.isEmpty())
 			this.listeners = new ArrayList<TugaErrorListener>();
+	}
+
+	private void raiseTypeError(ParserRuleContext node, String operator, Type type)
+	{
+		int line = node.getStart().getLine();
+		int charPositionInLine = node.getStart().getCharPositionInLine();
+		raiseTypeError(line, charPositionInLine, operator, type);
+	}
+
+	private void raiseTypeError(ParserRuleContext node, String operator, Type type1, Type type2)
+	{
+		int line = node.getStart().getLine();
+		int charPositionInLine = node.getStart().getCharPositionInLine();
+		raiseTypeError(line, charPositionInLine, operator, type1, type2);
+	}
+
+	private void raiseTypeError(int line, int charPositionInLine, String operator, Type type)
+	{
+		String msg = "operador \'" + operator + "\' eh invalido para o tipo " + type.toString();
+		raiseError(line, charPositionInLine, msg);
+	}
+
+	private void raiseTypeError(int line, int charPositionInLine, String operator, Type type1, Type type2)
+	{
+		String msg = "operador \'" + operator + "\' eh invalido entre " + type1.toString() + " e " + type2.toString();
+		raiseError(line, charPositionInLine, msg);
 	}
 
 	private void raiseError(TugaParser.ExprContext node)

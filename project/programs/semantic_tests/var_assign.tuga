@@ -1,0 +1,30 @@
+a: inteiro;
+b: inteiro;
+b2: inteiro;
+c, d, eg: string;
+f, g: booleano;
+h: real;
+_name: inteiro;
+name_0w0: real;
+
+a <- 4 - 1;
+b <- (9 + 4) * 2;
+b2 <- 2 * b;
+b2 <- b2;
+c <- "ola";
+a <- a;
+a <- b;
+d <- "bom dia";
+eg <- "owo";
+f <- falso;
+f <- _name + b2 > a;
+g <- verdadeiro;
+h <- 3.14;
+h <- 1;
+
+escreve a;
+escreve b + 2;
+escreve c + d + eg + (a * h + b);
+escreve f e g ou falso;
+escreve 2 + _name;
+escreve 3 * name_0w0;

@@ -27,8 +27,8 @@
 - [ ] generate code for variable setting
 - [ ] make tests
 ## Semantic check
-- [ ] check for correct typing of variable setting
-- [ ] make tests
+- [x] check for correct typing of variable setting
+- [x] make tests
 ## Virtual Machine
 - [ ] gstore
 
@@ -56,6 +56,7 @@
 - [ ] make tests
 ## Semantic check
 - [ ] check if has boolean value in the condition
+- [ ] make tests
 ## Virtual Machine
 - [ ] jump
 - [ ] jumpf
@@ -71,6 +72,7 @@
 - [ ] make tests
 ## Semantic check
 - [ ] check if has boolean value in the condition
+- [ ] make tests
 ## Virtual Machine
 
 
