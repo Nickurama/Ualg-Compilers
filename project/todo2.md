@@ -55,8 +55,8 @@
 - [ ] generate code for else
 - [ ] make tests
 ## Semantic check
-- [ ] check if has boolean value in the condition
-- [ ] make tests
+- [x] check if has boolean value in the condition
+- [x] make tests
 ## Virtual Machine
 - [ ] jump
 - [ ] jumpf

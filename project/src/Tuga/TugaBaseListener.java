@@ -89,6 +89,18 @@ public class TugaBaseListener implements TugaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterScope_or_inline(TugaParser.Scope_or_inlineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScope_or_inline(TugaParser.Scope_or_inlineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterIfInst(TugaParser.IfInstContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -96,18 +108,6 @@ public class TugaBaseListener implements TugaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIfInst(TugaParser.IfInstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInlineIfInst(TugaParser.InlineIfInstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInlineIfInst(TugaParser.InlineIfInstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -125,18 +125,6 @@ public class TugaBaseListener implements TugaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInlineElseInst(TugaParser.InlineElseInstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInlineElseInst(TugaParser.InlineElseInstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterWhileInst(TugaParser.WhileInstContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -144,18 +132,6 @@ public class TugaBaseListener implements TugaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitWhileInst(TugaParser.WhileInstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInlineWhileInst(TugaParser.InlineWhileInstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInlineWhileInst(TugaParser.InlineWhileInstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

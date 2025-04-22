@@ -28,16 +28,17 @@ assign : ID '<-' expr END_INST								# AssignInst
 scope : 'inicio' inst* 'fim'								# ScopeInst
 	;
 
-if : 'se' '(' expr ')' scope								# IfInst
-	| 'se' '(' expr ')' inst								# InlineIfInst
+scope_or_inline : scope
+	| inst
 	;
 
-else : 'senao' scope										# ElseInst
-	| 'senao' inst											# InlineElseInst
+if : 'se' '(' expr ')' scope_or_inline						# IfInst
 	;
 
-while : 'enquanto' '(' expr ')' scope						# WhileInst
-	| 'enquanto' '(' expr ')' inst							# InlineWhileInst
+else : 'senao' scope_or_inline								# ElseInst
+	;
+
+while : 'enquanto' '(' expr ')' scope_or_inline				# WhileInst
 	;
 
 empty : END_INST											# EmptyInst

@@ -51,19 +51,18 @@ public interface TugaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitScopeInst(TugaParser.ScopeInstContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link TugaParser#scope_or_inline}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScope_or_inline(TugaParser.Scope_or_inlineContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code IfInst}
 	 * labeled alternative in {@link TugaParser#if}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitIfInst(TugaParser.IfInstContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code InlineIfInst}
-	 * labeled alternative in {@link TugaParser#if}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInlineIfInst(TugaParser.InlineIfInstContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ElseInst}
 	 * labeled alternative in {@link TugaParser#else}.
@@ -72,26 +71,12 @@ public interface TugaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitElseInst(TugaParser.ElseInstContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code InlineElseInst}
-	 * labeled alternative in {@link TugaParser#else}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInlineElseInst(TugaParser.InlineElseInstContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code WhileInst}
 	 * labeled alternative in {@link TugaParser#while}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitWhileInst(TugaParser.WhileInstContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code InlineWhileInst}
-	 * labeled alternative in {@link TugaParser#while}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInlineWhileInst(TugaParser.InlineWhileInstContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code EmptyInst}
 	 * labeled alternative in {@link TugaParser#empty}.

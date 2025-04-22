@@ -25,6 +25,28 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	}
 
 	@Override
+	public Type visitIfInst(TugaParser.IfInstContext ctx)
+	{
+		final String operator = "se";
+		Type condType = visit(ctx.expr());
+		visit(ctx.scope_or_inline());
+
+		if (condType == Type.ERROR)
+		{
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
+		}
+		else if (condType != Type.BOOL)
+		{
+			raiseExpressionTypeError(ctx, operator, Type.BOOL);
+			types.put(ctx, Type.ERROR);
+			return Type.ERROR;
+		}
+
+		return condType;
+	}
+
+	@Override
 	public Type visitAssignInst(TugaParser.AssignInstContext ctx)
 	{
 		String var = ctx.ID().getText();
@@ -400,6 +422,14 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	{
 		if (!this.listeners.isEmpty())
 			this.listeners = new ArrayList<TugaErrorListener>();
+	}
+
+	private void raiseExpressionTypeError(ParserRuleContext node, String operator, Type type)
+	{
+		int line = node.getStart().getLine();
+		int charPositionInLine = node.getStart().getCharPositionInLine();
+		String msg = "expressao de \'" + operator + "\' nao eh do tipo " + type.toString();
+		raiseError(line, charPositionInLine, msg);
 	}
 
 	private void raiseTypeError(ParserRuleContext node, String operator, Type type)

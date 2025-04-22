@@ -1,0 +1,30 @@
+a: inteiro;
+b: inteiro;
+c: string;
+d: string;
+
+c <- "uwu";
+d <- "uwu";
+a <- 4;
+b <- 7;
+
+se (a < c) // invalid
+	escreve "menor";
+
+se (4 - 5) // invalid
+	escreve "owo";
+
+se (5.1) // invalid
+	escreve "owo";
+
+se ("ola" + " mundo") // invalid
+	escreve "owo";
+
+se (2 < 5)
+	se ("ola") // invalid
+		escreve "owo";
+senao
+	se (3) // invalid
+		escreve "owo";
+
+escreve a;
