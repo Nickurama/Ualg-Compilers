@@ -11,6 +11,8 @@ public class VirtualMachine
 	private boolean showTrace;
 	private boolean halt;
 	private final Stack<Value> stack;
+	// private Value[] heap;
+	private final ArrayList<Value> heap;
 	private final byte[] bytecodes;
 	private final Value[] constantPool;
 	private final Instruction[] code;
@@ -21,6 +23,8 @@ public class VirtualMachine
 		this.showTrace = showTrace;
 		this.halt = false;
 		this.stack = new Stack<Value>();
+		this.heap = new ArrayList<Value>();
+		// this.heap = new Value[0];
 		this.bytecodes = bytecodes;
 		BytecodeEncoder encoder = new BytecodeEncoder(bytecodes);
 		this.constantPool = encoder.getConstantPool();
@@ -53,7 +57,8 @@ public class VirtualMachine
 
 	private void runtimeError(String msg)
 	{
-		System.err.println("runtime error: " + msg);
+		// System.err.println("runtime error: " + msg);
+		System.err.println("erro de runtime: " + msg);
 		if (showTrace)
 			System.err.println(String.format("%22s Stack: %s", "", stack));
 		System.exit(1);
@@ -470,6 +475,46 @@ public class VirtualMachine
 		halt = true;
 	}
 
+	private void exec_jump(int arg)
+	{
+		ip = arg;
+	}
+
+	private void exec_jumpf(int arg)
+	{
+		Value value = stack.pop();
+		checkType(value, Type.BOOL);
+		if (!value.getBool())
+			ip = arg;
+	}
+
+	private void exec_galloc(int arg)
+	{
+		// Value[] tmp = new Value[heap.length + arg];
+		// System.arraycopy(heap, 0, tmp, 0, heap.length);
+		// heap = tmp;
+		for (int i = 0; i < arg; i++)
+			heap.add(new Value(Type.NULL, null));
+	}
+
+	private void exec_gload(int arg)
+	{
+		if (arg > heap.size() - 1 || arg < 0)
+			runtimeError("Invalid address.");
+		Value value = heap.get(arg);
+		if (value.type() == Type.NULL)
+			runtimeError("tentativa de acesso a valor NULO");
+		stack.push(value);
+	}
+
+	private void exec_gstore(int arg)
+	{
+		if (arg > heap.size() - 1 || arg < 0)
+			runtimeError("Invalid address.");
+		Value value = stack.pop();
+		heap.set(arg, value);
+	}
+
 	public void exec(Instruction inst)
 	{
 		if (showTrace)
@@ -599,6 +644,21 @@ public class VirtualMachine
 				break;
 			case halt:
 				exec_halt();
+				break;
+			case jump:
+				exec_jump(inst.args()[0]);
+				break;
+			case jumpf:
+				exec_jumpf(inst.args()[0]);
+				break;
+			case galloc:
+				exec_galloc(inst.args()[0]);
+				break;
+			case gload:
+				exec_gload(inst.args()[0]);
+				break;
+			case gstore:
+				exec_gstore(inst.args()[0]);
 				break;
 		}
 	}

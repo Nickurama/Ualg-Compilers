@@ -45,7 +45,12 @@ public enum OpCode
 	or(0),
 	not(0),
 	btos(0),
-	halt(0)
+	halt(0),
+	jump(1),
+	jumpf(1),
+	galloc(1),
+	gload(1),
+	gstore(1)
 	;
 
 	private final int nArgs;

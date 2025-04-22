@@ -13,10 +13,10 @@
 - [x] already declared variable semantic error
 - [x] make tests
 ## Virtual Machine
-- [ ] add memory
-- [ ] null type
-- [ ] galloc
-- [ ] gload
+- [x] add memory
+- [x] null type
+- [x] galloc
+- [x] gload
 
 
 # Variable setting
@@ -30,7 +30,7 @@
 - [x] check for correct typing of variable setting
 - [x] make tests
 ## Virtual Machine
-- [ ] gstore
+- [x] gstore
 
 
 # Scopes
@@ -58,8 +58,8 @@
 - [x] check if has boolean value in the condition
 - [x] make tests
 ## Virtual Machine
-- [ ] jump
-- [ ] jumpf
+- [x] jump
+- [x] jumpf
 
 
 # While
