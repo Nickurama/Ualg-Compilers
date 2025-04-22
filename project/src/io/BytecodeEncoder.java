@@ -33,7 +33,7 @@ public class BytecodeEncoder
 		}
 		catch (IOException e)
 		{
-			System.err.println("IO error on decoding bytecodes:\n" + e.getMessage());
+			System.out.println("IO error on decoding bytecodes:\n" + e.getMessage());
 		}
 	}
 
@@ -119,7 +119,7 @@ public class BytecodeEncoder
 		}
 		catch (IOException e)
 		{
-			System.err.println("IO error on decoding bytecodes:\n" + e.getMessage());
+			System.out.println("IO error on decoding bytecodes:\n" + e.getMessage());
 		}
 		return bytes;
 	}

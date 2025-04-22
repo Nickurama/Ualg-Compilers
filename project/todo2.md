@@ -66,8 +66,8 @@
 - [x] make single instruction syntatically correct
 - [x] make tests
 ## Code Generation
-- [ ] generate code for while
-- [ ] make tests
+- [x] generate code for while
+- [x] make tests
 ## Semantic check
 - [x] check if has boolean value in the condition
 - [x] make tests
@@ -78,3 +78,6 @@
 - [x] make error messages like the examples show
 - [x] allow for empty instruction
 - [x] make tests
+
+# Final
+- [ ] get accepted in mooshak

@@ -57,11 +57,12 @@ public class VirtualMachine
 
 	private void runtimeError(String msg)
 	{
-		// System.err.println("runtime error: " + msg);
-		System.err.println("erro de runtime: " + msg);
+		// System.out.println("runtime error: " + msg);
+		System.out.println("erro de runtime: " + msg);
 		if (showTrace)
-			System.err.println(String.format("%22s Stack: %s", "", stack));
-		System.exit(1);
+			System.out.println(String.format("%22s Stack: %s", "", stack));
+		// System.exit(1);
+		System.exit(0);
 	}
 
 	public void dumpConstantPool()
