@@ -86,6 +86,18 @@ public interface TugaListener extends ParseTreeListener {
 	 */
 	void exitScope_or_inline(TugaParser.Scope_or_inlineContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code IfElse}
+	 * labeled alternative in {@link TugaParser#ifelse}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfElse(TugaParser.IfElseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code IfElse}
+	 * labeled alternative in {@link TugaParser#ifelse}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfElse(TugaParser.IfElseContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code IfInst}
 	 * labeled alternative in {@link TugaParser#if}.
 	 * @param ctx the parse tree

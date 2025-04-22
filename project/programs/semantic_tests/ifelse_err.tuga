@@ -27,4 +27,11 @@ senao
 	se (3) // invalid
 		escreve "owo";
 
+se (3) // invalid
+	se ("ola") // invalid
+		escreve "owo";
+	senao
+		se (3) // invalid
+			escreve "owo";
+
 escreve a;

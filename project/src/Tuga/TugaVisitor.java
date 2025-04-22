@@ -57,6 +57,13 @@ public interface TugaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitScope_or_inline(TugaParser.Scope_or_inlineContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code IfElse}
+	 * labeled alternative in {@link TugaParser#ifelse}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfElse(TugaParser.IfElseContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code IfInst}
 	 * labeled alternative in {@link TugaParser#if}.
 	 * @param ctx the parse tree

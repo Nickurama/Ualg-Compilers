@@ -14,10 +14,18 @@ inst : print
 	| assign
 	| scope
 	| if
-	| if else
+	| ifelse
 	| while
 	| empty
 	;
+// inst : 'escreve' expr END_INST										# PrintInst
+// 	| ID '<-' expr END_INST											# AssignInst
+// 	| scope															# ScopeRaw
+// 	| 'se' '(' expr ')' scope_or_inline								# IfInst
+// 	| 'se' '(' expr ')' scope_or_inline 'senao' scope_or_inline		# IfElseInst
+// 	| 'enquanto' '(' expr ')' scope_or_inline						# WhileInst
+// 	| END_INST														# EmptyInst
+// 	;
 
 print : 'escreve' expr END_INST								# PrintInst
 	;
@@ -30,6 +38,9 @@ scope : 'inicio' inst* 'fim'								# ScopeInst
 
 scope_or_inline : scope
 	| inst
+	;
+
+ifelse : if else											# IfElse
 	;
 
 if : 'se' '(' expr ')' scope_or_inline						# IfInst
