@@ -25,24 +25,46 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	}
 
 	@Override
-	public Type visitIfInst(TugaParser.IfInstContext ctx)
+	public Type visitWhileInst(TugaParser.WhileInstContext ctx)
 	{
-		final String operator = "se";
+		final String operator = "enquanto";
 		Type condType = visit(ctx.expr());
-		visit(ctx.scope_or_inline());
 
 		if (condType == Type.ERROR)
 		{
 			types.put(ctx, Type.ERROR);
-			return Type.ERROR;
+			condType = Type.ERROR;
 		}
 		else if (condType != Type.BOOL)
 		{
 			raiseExpressionTypeError(ctx, operator, Type.BOOL);
 			types.put(ctx, Type.ERROR);
-			return Type.ERROR;
+			condType = Type.ERROR;
 		}
 
+		visit(ctx.scope_or_inline());
+		return condType;
+	}
+
+	@Override
+	public Type visitIfInst(TugaParser.IfInstContext ctx)
+	{
+		final String operator = "se";
+		Type condType = visit(ctx.expr());
+
+		if (condType == Type.ERROR)
+		{
+			types.put(ctx, Type.ERROR);
+			condType = Type.ERROR;
+		}
+		else if (condType != Type.BOOL)
+		{
+			raiseExpressionTypeError(ctx, operator, Type.BOOL);
+			types.put(ctx, Type.ERROR);
+			condType = Type.ERROR;
+		}
+
+		visit(ctx.scope_or_inline());
 		return condType;
 	}
 

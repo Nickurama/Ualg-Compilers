@@ -1,0 +1,19 @@
+a: inteiro;
+b: inteiro;
+c: string;
+d: string;
+
+c <- "uwu";
+d <- "uwu";
+a <- 4;
+b <- 7;
+
+enquanto (5 * falso) // invalid
+	escreve "owo";
+
+enquanto (3) // invalid
+inicio
+	a <- a + 1;
+	enquanto ("owo") // invalid
+		c <- c + "u";
+fim

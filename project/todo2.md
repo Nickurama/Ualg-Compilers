@@ -71,12 +71,12 @@
 - [ ] generate code for while
 - [ ] make tests
 ## Semantic check
-- [ ] check if has boolean value in the condition
-- [ ] make tests
+- [x] check if has boolean value in the condition
+- [x] make tests
 ## Virtual Machine
 
 
 # Misc
-- [ ] make error messages like the examples show
+- [x] make error messages like the examples show
 - [x] allow for empty instruction
 - [x] make tests
