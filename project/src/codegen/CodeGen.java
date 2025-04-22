@@ -82,12 +82,15 @@ public class CodeGen extends TugaBaseVisitor<Void>
 	@Override
 	public Void visitWhileInst(TugaParser.WhileInstContext ctx)
 	{
-		// visit(ctx.expr());
-		// int condJumpIndex = emit(OpCode.jumpf, -1);
-		// visit(ctx.scope_or_inline());
-		// int 
-		//
-		// return null;
+		int start = code.size();
+		visit(ctx.expr());
+		int condJumpIndex = emit(OpCode.jumpf, -1);
+		visit(ctx.scope_or_inline());
+		emit(OpCode.jump, start);
+		int end = code.size();
+
+		patch (condJumpIndex, OpCode.jumpf, end);
+		return null;
 	}
 
 	@Override

@@ -69,6 +69,29 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	}
 
 	@Override
+	public Type visitIfElseInst(TugaParser.IfElseInstContext ctx)
+	{
+		final String operator = "se";
+		Type condType = visit(ctx.expr());
+
+		if (condType == Type.ERROR)
+		{
+			types.put(ctx, Type.ERROR);
+			condType = Type.ERROR;
+		}
+		else if (condType != Type.BOOL)
+		{
+			raiseExpressionTypeError(ctx, operator, Type.BOOL);
+			types.put(ctx, Type.ERROR);
+			condType = Type.ERROR;
+		}
+
+		visit(ctx.scope_or_inline(0));
+		visit(ctx.scope_or_inline(1));
+		return condType;
+	}
+
+	@Override
 	public Type visitAssignInst(TugaParser.AssignInstContext ctx)
 	{
 		String var = ctx.ID().getText();

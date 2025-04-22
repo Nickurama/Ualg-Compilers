@@ -1,0 +1,4 @@
+se ("esta a chover")
+	escreve "abre o guarda-chuva";
+senao
+	escreve "tuga eh fixe";

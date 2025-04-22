@@ -116,9 +116,10 @@ public class TugaCompileAndRun
 					System.out.println("Input has parsing errors");
 					return;
 				}
-				if (errorListener.getNumSemanticErrors() > 0 && !showTypeCheckingErrors)
+				// if (errorListener.getNumSemanticErrors() > 0 && !showTypeCheckingErrors)
+				if (errorListener.getNumSemanticErrors() > 0)
 				{
-					System.out.println("Input has type checking errors");
+					// System.out.println("Input has type checking errors");
 					return;
 				}
 
