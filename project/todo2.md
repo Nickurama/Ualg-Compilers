@@ -38,8 +38,6 @@
 - [x] make scopes syntatically correct
 - [x] make tests
 ## Code Generation
-- [ ] generate code for scopes
-- [ ] make tests
 ## Semantic check
 ## Virtual Machine
 
@@ -51,9 +49,9 @@
 - [x] make single instruction syntatically correct
 - [x] make tests
 ## Code Generation
-- [ ] generate code for if
-- [ ] generate code for else
-- [ ] make tests
+- [x] generate code for if
+- [x] generate code for else
+- [x] make tests
 ## Semantic check
 - [x] check if has boolean value in the condition
 - [x] make tests

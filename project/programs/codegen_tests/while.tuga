@@ -1,0 +1,31 @@
+a: inteiro;
+b: inteiro;
+c: string;
+d: string;
+
+c <- "uwu";
+d <- "uwu";
+a <- 4;
+b <- 7;
+
+escreve "4";
+escreve "uwu";
+escreve "uwuuuu";
+escreve "5";
+escreve "uwu";
+escreve "uwuuuu";
+escreve "6";
+escreve "uwu";
+escreve "uwuuuu";
+escreve "";
+
+enquanto (a < b)
+inicio
+	escreve a;
+	a <- a + 1;
+	c <- d;
+	escreve c;
+	enquanto (c diferente "uwuuuu")
+		c <- c + "u";
+	escreve c;
+fim

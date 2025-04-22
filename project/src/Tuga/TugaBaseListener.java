@@ -101,13 +101,13 @@ public class TugaBaseListener implements TugaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfElse(TugaParser.IfElseContext ctx) { }
+	@Override public void enterIfElseInst(TugaParser.IfElseInstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfElse(TugaParser.IfElseContext ctx) { }
+	@Override public void exitIfElseInst(TugaParser.IfElseInstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -120,18 +120,6 @@ public class TugaBaseListener implements TugaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIfInst(TugaParser.IfInstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterElseInst(TugaParser.ElseInstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElseInst(TugaParser.ElseInstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

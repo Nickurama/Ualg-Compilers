@@ -51,9 +51,15 @@ public class CodeGen extends TugaBaseVisitor<Void>
 			System.out.println(i + ": " + code.get(i));
 	}
 
-	public void emit(OpCode op, int ...args)
+	public void patch(int index, OpCode op, int ...args)
+	{
+		code.set(index, new Instruction(op, args));
+	}
+
+	public int emit(OpCode op, int ...args)
 	{
 		code.add(new Instruction(op, args));
+		return code.size() - 1;
 	}
 
 	public int emitConst(Type type, Object value)
@@ -71,6 +77,45 @@ public class CodeGen extends TugaBaseVisitor<Void>
 			constantPoolHash.put(key, index);
 		}
 		return index;
+	}
+
+	@Override
+	public Void visitWhileInst(TugaParser.WhileInstContext ctx)
+	{
+		// visit(ctx.expr());
+		// int condJumpIndex = emit(OpCode.jumpf, -1);
+		// visit(ctx.scope_or_inline());
+		// int 
+		//
+		// return null;
+	}
+
+	@Override
+	public Void visitIfInst(TugaParser.IfInstContext ctx)
+	{
+		visit(ctx.expr());
+		int condJumpIndex = emit(OpCode.jumpf, -1);
+		visit(ctx.scope_or_inline());
+		int end = code.size();
+
+		patch(condJumpIndex, OpCode.jumpf, end);
+		return null;
+	}
+
+	@Override
+	public Void visitIfElseInst(TugaParser.IfElseInstContext ctx)
+	{
+		visit(ctx.expr());
+		int condJumpIndex = emit(OpCode.jumpf, -1);
+		visit(ctx.scope_or_inline(0));
+		int elseSkipIndex = emit(OpCode.jump, -1);
+		int middle = code.size();
+		visit(ctx.scope_or_inline(1));
+		int end = code.size();
+
+		patch(condJumpIndex, OpCode.jumpf, middle);
+		patch(elseSkipIndex, OpCode.jump, end);
+		return null;
 	}
 
 	@Override

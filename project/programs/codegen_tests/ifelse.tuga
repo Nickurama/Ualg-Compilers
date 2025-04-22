@@ -1,0 +1,70 @@
+a: inteiro;
+b: inteiro;
+c: string;
+d: string;
+
+c <- "uwu";
+d <- "uwu";
+a <- 4;
+b <- 7;
+
+escreve "owo";
+escreve "hewwo :3";
+escreve "menor";
+escreve "verdadeiro";
+escreve "nope!";
+escreve "maior";
+escreve "uwu";
+escreve "";
+
+se (verdadeiro)
+	escreve "owo";
+
+se (1 * 2 > -1)
+inicio
+	b <- 7;
+	escreve "hewwo :3";
+fim
+
+se (a < b)
+inicio
+	escreve "menor";
+	se (verdadeiro ou (falso e verdadeiro))
+		escreve verdadeiro;
+	senao
+		escreve falso;
+	
+	se (c igual d e a igual b)
+		escreve c;
+	senao
+	inicio
+		escreve "nope!";
+	fim
+fim
+senao
+inicio
+	escreve "maior";
+	escreve "uwu";
+
+fim
+
+se (a > b)
+inicio
+	escreve "menor";
+	se (verdadeiro ou (falso e verdadeiro))
+		escreve verdadeiro;
+	senao
+		escreve falso;
+	
+	se (c igual d e a igual b)
+		escreve c;
+	senao
+	inicio
+		escreve "nope!";
+	fim
+fim
+senao
+inicio
+	escreve "maior";
+	escreve "uwu";
+fim

@@ -40,13 +40,11 @@ scope_or_inline : scope
 	| inst
 	;
 
-ifelse : if else											# IfElse
+ifelse : 'se' '(' expr ')' scope_or_inline
+		'senao' scope_or_inline								# IfElseInst
 	;
 
 if : 'se' '(' expr ')' scope_or_inline						# IfInst
-	;
-
-else : 'senao' scope_or_inline								# ElseInst
 	;
 
 while : 'enquanto' '(' expr ')' scope_or_inline				# WhileInst

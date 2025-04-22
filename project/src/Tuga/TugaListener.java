@@ -86,17 +86,17 @@ public interface TugaListener extends ParseTreeListener {
 	 */
 	void exitScope_or_inline(TugaParser.Scope_or_inlineContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code IfElse}
+	 * Enter a parse tree produced by the {@code IfElseInst}
 	 * labeled alternative in {@link TugaParser#ifelse}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfElse(TugaParser.IfElseContext ctx);
+	void enterIfElseInst(TugaParser.IfElseInstContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code IfElse}
+	 * Exit a parse tree produced by the {@code IfElseInst}
 	 * labeled alternative in {@link TugaParser#ifelse}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfElse(TugaParser.IfElseContext ctx);
+	void exitIfElseInst(TugaParser.IfElseInstContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code IfInst}
 	 * labeled alternative in {@link TugaParser#if}.
@@ -109,18 +109,6 @@ public interface TugaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIfInst(TugaParser.IfInstContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ElseInst}
-	 * labeled alternative in {@link TugaParser#else}.
-	 * @param ctx the parse tree
-	 */
-	void enterElseInst(TugaParser.ElseInstContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ElseInst}
-	 * labeled alternative in {@link TugaParser#else}.
-	 * @param ctx the parse tree
-	 */
-	void exitElseInst(TugaParser.ElseInstContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code WhileInst}
 	 * labeled alternative in {@link TugaParser#while}.

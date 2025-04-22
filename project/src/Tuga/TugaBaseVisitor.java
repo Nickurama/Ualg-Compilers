@@ -67,7 +67,7 @@ public class TugaBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements T
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfElse(TugaParser.IfElseContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIfElseInst(TugaParser.IfElseInstContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -75,13 +75,6 @@ public class TugaBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements T
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitIfInst(TugaParser.IfInstContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitElseInst(TugaParser.ElseInstContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
