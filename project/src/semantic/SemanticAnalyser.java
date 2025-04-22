@@ -16,12 +16,12 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	private Type currentVisitingVarType;
 	private HashMap<String, Type> varTypes;
 
-	public SemanticAnalyser(ParseTreeProperty<Type> types)
+	public SemanticAnalyser(ParseTreeProperty<Type> types, HashMap<String, Type> varTypes)
 	{
 		this.types = types;
 		this.listeners = new ArrayList<TugaErrorListener>();
 		this.currentVisitingVarType = null;
-		this.varTypes = new HashMap<String, Type>();
+		this.varTypes = varTypes;
 	}
 
 	@Override
@@ -381,6 +381,8 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		Type result = this.varTypes.get(ctx.ID().getText());
 		if (result == null)
 			raiseUndeclaredVarError(ctx, ctx.ID().getText());
+
+		types.put(ctx, result);
 		return result;
 	}
 

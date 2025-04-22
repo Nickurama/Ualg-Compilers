@@ -18,14 +18,20 @@ public class CodeGen extends TugaBaseVisitor<Void>
 	private ArrayList<Value> constantPool;
 	private HashMap<Value, Integer> constantPoolHash;
 	private ParseTreeProperty<Type> types;
+	private HashMap<String, Type> varTypes;
+	private HashMap<String, Integer> globalVariableMapping;
+	private int globalVariableChainCounter;
 
-	public CodeGen(ParseTreeProperty<Type> types)
+	public CodeGen(ParseTreeProperty<Type> types, HashMap<String, Type> varTypes)
 	{
 		super();
 		this.code = new ArrayList<Instruction>();
 		this.constantPool = new ArrayList<Value>();
 		this.constantPoolHash = new HashMap<Value, Integer>();
 		this.types = types;
+		this.varTypes = varTypes;
+		this.globalVariableMapping = new HashMap<String, Integer>();
+		this.globalVariableChainCounter = 0;
 	}
 
 	public byte[] getBytecode()
@@ -68,6 +74,48 @@ public class CodeGen extends TugaBaseVisitor<Void>
 	}
 
 	@Override
+	public Void visitAssignInst(TugaParser.AssignInstContext ctx)
+	{
+		visit(ctx.expr());
+		Type varType = varTypes.get(ctx.ID().getText());
+		Type exprType = types.get(ctx.expr());
+		if (varType == Type.DOUBLE && exprType == Type.INT)
+			emit(OpCode.itod);
+		emit(OpCode.gstore, globalVariableMapping.get(ctx.ID().getText()));
+
+		return null;
+	}
+
+	@Override
+	public Void visitVarDecl(TugaParser.VarDeclContext ctx)
+	{
+		visit(ctx.vars());
+
+		emit(OpCode.galloc, globalVariableChainCounter);
+		globalVariableChainCounter = 0;
+
+		return null;
+	}
+
+	@Override
+	public Void visitVarSingle(TugaParser.VarSingleContext ctx)
+	{
+		globalVariableMapping.put(ctx.ID().getText(), globalVariableMapping.size());
+		globalVariableChainCounter++;
+		return null;
+	}
+
+	@Override
+	public Void visitVarMultiple(TugaParser.VarMultipleContext ctx)
+	{
+		globalVariableMapping.put(ctx.ID().getText(), globalVariableMapping.size());
+		globalVariableChainCounter++;
+		visit(ctx.vars());
+
+		return null;
+	}
+
+	@Override
 	public Void visitPrintInst(TugaParser.PrintInstContext ctx)
 	{
 		visit(ctx.expr());
@@ -79,6 +127,10 @@ public class CodeGen extends TugaBaseVisitor<Void>
 			emit(OpCode.bprint);
 		else if (types.get(ctx.expr()) == Type.STRING)
 			emit(OpCode.sprint);
+		else if (types.get(ctx.expr()) == Type.ERROR)
+			throw new IllegalStateException("Invalid print type: ERROR");
+		else if (types.get(ctx.expr()) == Type.NULL)
+			throw new IllegalStateException("Invalid print type: NULL");
 		else
 			throw new IllegalStateException("Unknown print type");
 
@@ -336,6 +388,13 @@ public class CodeGen extends TugaBaseVisitor<Void>
 	}
 
 	@Override
+	public Void visitIDExpr(TugaParser.IDExprContext ctx)
+	{
+		emit(OpCode.gload, globalVariableMapping.get(ctx.ID().getText()));
+		return null;
+	}
+
+	@Override
 	public Void visitTuga(TugaParser.TugaContext ctx)
 	{
 		super.visitTuga(ctx);
@@ -356,7 +415,7 @@ public class CodeGen extends TugaBaseVisitor<Void>
 	{
 		double value = Double.valueOf(ctx.DOUBLE().getText());
 		int index = emitConst(Type.DOUBLE, value);
-		emit(OpCode.dconst, index);
+			emit(OpCode.dconst, index);
 		return null;
 	}
 

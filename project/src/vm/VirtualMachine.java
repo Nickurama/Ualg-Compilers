@@ -12,7 +12,7 @@ public class VirtualMachine
 	private boolean halt;
 	private final Stack<Value> stack;
 	// private Value[] heap;
-	private final ArrayList<Value> heap;
+	private final ArrayList<Value> globalVariables;
 	private final byte[] bytecodes;
 	private final Value[] constantPool;
 	private final Instruction[] code;
@@ -23,7 +23,7 @@ public class VirtualMachine
 		this.showTrace = showTrace;
 		this.halt = false;
 		this.stack = new Stack<Value>();
-		this.heap = new ArrayList<Value>();
+		this.globalVariables = new ArrayList<Value>();
 		// this.heap = new Value[0];
 		this.bytecodes = bytecodes;
 		BytecodeEncoder encoder = new BytecodeEncoder(bytecodes);
@@ -494,14 +494,14 @@ public class VirtualMachine
 		// System.arraycopy(heap, 0, tmp, 0, heap.length);
 		// heap = tmp;
 		for (int i = 0; i < arg; i++)
-			heap.add(new Value(Type.NULL, null));
+			globalVariables.add(new Value(Type.NULL, null));
 	}
 
 	private void exec_gload(int arg)
 	{
-		if (arg > heap.size() - 1 || arg < 0)
+		if (arg > globalVariables.size() - 1 || arg < 0)
 			runtimeError("Invalid address.");
-		Value value = heap.get(arg);
+		Value value = globalVariables.get(arg);
 		if (value.type() == Type.NULL)
 			runtimeError("tentativa de acesso a valor NULO");
 		stack.push(value);
@@ -509,10 +509,10 @@ public class VirtualMachine
 
 	private void exec_gstore(int arg)
 	{
-		if (arg > heap.size() - 1 || arg < 0)
+		if (arg > globalVariables.size() - 1 || arg < 0)
 			runtimeError("Invalid address.");
 		Value value = stack.pop();
-		heap.set(arg, value);
+		globalVariables.set(arg, value);
 	}
 
 	public void exec(Instruction inst)

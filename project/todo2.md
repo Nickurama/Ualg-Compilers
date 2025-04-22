@@ -4,9 +4,9 @@
 - [x] make variable expressions syntatically correct
 - [x] make tests
 ## Code Generation
-- [ ] generate code for variables
-- [ ] variable usage in expressions
-- [ ] make tests
+- [x] generate code for variables
+- [x] variable usage in expressions
+- [x] make tests
 ## Semantic check
 - [x] semantic (type) checking of variables (in expressions)
 - [x] undeclared variable semantic error
@@ -24,8 +24,8 @@
 - [x] make variable setting syntatically correct
 - [x] make tests
 ## Code Generation
-- [ ] generate code for variable setting
-- [ ] make tests
+- [x] generate code for variable setting
+- [x] make tests
 ## Semantic check
 - [x] check for correct typing of variable setting
 - [x] make tests

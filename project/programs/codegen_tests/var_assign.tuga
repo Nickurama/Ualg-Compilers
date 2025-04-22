@@ -1,0 +1,48 @@
+a: inteiro;
+b: inteiro;
+b2: inteiro;
+c, d, eg: string;
+f, g: booleano;
+h: real;
+_name: inteiro;
+name_0w0: real;
+
+a <- 4 - 1;
+b <- (9 + 4) * 2;
+b2 <- 2 * b;
+b2 <- b2;
+c <- "ola";
+a <- a;
+a <- b;
+d <- "bom dia";
+eg <- "owo";
+_name <- 1;
+f <- falso;
+f <- _name + b2 > a; // 1 + 52 > 26
+g <- verdadeiro;
+h <- 3.14;
+h <- 1;
+name_0w0 <- 3.14 * 2.7;
+
+escreve "26";
+escreve a;
+escreve "";
+
+escreve "28";
+escreve b + 2;
+escreve "";
+
+escreve "olabom diaowo52.0";
+escreve c + d + eg + (a * h + b);
+escreve "";
+
+escreve "verdadeiro";
+escreve f e g ou falso;
+escreve "";
+
+escreve "3";
+escreve 2 + _name;
+escreve "";
+
+escreve "25.434";
+escreve 3 * name_0w0;

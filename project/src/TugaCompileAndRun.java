@@ -99,7 +99,8 @@ public class TugaCompileAndRun
 
 				// Semantic Analyser
 				ParseTreeProperty<Type> types = new ParseTreeProperty<Type>();
-				SemanticAnalyser semanticAnalyser = new SemanticAnalyser(types);
+				HashMap<String, Type> varTypes = new HashMap<String, Type>();
+				SemanticAnalyser semanticAnalyser = new SemanticAnalyser(types, varTypes);
 				semanticAnalyser.removeErrorListeners();
 				semanticAnalyser.addErrorListener(errorListener);
 				semanticAnalyser.visit(tree);
@@ -125,7 +126,7 @@ public class TugaCompileAndRun
 					return;
 
 				// Code Generation
-				CodeGen codeGen = new CodeGen(types);
+				CodeGen codeGen = new CodeGen(types, varTypes);
 				codeGen.visit(tree);
 				if (showAsm)
 					codeGen.dumpCode();

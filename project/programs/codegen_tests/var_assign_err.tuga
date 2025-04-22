@@ -1,0 +1,9 @@
+a: inteiro;
+b2: inteiro;
+f: booleano;
+_name: inteiro;
+name_0w0: real;
+
+a <- 3;
+b2 <- 5;
+f <- _name + b2 > a; // invalid
