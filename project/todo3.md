@@ -1,10 +1,10 @@
 # Grammar
-- [ ] make function definitions syntatically correct
-- [ ] make raw function calls syntatically correct
-- [ ] make function calls in expressions syntatically correct
-- [ ] make return statements syntatically correct
-- [ ] make local variables (in scopes) syntatically correct
-- [ ] make tests
+- [x] make function definitions syntatically correct
+- [x] make raw function calls syntatically correct
+- [x] make function calls in expressions syntatically correct
+- [x] make return statements syntatically correct
+- [x] make local variables (in scopes) syntatically correct
+- [x] make tests
 
 # Code Generation
 - [ ] local variables

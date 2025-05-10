@@ -1,12 +1,37 @@
 grammar Tuga;
 
 // main
-tuga : var_decl* inst+ EOF;
+tuga : var_decl* func+ EOF;
 
 // variable declarations
 var_decl : vars ':' type=(
 		T_INT|T_DOUBLE|T_STRING|T_BOOL
 	) END_INST												# VarDecl
+	;
+
+// functions
+func : 'funcao' ID '(' arg_list? ')' (':' type=(
+		T_INT|T_DOUBLE|T_STRING|T_BOOL
+	))? scope													# FuncDecl
+	;
+
+// func_void : 'funcao' ID '(' arg_list? ')' scope					# FuncDeclVoid
+// 	;
+
+arg_list : arg												# ArgSingle
+	| arg ',' arg_list										# ArgMultiple
+	;
+
+expr_list : expr											# ExprSingle
+	| expr ',' expr_list									# ExprMultiple
+	;
+
+arg : ID ':' type=(
+		T_INT|T_DOUBLE|T_STRING|T_BOOL
+	)														# Argument
+	;
+
+func_call : ID '(' expr_list? ')'							# FuncCall
 	;
 
 // instructions
@@ -16,6 +41,8 @@ inst : print
 	| if
 	| ifelse
 	| while
+	| func_call_inst
+	| return
 	| empty
 	;
 // inst : 'escreve' expr END_INST										# PrintInst
@@ -33,7 +60,7 @@ print : 'escreve' expr END_INST								# PrintInst
 assign : ID '<-' expr END_INST								# AssignInst
 	;
 
-scope : 'inicio' inst* 'fim'								# ScopeInst
+scope : 'inicio' var_decl* inst* 'fim'								# ScopeInst
 	;
 
 scope_or_inline : scope
@@ -48,6 +75,12 @@ if : 'se' '(' expr ')' scope_or_inline						# IfInst
 	;
 
 while : 'enquanto' '(' expr ')' scope_or_inline				# WhileInst
+	;
+
+func_call_inst : func_call END_INST							# FuncCallInst
+	;
+
+return : 'retorna' expr? END_INST							# ReturnInst
 	;
 
 empty : END_INST											# EmptyInst
@@ -70,6 +103,7 @@ expr : LPAREN expr RPAREN									# ParenExpr
   | expr op=OR expr											# OrOp
   | literal													# LiteralExpr
   | ID														# IDExpr
+  | func_call												# FuncExpr
   ;
 
 literal : INT												# Int

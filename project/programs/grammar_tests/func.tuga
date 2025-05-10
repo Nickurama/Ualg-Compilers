@@ -1,0 +1,45 @@
+funcao sqr(x: inteiro): inteiro
+inicio
+	retorna x * x;
+fim
+
+funcao sqrsum(a: inteiro, b: inteiro): inteiro
+inicio
+	s: inteiro;
+	s <- sqr(a + b);
+	retorna s;
+fim
+
+funcao void()
+inicio
+	escreve "void";
+fim
+
+funcao void2(i: inteiro)
+inicio
+	se (i >= 0)
+	inicio
+		escreve "[positivo] ola :3";
+		retorna;
+	fim
+	senao
+		escreve "[negativo] nao ola :(";
+fim
+
+funcao principal()
+inicio
+	escreve sqrsum(3, 2);
+	void();
+	void2(3);
+	void2(-2);
+	escreve teste(-2, 3.14, verdadeiro, "hewwo :3");
+fim
+
+funcao teste(i: inteiro, r: real, b: booleano, s: string): inteiro
+inicio
+	escreve s + ", " + i + ", " + r;
+	se (b)
+		retorna 1;
+	senao
+		retorna 2;
+fim
