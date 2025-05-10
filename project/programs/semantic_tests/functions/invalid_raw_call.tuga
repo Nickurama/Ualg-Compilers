@@ -1,0 +1,33 @@
+funcao owo() // valid
+inicio
+	retorna;
+fim
+
+funcao uwu(): inteiro
+inicio
+	retorna 2;
+fim
+
+funcao qwq(): string
+inicio
+	retorna "owo";
+fim
+
+funcao awa(): real
+inicio
+	retorna 3.9;
+fim
+
+funcao ewe(): booleano
+inicio
+	retorna verdadeiro;
+fim
+
+funcao principal()
+inicio
+	owo();
+	uwu();
+	qwq();
+	awa();
+	ewe();
+fim

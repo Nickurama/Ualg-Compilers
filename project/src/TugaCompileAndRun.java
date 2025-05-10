@@ -98,9 +98,11 @@ public class TugaCompileAndRun
 				ParseTree tree = parser.tuga();
 
 				// Semantic Analyser
+				HashMap<String, Function> functions = new HashMap<String, Function>();
+				new FunctionCollector(functions).visit(tree);
 				ParseTreeProperty<Type> types = new ParseTreeProperty<Type>();
 				HashMap<String, Type> varTypes = new HashMap<String, Type>();
-				SemanticAnalyser semanticAnalyser = new SemanticAnalyser(types, varTypes);
+				SemanticAnalyser semanticAnalyser = new SemanticAnalyser(types, varTypes, functions);
 				semanticAnalyser.removeErrorListeners();
 				semanticAnalyser.addErrorListener(errorListener);
 				semanticAnalyser.visit(tree);

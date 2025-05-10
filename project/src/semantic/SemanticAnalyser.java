@@ -11,17 +11,128 @@ import types.*;
 
 public class SemanticAnalyser extends TugaBaseVisitor<Type>
 {
+	private static final String MAIN_FUNC = "principal";
+
 	private ParseTreeProperty<Type> types;
 	private ArrayList<TugaErrorListener> listeners;
 	private Type currentVisitingVarType;
 	private HashMap<String, Type> varTypes;
+	private HashMap<String, Function> functions;
 
-	public SemanticAnalyser(ParseTreeProperty<Type> types, HashMap<String, Type> varTypes)
+	private boolean foundMain;
+	private Function currFunction;
+	private boolean foundReturn;
+	private int currArgNum;
+
+	public SemanticAnalyser(ParseTreeProperty<Type> types, HashMap<String, Type> varTypes, HashMap<String, Function> functions)
 	{
 		this.types = types;
 		this.listeners = new ArrayList<TugaErrorListener>();
 		this.currentVisitingVarType = null;
 		this.varTypes = varTypes;
+		this.functions = functions;
+
+		this.foundMain = false;
+	}
+
+	@Override
+	public Type visit(ParseTree tree)
+	{
+		Type result = super.visit(tree);
+		if (!(tree instanceof TugaParser.TugaContext))
+			return result;
+		TugaParser.TugaContext ctx = (TugaParser.TugaContext) tree;
+
+		if (!foundMain)
+			raiseError(ctx.stop.getLine(), 0, "falta funcao principal()");
+
+		return result;
+	}
+
+	@Override
+	public Type visitFuncDecl(TugaParser.FuncDeclContext ctx)
+	{
+		currFunction = functions.get(ctx.ID().getText());
+		foundReturn = false;
+
+		visit(ctx.scope());
+		if (ctx.ID().getText().equals(MAIN_FUNC))
+			this.foundMain = true;
+		if (!foundReturn && currFunction.returnType() != Type.NULL)
+		{
+			String msg = "funcao sem retorno";
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+		}
+
+		currFunction = null;
+		return null;
+	}
+
+	@Override
+	public Type visitReturnInst(TugaParser.ReturnInstContext ctx)
+	{
+		foundReturn = true;
+		Type exprType = Type.NULL;
+		if (ctx.expr() != null)
+			exprType = visit(ctx.expr());
+
+		if (currFunction.returnType() != exprType &&
+			!(currFunction.returnType() == Type.DOUBLE && exprType == Type.INT))
+		{
+			String msg = "funcao de tipo " + currFunction.returnType() + " nao pode retornar uma expressao do tipo " + exprType;
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+		}
+
+		return exprType;
+	}
+
+	@Override
+	public Type visitFuncCallInst(TugaParser.FuncCallInstContext ctx)
+	{
+		Type result = visit(ctx.func_call());
+
+		TugaParser.FuncCallContext fnCtx = (TugaParser.FuncCallContext)ctx.func_call();
+		String fnName = fnCtx.ID().getText();
+		if (!(functions.get(fnName).returnType() == Type.NULL))
+		{
+			String msg = "valor de '" + fnName + "' tem de ser atribuido a uma variavel";
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+		}
+
+		return result;
+	}
+
+	@Override
+	public Type visitFuncCall(TugaParser.FuncCallContext ctx)
+	{
+		currArgNum = 0;
+		if (ctx.expr_list() != null)
+			visit(ctx.expr_list());
+
+		Function fn = functions.get(ctx.ID().getText());
+
+		if (currArgNum != fn.argNum())
+		{
+			String msg = "'" + fn.name() + "' requer " + fn.argNum() + " argumentos";
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+		}
+
+		return null;
+	}
+
+	@Override
+	public Type visitExprSingle(TugaParser.ExprSingleContext ctx)
+	{
+		currArgNum++;
+		return null;
+	}
+
+	@Override
+	public Type visitExprMultiple(TugaParser.ExprMultipleContext ctx)
+	{
+		currArgNum++;
+		visit(ctx.expr_list());
+		return null;
 	}
 
 	@Override

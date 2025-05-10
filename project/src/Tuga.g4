@@ -12,11 +12,8 @@ var_decl : vars ':' type=(
 // functions
 func : 'funcao' ID '(' arg_list? ')' (':' type=(
 		T_INT|T_DOUBLE|T_STRING|T_BOOL
-	))? scope													# FuncDecl
+	))? scope												# FuncDecl
 	;
-
-// func_void : 'funcao' ID '(' arg_list? ')' scope					# FuncDeclVoid
-// 	;
 
 arg_list : arg												# ArgSingle
 	| arg ',' arg_list										# ArgMultiple
@@ -60,7 +57,7 @@ print : 'escreve' expr END_INST								# PrintInst
 assign : ID '<-' expr END_INST								# AssignInst
 	;
 
-scope : 'inicio' var_decl* inst* 'fim'								# ScopeInst
+scope : 'inicio' var_decl* inst* 'fim'						# ScopeInst
 	;
 
 scope_or_inline : scope

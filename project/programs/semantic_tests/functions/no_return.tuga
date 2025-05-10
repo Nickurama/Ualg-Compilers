@@ -1,0 +1,33 @@
+funcao owo() // valid
+inicio
+	escreve "owo";
+fim
+
+funcao uwu(): inteiro
+inicio
+	escreve "owo";
+fim
+
+funcao qwq(): string
+inicio
+	escreve "owo";
+fim
+
+funcao awa(): real
+inicio
+	escreve "owo";
+fim
+
+funcao ewe(): booleano
+inicio
+	escreve "owo";
+fim
+
+funcao principal()
+inicio
+	owo();
+	escreve uwu();
+	escreve qwq();
+	escreve awa();
+	escreve ewe();
+fim

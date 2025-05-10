@@ -1,0 +1,14 @@
+funcao owo()
+inicio
+	escreve "ola";
+fim
+
+funcao nao_principal()
+inicio
+	escreve "ola";
+fim
+
+funcao uwu()
+inicio
+	escreve "ola";
+fim
