@@ -13,11 +13,14 @@
 - [x] check if function with a return type has a return statement
 - [x] check if return type and function type are of same type
 - [x] check if given correct number of arguments
-- [ ] check if given arguments are of correct type
-- [ ] already defined function semantic error
-- [ ] undeclared function semantic error
-- [ ] order error messages by line number
-- [ ] make tests
+- [x] check if given arguments are of correct type
+- [x] make function calls in expressions
+- [x] already defined function semantic error
+- [x] undeclared function semantic error
+- [x] order error messages by line number
+- [x] local variables
+- [x] already defined local variable
+- [x] make tests
 
 # Virtual Machine
 - [ ] add frame pointer

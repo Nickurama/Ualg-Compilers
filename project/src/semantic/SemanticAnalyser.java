@@ -22,7 +22,11 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	private boolean foundMain;
 	private Function currFunction;
 	private boolean foundReturn;
-	private int currArgNum;
+	private Stack<Integer> currArgNum;
+	private Stack<Function> currFunctionCall;
+	private HashSet<String> foundFunctions;
+	private HashMap<String, Type> localVarTypes;
+	private Stack<ArrayList<String>> currLocalVars;
 
 	public SemanticAnalyser(ParseTreeProperty<Type> types, HashMap<String, Type> varTypes, HashMap<String, Function> functions)
 	{
@@ -33,6 +37,10 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		this.functions = functions;
 
 		this.foundMain = false;
+		this.currArgNum = new Stack<Integer>();
+		this.currFunctionCall = new Stack<Function>();
+		this.foundFunctions = new HashSet<String>();
+		this.currLocalVars = new Stack<ArrayList<String>>();
 	}
 
 	@Override
@@ -53,26 +61,62 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	public Type visitFuncDecl(TugaParser.FuncDeclContext ctx)
 	{
 		currFunction = functions.get(ctx.ID().getText());
-		foundReturn = false;
 
+		if (foundFunctions.contains(currFunction.name()) || varTypes.containsKey(currFunction.name()))
+		{
+			String msg = "'" + currFunction.name() + "' ja foi declarado";
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+		}
+		else
+		{
+			foundFunctions.add(currFunction.name());
+		}
+
+		localVarTypes = new HashMap<String, Type>();
+		currLocalVars.add(new ArrayList<String>());
+
+		foundReturn = false;
+		if (ctx.arg_list() != null)
+			visit(ctx.arg_list());
 		visit(ctx.scope());
 		if (ctx.ID().getText().equals(MAIN_FUNC))
 			this.foundMain = true;
-		if (!foundReturn && currFunction.returnType() != Type.NULL)
+		if (!foundReturn && currFunction.returnType() != Type.VOID)
 		{
 			String msg = "funcao sem retorno";
 			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
 		}
 
+		for (String var : currLocalVars.peek())
+			localVarTypes.remove(var);
+		currLocalVars.pop();
 		currFunction = null;
 		return null;
+	}
+
+	@Override
+	public Type visitArgument(TugaParser.ArgumentContext ctx)
+	{
+		String name = ctx.ID().getText();
+		Type type = antlrTypeConvert(ctx.type.getType());
+
+		if (localVarTypes.containsKey(name) || varTypes.containsKey(name) || functions.containsKey(name))
+		{
+			String msg = "'" + ctx.ID().getText() + "' ja foi declarado";
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+			return type;
+		}
+		currLocalVars.peek().add(name);
+		localVarTypes.put(name, type);
+
+		return type;
 	}
 
 	@Override
 	public Type visitReturnInst(TugaParser.ReturnInstContext ctx)
 	{
 		foundReturn = true;
-		Type exprType = Type.NULL;
+		Type exprType = Type.VOID;
 		if (ctx.expr() != null)
 			exprType = visit(ctx.expr());
 
@@ -93,7 +137,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 
 		TugaParser.FuncCallContext fnCtx = (TugaParser.FuncCallContext)ctx.func_call();
 		String fnName = fnCtx.ID().getText();
-		if (!(functions.get(fnName).returnType() == Type.NULL))
+		if (functions.containsKey(fnName) && !(functions.get(fnName).returnType() == Type.VOID))
 		{
 			String msg = "valor de '" + fnName + "' tem de ser atribuido a uma variavel";
 			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
@@ -105,17 +149,26 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitFuncCall(TugaParser.FuncCallContext ctx)
 	{
-		currArgNum = 0;
+		if (!functions.containsKey(ctx.ID().getText()))
+		{
+			String msg = "'" + ctx.ID().getText() + "' nao foi declarado";
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+			return null;
+		}
+
+		currArgNum.push(0);
+		Function fn = functions.get(ctx.ID().getText());
+		currFunctionCall.push(fn);
 		if (ctx.expr_list() != null)
 			visit(ctx.expr_list());
+		currFunctionCall.pop();
 
-		Function fn = functions.get(ctx.ID().getText());
-
-		if (currArgNum != fn.argNum())
+		if (currArgNum.peek() != fn.argNum())
 		{
 			String msg = "'" + fn.name() + "' requer " + fn.argNum() + " argumentos";
 			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
 		}
+		currArgNum.pop();
 
 		return null;
 	}
@@ -123,16 +176,51 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitExprSingle(TugaParser.ExprSingleContext ctx)
 	{
-		currArgNum++;
+		argLogic(ctx.expr());
 		return null;
 	}
 
 	@Override
 	public Type visitExprMultiple(TugaParser.ExprMultipleContext ctx)
 	{
-		currArgNum++;
+		argLogic(ctx.expr());
 		visit(ctx.expr_list());
 		return null;
+	}
+
+	private void argLogic(TugaParser.ExprContext ctx)
+	{
+		int id = currArgNum.pop();
+		Function currFn = currFunctionCall.peek();
+		currArgNum.push(id + 1);
+		if (id >= currFn.argNum())
+			return;
+
+		Type expectedType = currFn.getArg(id).type();
+		Type type = visit(ctx);
+
+		if (!expectedType.equals(type) && !(expectedType == Type.DOUBLE && type == Type.INT))
+		{
+			String msg = "'" + getOriginalText(ctx) + "' devia ser do tipo " + expectedType;
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+		}
+	}
+
+	@Override
+	public Type visitFuncExpr(TugaParser.FuncExprContext ctx)
+	{
+		visit(ctx.func_call());
+
+		TugaParser.FuncCallContext fnCtx = (TugaParser.FuncCallContext)ctx.func_call();
+		String fnName = fnCtx.ID().getText();
+
+		Function fn = functions.get(fnName);
+		if (fn == null)
+			return Type.ERROR;
+		Type result = functions.get(fnName).returnType();
+
+		types.put(ctx, result);
+		return result;
 	}
 
 	@Override
@@ -206,7 +294,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	public Type visitAssignInst(TugaParser.AssignInstContext ctx)
 	{
 		String var = ctx.ID().getText();
-		if (!this.varTypes.containsKey(var))
+		if (!this.varTypes.containsKey(var) && !this.localVarTypes.containsKey(var))
 		{
 			raiseUndeclaredVarError(ctx, var);
 			types.put(ctx, Type.ERROR);
@@ -463,8 +551,14 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	{
 		if (this.varTypes.containsKey(ctx.ID().getText()))
 			raiseAlreadyDeclaredVarError(ctx, ctx.ID().getText());
+		else if (this.foundFunctions.contains(ctx.ID().getText()))
+		{
+			String msg = "'" + ctx.ID().getText() + "' ja foi declarado";
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+		}
+		else
+			this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
 
-		this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
 		return this.currentVisitingVarType;
 	}
 
@@ -473,8 +567,14 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	{
 		if (this.varTypes.containsKey(ctx.ID().getText()))
 			raiseAlreadyDeclaredVarError(ctx, ctx.ID().getText());
+		else if (this.foundFunctions.contains(ctx.ID().getText()))
+		{
+			String msg = "'" + ctx.ID().getText() + "' ja foi declarado";
+			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
+		}
+		else
+			this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
 
-		this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
 		visit(ctx.vars());
 		return this.currentVisitingVarType;
 	}
@@ -513,8 +613,13 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	public Type visitIDExpr(TugaParser.IDExprContext ctx)
 	{
 		Type result = this.varTypes.get(ctx.ID().getText());
+		if (result == null && this.localVarTypes != null)
+			result = this.localVarTypes.get(ctx.ID().getText());
 		if (result == null)
+		{
 			raiseUndeclaredVarError(ctx, ctx.ID().getText());
+			result = Type.ERROR;
+		}
 
 		types.put(ctx, result);
 		return result;
@@ -660,5 +765,27 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		int stopIndex = ctx.stop.getStopIndex();
 
 		return charStream.getText(Interval.of(startIndex, stopIndex));
+	}
+
+	public Type antlrTypeConvert(int type)
+	{
+		Type result = null;
+		switch (type) {
+			case TugaParser.T_INT:
+				result = Type.INT;
+				break;
+			case TugaParser.T_DOUBLE:
+				result = Type.DOUBLE;
+				break;
+			case TugaParser.T_STRING:
+				result = Type.STRING;
+				break;
+			case TugaParser.T_BOOL:
+				result = Type.BOOL;
+				break;
+			default:
+				throw new IllegalStateException("Invalid variable type.");
+		}
+		return result;
 	}
 }

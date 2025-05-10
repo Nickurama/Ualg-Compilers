@@ -1,0 +1,47 @@
+funcao owo(i: inteiro)
+inicio
+	retorna;
+fim
+
+funcao uwu(a: inteiro, b: string, c: booleano): inteiro
+inicio
+	retorna 2;
+fim
+
+funcao qwq(a: inteiro, b: real): string
+inicio
+	retorna "owo";
+fim
+
+funcao awa(): real
+inicio
+	retorna 3.9;
+fim
+
+funcao ewe(a: inteiro, b: inteiro, c: inteiro, d: inteiro): booleano
+inicio
+	retorna verdadeiro;
+fim
+
+funcao correct(a: inteiro, b: string, c: real, d: booleano): booleano
+inicio
+	retorna verdadeiro;
+fim
+
+funcao correct2(): booleano
+inicio
+	retorna verdadeiro;
+fim
+
+
+funcao principal()
+inicio
+	owo(3.14);
+	escreve uwu(3.14, "uwu", "verdadeiro");
+	escreve qwq(verdadeiro, 3.14);
+	escreve awa(); // valid
+	escreve ewe(1.2, falso, "owo", 4);
+
+	escreve correct(3, "owo", 3, verdadeiro e correct(1, "1", 1.0, falso) e owo(1)); // valid
+	escreve correct2(); // valid
+fim

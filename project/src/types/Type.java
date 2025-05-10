@@ -49,6 +49,14 @@ public enum Type
 
 		@Override
 		public String toString() { return "nulo"; }
+	},
+	VOID()
+	{
+		@Override
+		public boolean isNumerical() { return false; }
+
+		@Override
+		public String toString() { return "vazio"; }
 	};
 
 	public abstract boolean isNumerical();

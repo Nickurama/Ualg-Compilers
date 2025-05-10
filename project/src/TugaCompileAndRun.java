@@ -108,6 +108,7 @@ public class TugaCompileAndRun
 				semanticAnalyser.visit(tree);
 
 				// Error handling
+				errorListener.print();
 				if (errorListener.getNumLexerErrors() > 0)
 				{
 					System.out.println("Input has lexical errors");

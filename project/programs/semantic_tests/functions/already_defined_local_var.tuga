@@ -1,0 +1,24 @@
+i: string;
+
+
+funcao owo(a: inteiro, a: string)
+inicio
+	retorna;
+fim
+
+funcao uwu(a: inteiro, b: string)
+inicio
+	i: string;
+	inicio
+		i: string;
+		b: inteiro;
+		b: inteiro;
+	fim
+	b: real; // valid
+fim
+
+funcao principal()
+inicio
+	owo(2, "owo");
+	uwu(2, "owo");
+fim

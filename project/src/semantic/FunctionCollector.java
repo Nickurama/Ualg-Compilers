@@ -25,11 +25,13 @@ public class FunctionCollector extends TugaBaseVisitor<Void>
 		// visit(ctx.scope());
 
 		String name = ctx.ID().getText();
+		if (functions.containsKey(name))
+			return null;
 		Type retType = null;
 		if (ctx.type != null)
 			retType = antlrTypeConvert(ctx.type.getType());
 		else
-			retType = Type.NULL;
+			retType = Type.VOID;
 
 
 		currArgs = new ArrayList<Argument>();

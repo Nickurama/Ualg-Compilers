@@ -1,6 +1,7 @@
 package errorlisteners;
 
 import org.antlr.v4.runtime.*;
+import java.util.*;
 
 public class TugaErrorListener extends BaseErrorListener
 {
@@ -10,6 +11,9 @@ public class TugaErrorListener extends BaseErrorListener
     private int numLexerErrors;
     private int numParsingErrors;
     private int numSemanticErrors;
+
+	private PriorityQueue<Integer> lines;
+	private HashMap<Integer, ArrayList<String>> errors;
 
 	public enum ErrorType
 	{
@@ -30,6 +34,9 @@ public class TugaErrorListener extends BaseErrorListener
         this.showLexerErrors = showLexerErrors;
         this.showParserErrors = showParserErrors;
         this.showSemanticErrors = showSemanticErrors;
+
+		this.lines = new PriorityQueue<Integer>();
+		this.errors = new HashMap<Integer, ArrayList<String>>();
     }
 
     @Override
@@ -55,23 +62,49 @@ public class TugaErrorListener extends BaseErrorListener
 			case ErrorType.LEXER:
 				this.numLexerErrors++;
 				if (this.showLexerErrors)
-					System.out.println("erro na linha " + line + ": " + msg);
+					addError(line, "erro na linha " + line + ": " + msg);
+					// System.out.println("erro na linha " + line + ": " + msg);
 					// System.out.printf("line %d:%d error: %s\n", line, charPositionInLine, msg);
 				break;
 			case ErrorType.PARSER:
 				this.numParsingErrors++;
 				if (this.showParserErrors)
-					System.out.println("erro na linha " + line + ": " + msg);
+					addError(line, "erro na linha " + line + ": " + msg);
+					// System.out.println("erro na linha " + line + ": " + msg);
 					// System.out.printf("line %d:%d error: %s\n", line, charPositionInLine, msg);
 				break;
 			case ErrorType.SEMANTIC:
 				this.numSemanticErrors++;
 				if (this.showSemanticErrors)
-					System.out.println("erro na linha " + line + ": " + msg);
+					addError(line, "erro na linha " + line + ": " + msg);
+					// System.out.println("erro na linha " + line + ": " + msg);
 					// System.out.printf("line %d:%d error: %s\n", line, charPositionInLine, msg);
 				break;
 			default:
 				throw new IllegalStateException("Cannot have a syntax error of unknown type");
+		}
+	}
+
+	private void addError(int line, String msg)
+	{
+		this.lines.add(line);
+		if (this.errors.get(line) == null)
+			this.errors.put(line, new ArrayList<String>());
+
+		ArrayList<String> lineErrors = this.errors.get(line);
+		lineErrors.add(msg);
+	}
+
+	public void print()
+	{
+		while (lines.size() > 0)
+		{
+			int line = this.lines.remove();
+			while (this.lines.peek() != null && this.lines.peek() == line)
+				this.lines.remove();
+			ArrayList<String> lineErrors = this.errors.get(line);
+			for (String error : lineErrors)
+				System.out.println(error);
 		}
 	}
 

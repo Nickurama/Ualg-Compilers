@@ -1,0 +1,14 @@
+funcao owo()
+inicio
+	retorna;
+fim
+
+funcao owo()
+inicio
+	retorna;
+fim
+
+funcao principal()
+inicio
+	owo();
+fim
