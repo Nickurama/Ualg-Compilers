@@ -13,9 +13,10 @@ public class VirtualMachine
 	private final byte[] bytecodes;
 	private final Value[] constantPool;
 	private final Instruction[] code;
-	private final Stack<Integer> lallocHistory;
+	private final HashMap<Integer, Integer> lallocHistory; // frame number - number of lallocs
 	private int ip; // instruction pointer
 	private int fp; // frame pointer
+	private int frameCount;
 
 	public VirtualMachine(byte[] bytecodes, boolean showTrace)
 	{
@@ -28,7 +29,8 @@ public class VirtualMachine
 		BytecodeEncoder encoder = new BytecodeEncoder(bytecodes);
 		this.constantPool = encoder.getConstantPool();
 		this.code = encoder.getInstructions();
-		this.lallocHistory = new Stack<Integer>();
+		// this.lallocHistory = new Stack<Integer>();
+		this.lallocHistory = new HashMap<Integer, Integer>();
 		if (showTrace)
 		{
 			//dumpInstructions();
@@ -36,6 +38,7 @@ public class VirtualMachine
 		}
 		this.ip = 0;
 		this.fp = 0;
+		this.frameCount = 0;
 	}
 
 	public void run()
@@ -518,7 +521,11 @@ public class VirtualMachine
 	{
 		for (int i = 0; i < arg; i++)
 			stack.push(new Value(Type.NULL, null));
-		lallocHistory.push(arg);
+
+		int oldHistoryValue = 0;
+		if (lallocHistory.containsKey(frameCount))
+			oldHistoryValue = lallocHistory.get(frameCount);
+		lallocHistory.put(frameCount, oldHistoryValue + arg);
 	}
 
 	private void exec_lload(int arg)
@@ -562,16 +569,22 @@ public class VirtualMachine
 	{
 		stack.push(new Value(Type.INT, fp));
 		fp = this.stack.size() - 1;
-		stack.push(new Value(Type.INT, ip + 1));
+		stack.push(new Value(Type.INT, ip));
 		ip = nextInst;
+		frameCount++;
 	}
 
 	private void popFrame(int nArgs)
 	{
-		popStack(lallocHistory.pop()); // pop local variables
+		int lallocs = 0;
+		if (lallocHistory.containsKey(frameCount))
+			lallocs = lallocHistory.get(frameCount);
+		lallocHistory.remove(frameCount);
+		popStack(lallocs); // pop local variables
 		ip = stack.pop().getInt();
 		fp = stack.pop().getInt();
 		popStack(nArgs); // pop arguments
+		frameCount--;
 	}
 
 	private void popStack(int n)

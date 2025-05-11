@@ -1,0 +1,44 @@
+funcao owo()
+inicio
+	escreve "here";
+	retorna;
+	escreve "not here";
+fim
+
+funcao uwu(): inteiro
+inicio
+	retorna 2;
+fim
+
+funcao qwq(): string
+inicio
+	retorna "owo";
+fim
+
+funcao awa(): real
+inicio
+	retorna 3.9;
+fim
+
+funcao ewe(): booleano
+inicio
+	retorna verdadeiro;
+fim
+
+funcao principal()
+inicio
+	a: real;
+	a <- uwu() + 1.5;
+	escreve a;
+	escreve "3.5";
+	owo();
+	escreve "here";
+	escreve uwu();
+	escreve "2";
+	escreve qwq();
+	escreve "owo";
+	escreve awa();
+	escreve "3.9";
+	escreve ewe();
+	escreve "verdadeiro";
+fim

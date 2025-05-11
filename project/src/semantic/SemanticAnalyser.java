@@ -579,7 +579,8 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		else
 		{
 			outerScope.register(new VariableSymbol(ctx.ID().getText(), this.currentVisitingVarType));
-			this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
+			if (currFunction == null)
+				this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
 		}
 
 		return this.currentVisitingVarType;
@@ -596,7 +597,8 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		else
 		{
 			outerScope.register(new VariableSymbol(ctx.ID().getText(), this.currentVisitingVarType));
-			this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
+			if (currFunction == null)
+				this.varTypes.put(ctx.ID().getText(), this.currentVisitingVarType);
 		}
 
 		visit(ctx.vars());

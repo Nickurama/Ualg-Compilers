@@ -1,0 +1,17 @@
+funcao principal()
+inicio
+	escreve owo(3, "owo", 3, verdadeiro e owo(1, "1", 1.0, falso));
+	escreve falso;
+	escreve div2(3 * div2(div2(8)));
+	escreve 3.0;
+fim
+
+funcao owo(a: inteiro, b: string, c: real, d: booleano): booleano
+inicio
+	retorna d;
+fim
+
+funcao div2(i: real): real
+inicio
+	retorna i / 2;
+fim

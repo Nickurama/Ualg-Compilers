@@ -1,0 +1,38 @@
+funcao owo()
+inicio
+	escreve "owo";
+fim
+
+funcao uwu()
+inicio
+	escreve "uwu";
+fim
+
+funcao qwq()
+inicio
+	escreve "qwq";
+fim
+
+funcao awa()
+inicio
+	escreve "awa";
+fim
+
+funcao ewe()
+inicio
+	escreve "ewe";
+fim
+
+funcao principal()
+inicio
+	owo();
+	escreve "owo";
+	uwu();
+	escreve "uwu";
+	qwq();
+	escreve "qwq";
+	awa();
+	escreve "awa";
+	ewe();
+	escreve "ewe";
+fim

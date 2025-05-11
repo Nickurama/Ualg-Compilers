@@ -69,6 +69,9 @@ public class Value
 			case Type.BOOL:
 				result = String.valueOf(getBool());
 				break;
+			case Type.NULL:
+				result = "NULL";
+				break;
 			case Type.ERROR:
 				result = "ERROR";
 				break;

@@ -73,7 +73,7 @@ public class TugaCompileAndRun
 		if ((parseOnly && (compileOnly || runOnly))
 			|| (compileOnly && (parseOnly || runOnly))
 			|| (runOnly && (parseOnly || compileOnly)))
-			throw new IllegalStateException("Cannot have more than 1: -compile -run -parse");
+			throw new IllegalStateException("The following are mutually exclusive: -compile -run -parse");
 
 		try
 		{
@@ -130,7 +130,7 @@ public class TugaCompileAndRun
 					return;
 
 				// Code Generation
-				CodeGen codeGen = new CodeGen(types, varTypes);
+				CodeGen codeGen = new CodeGen(types, varTypes, functions);
 				codeGen.visit(tree);
 				if (showAsm)
 					codeGen.dumpCode();

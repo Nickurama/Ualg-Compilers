@@ -1,0 +1,45 @@
+global: string;
+
+funcao idk()
+inicio
+	a: string;
+	a <- "owo";
+	global <- a;
+fim
+
+funcao sqr(x: real): real
+inicio
+	retorna x * x;
+fim
+
+funcao sqrsum(a: real, b: real): real
+inicio
+	s: real;
+	s <- a + b;
+
+	idk();
+	inicio
+		c: string;
+		d: inteiro;
+		inicio
+			f: string;
+			c <- " what's ";
+			d <- 621;
+			f <- c + d;
+			escreve f;
+		fim
+		c <- global + c + d;
+		// f <- "owo";
+		escreve c + "?";
+	fim
+
+	retorna sqr(s);
+fim
+
+funcao principal()
+inicio
+	escreve sqrsum(3, 2);
+	escreve " what's 612";
+	escreve "owo what's 621?";
+	escreve "25.0";
+fim

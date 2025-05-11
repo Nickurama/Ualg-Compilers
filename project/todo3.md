@@ -33,7 +33,9 @@
 - [x] ret
 
 # Code Generation
+- [x] raw (void) function usage
+- [x] function return
+- [ ] function arguments
 - [ ] local variables
-- [ ] raw function usage
 - [ ] function usage in expressions
-- [ ] make tests
+- [x] make tests
