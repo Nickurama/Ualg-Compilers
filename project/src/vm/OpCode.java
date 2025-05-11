@@ -50,7 +50,14 @@ public enum OpCode
 	jumpf(1),
 	galloc(1),
 	gload(1),
-	gstore(1)
+	gstore(1),
+	lalloc(1),
+	lload(1),
+	lstore(1),
+	pop(1),
+	call(1),
+	retval(1),
+	ret(1),
 	;
 
 	private final int nArgs;

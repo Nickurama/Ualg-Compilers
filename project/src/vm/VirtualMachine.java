@@ -516,6 +516,41 @@ public class VirtualMachine
 		globalVariables.set(arg, value);
 	}
 
+	private void exec_lalloc(int arg)
+	{
+
+	}
+
+	private void exec_lload(int arg)
+	{
+
+	}
+
+	private void exec_lstore(int arg)
+	{
+
+	}
+
+	private void exec_pop(int arg)
+	{
+
+	}
+
+	private void exec_call(int arg)
+	{
+
+	}
+
+	private void exec_retval(int arg)
+	{
+
+	}
+
+	private void exec_ret(int arg)
+	{
+
+	}
+
 	public void exec(Instruction inst)
 	{
 		if (showTrace)
@@ -660,6 +695,27 @@ public class VirtualMachine
 				break;
 			case gstore:
 				exec_gstore(inst.args()[0]);
+				break;
+			case lalloc:
+				exec_lalloc(inst.args()[0]);
+				break;
+			case lload:
+				exec_lload(inst.args()[0]);
+				break;
+			case lstore:
+				exec_lstore(inst.args()[0]);
+				break;
+			case pop:
+				exec_pop(inst.args()[0]);
+				break;
+			case call:
+				exec_call(inst.args()[0]);
+				break;
+			case retval:
+				exec_retval(inst.args()[0]);
+				break;
+			case ret:
+				exec_ret(inst.args()[0]);
 				break;
 		}
 	}

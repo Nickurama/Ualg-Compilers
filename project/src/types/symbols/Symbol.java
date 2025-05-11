@@ -1,18 +1,18 @@
-package semantic;
+package types.symbols;
 
 import types.*;
 
-public class Argument
+public class Symbol
 {
 	private String name;
 	private Type type;
 
-	public Argument(String name, Type type)
+	public Symbol(String name, Type type)
 	{
 		this.name = name;
 		this.type = type;
 	}
 
-	public String name() { return this.name; }
 	public Type type() { return this.type; }
+	public String name() { return this.name; }
 }

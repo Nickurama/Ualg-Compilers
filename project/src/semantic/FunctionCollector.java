@@ -1,20 +1,17 @@
 package semantic;
 
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.Interval;
-import org.antlr.v4.runtime.tree.*;
 import java.util.*;
 
 import Tuga.*;
-import errorlisteners.*;
 import types.*;
+import types.symbols.*;
 
 public class FunctionCollector extends TugaBaseVisitor<Void>
 {
-	private HashMap<String, Function> functions;
-	private ArrayList<Argument> currArgs;
+	private HashMap<String, FunctionSymbol> functions;
+	private ArrayList<VariableSymbol> currArgs;
 
-	public FunctionCollector(HashMap<String, Function> functions)
+	public FunctionCollector(HashMap<String, FunctionSymbol> functions)
 	{
 		this.functions = functions;
 	}
@@ -34,13 +31,13 @@ public class FunctionCollector extends TugaBaseVisitor<Void>
 			retType = Type.VOID;
 
 
-		currArgs = new ArrayList<Argument>();
+		currArgs = new ArrayList<VariableSymbol>();
 		if (ctx.arg_list() != null)
 			visit(ctx.arg_list());
-		Argument[] args = new Argument[currArgs.size()];
+		VariableSymbol[] args = new VariableSymbol[currArgs.size()];
 		args = currArgs.toArray(args);
 
-		Function fn = new Function(name, retType, args);
+		FunctionSymbol fn = new FunctionSymbol(name, retType, args);
 		functions.put(name, fn);
 
 		return null;
@@ -52,7 +49,7 @@ public class FunctionCollector extends TugaBaseVisitor<Void>
 		String name = ctx.ID().getText();
 		Type type = antlrTypeConvert(ctx.type.getType());
 
-		Argument arg = new Argument(name, type);
+		VariableSymbol arg = new VariableSymbol(name, type);
 		currArgs.add(arg);
 
 		return null;

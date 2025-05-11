@@ -11,8 +11,8 @@ import errorlisteners.*;
 import io.BytesIO;
 import semantic.*;
 import types.*;
-import vm.Instruction;
-import vm.VirtualMachine;
+import types.symbols.*;
+import vm.*;
 
 public class TugaCompileAndRun
 {
@@ -98,7 +98,7 @@ public class TugaCompileAndRun
 				ParseTree tree = parser.tuga();
 
 				// Semantic Analyser
-				HashMap<String, Function> functions = new HashMap<String, Function>();
+				HashMap<String, FunctionSymbol> functions = new HashMap<String, FunctionSymbol>();
 				new FunctionCollector(functions).visit(tree);
 				ParseTreeProperty<Type> types = new ParseTreeProperty<Type>();
 				HashMap<String, Type> varTypes = new HashMap<String, Type>();
