@@ -25,7 +25,9 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	private boolean foundReturn;
 	private Stack<Integer> currArgNum;
 	private Stack<FunctionSymbol> currFunctionCall;
+	private HashMap<String, FunctionSymbol> foundFunctions;
 	private Scope outerScope;
+	private boolean isFirstFuncDecl;
 
 	public SemanticAnalyser(ParseTreeProperty<Type> types, HashMap<String, Type> varTypes, HashMap<String, FunctionSymbol> functions)
 	{
@@ -38,7 +40,10 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		this.foundMain = false;
 		this.currArgNum = new Stack<Integer>();
 		this.currFunctionCall = new Stack<FunctionSymbol>();
+		this.foundFunctions = new HashMap<String, FunctionSymbol>();
+
 		this.outerScope = new Scope();
+		this.isFirstFuncDecl = true;
 	}
 
 	@Override
@@ -58,16 +63,21 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitFuncDecl(TugaParser.FuncDeclContext ctx)
 	{
+		if (isFirstFuncDecl)
+		{
+			addAllFunctionsToRootScope();
+			isFirstFuncDecl = false;
+		}
 		currFunction = functions.get(ctx.ID().getText());
 
-		if (outerScope.contains(currFunction.name()))
+		if (foundFunctions.containsKey(currFunction.name()))
 		{
 			String msg = "'" + currFunction.name() + "' ja foi declarado";
 			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
 		}
 		else
 		{
-			outerScope.register(currFunction);
+			foundFunctions.put(currFunction.name(), currFunction);
 		}
 
 		Scope scope = new Scope(outerScope);
@@ -88,6 +98,22 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		outerScope = scope.parent();
 		currFunction = null;
 		return null;
+	}
+
+	private void addAllFunctionsToRootScope()
+	{
+		for (FunctionSymbol fn : functions.values())
+		{
+			if (outerScope.contains(fn.name()))
+			{
+				String msg = "'" + fn.name() + "' ja foi declarado";
+				raiseError(fn.line(), 0, msg);
+			}
+			else
+			{
+				outerScope.register(fn);
+			}
+		}
 	}
 
 	@Override

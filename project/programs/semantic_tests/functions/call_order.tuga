@@ -1,0 +1,34 @@
+funcao principal()
+inicio
+	owo: inteiro;
+	owo();
+	escreve uwu();
+	escreve qwq();
+	escreve awa();
+	escreve ewe();
+fim
+
+funcao owo()
+inicio
+	retorna;
+fim
+
+funcao uwu(): inteiro
+inicio
+	retorna 2;
+fim
+
+funcao qwq(): string
+inicio
+	retorna "owo";
+fim
+
+funcao awa(): real
+inicio
+	retorna 3.14;
+fim
+
+funcao ewe(): booleano
+inicio
+	retorna falso;
+fim

@@ -38,6 +38,7 @@ public class FunctionCollector extends TugaBaseVisitor<Void>
 		args = currArgs.toArray(args);
 
 		FunctionSymbol fn = new FunctionSymbol(name, retType, args);
+		fn.setLine(ctx.start.getLine());
 		functions.put(name, fn);
 
 		return null;
