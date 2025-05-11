@@ -542,6 +542,13 @@ public class VirtualMachine
 	private void exec_pop(int arg)
 	{
 		popStack(arg);
+
+
+		if (lallocHistory.containsKey(frameCount))
+		{
+			int oldHistoryValue = lallocHistory.get(frameCount);
+			lallocHistory.put(frameCount, oldHistoryValue - arg);
+		}
 	}
 
 	private void exec_call(int arg)

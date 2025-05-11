@@ -160,7 +160,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		String fnName = fnCtx.ID().getText();
 		if (functions.containsKey(fnName) && !(functions.get(fnName).type() == Type.VOID))
 		{
-			String msg = "valor de '" + fnName + "' tem de ser atribuido a uma variavel";
+			String msg = " valor de '" + fnName + "' tem de ser atribuido a uma variavel";
 			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
 		}
 

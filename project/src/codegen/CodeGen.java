@@ -172,6 +172,8 @@ public class CodeGen extends TugaBaseVisitor<Void>
 		else
 		{
 			visit(ctx.expr());
+			if (currFunction.type() == Type.DOUBLE && types.get(ctx.expr()) == Type.INT)
+				emit(OpCode.itod);
 			emit(OpCode.retval, currFunction.argNum());
 		}
 
@@ -241,6 +243,25 @@ public class CodeGen extends TugaBaseVisitor<Void>
 
 		currFunctionCallIndex.push(index + 1);
 		visit(ctx.expr_list());
+
+		return null;
+	}
+
+	@Override
+	public Void visitScopeInst(TugaParser.ScopeInstContext ctx)
+	{
+		int startLocalVarFrame = localVariableFrameCounter;
+		for (int i = 0; i < ctx.var_decl().size(); i++)
+			visit(ctx.var_decl(i));
+		int endLocalVarFrame = localVariableFrameCounter;
+
+		for (int i = 0; i < ctx.inst().size(); i++)
+			visit(ctx.inst(i));
+
+		int frameDiff = endLocalVarFrame - startLocalVarFrame;
+		if (frameDiff > 0 && currFunction.type() == Type.VOID)
+			emit(OpCode.pop, frameDiff);
+		localVariableFrameCounter = startLocalVarFrame;
 
 		return null;
 	}

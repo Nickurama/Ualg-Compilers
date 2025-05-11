@@ -35,7 +35,8 @@
 # Code Generation
 - [x] raw (void) function usage
 - [x] function return
-- [ ] function arguments
-- [ ] local variables
-- [ ] function usage in expressions
+- [x] function arguments
+- [x] local variables
+- [x] function usage in expressions
 - [x] make tests
+- [ ] mooshak
