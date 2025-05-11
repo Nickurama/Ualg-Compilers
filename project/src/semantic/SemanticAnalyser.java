@@ -17,23 +17,16 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	private ParseTreeProperty<Type> types;
 	private ArrayList<TugaErrorListener> listeners;
 	private Type currentVisitingVarType;
-	private HashMap<String, Type> varTypes; // FIXME
-	// private HashMap<String, Function> functions; // FIXME
+	private HashMap<String, Type> varTypes;
 	private HashMap<String, FunctionSymbol> functions;
 
 	private boolean foundMain;
-	// private Function currFunction; // FIXME
 	private FunctionSymbol currFunction;
 	private boolean foundReturn;
 	private Stack<Integer> currArgNum;
-	// private Stack<Function> currFunctionCall; // FIXME
 	private Stack<FunctionSymbol> currFunctionCall;
-	// private HashSet<String> foundFunctions; // FIXME
-	// private HashMap<String, Type> localVarTypes; // FIXME
-	// private Stack<ArrayList<String>> currLocalVars; // FIXME
 	private Scope outerScope;
 
-	// public SemanticAnalyser(ParseTreeProperty<Type> types, HashMap<String, Type> varTypes, HashMap<String, Function> functions) // FIXME
 	public SemanticAnalyser(ParseTreeProperty<Type> types, HashMap<String, Type> varTypes, HashMap<String, FunctionSymbol> functions)
 	{
 		this.types = types;
@@ -44,11 +37,7 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 
 		this.foundMain = false;
 		this.currArgNum = new Stack<Integer>();
-		// this.currFunctionCall = new Stack<Function>(); // FIXME
 		this.currFunctionCall = new Stack<FunctionSymbol>();
-		// this.foundFunctions = new HashSet<String>(); // FIXME
-		// this.currLocalVars = new Stack<ArrayList<String>>(); // FIXME
-
 		this.outerScope = new Scope();
 	}
 
@@ -71,7 +60,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	{
 		currFunction = functions.get(ctx.ID().getText());
 
-		// if (foundFunctions.contains(currFunction.name()) || varTypes.containsKey(currFunction.name())) // FIXME
 		if (outerScope.contains(currFunction.name()))
 		{
 			String msg = "'" + currFunction.name() + "' ja foi declarado";
@@ -80,13 +68,10 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		else
 		{
 			outerScope.register(currFunction);
-			// foundFunctions.add(currFunction.name()); // FIXME
 		}
 
 		Scope scope = new Scope(outerScope);
 		outerScope = scope;
-		// localVarTypes = new HashMap<String, Type>(); // FIXME
-		// currLocalVars.add(new ArrayList<String>()); // FIXME
 
 		foundReturn = false;
 		if (ctx.arg_list() != null)
@@ -94,7 +79,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		visit(ctx.scope());
 		if (ctx.ID().getText().equals(MAIN_FUNC))
 			this.foundMain = true;
-		// if (!foundReturn && currFunction.returnType() != Type.VOID) // FIXME
 		if (!foundReturn && currFunction.type() != Type.VOID)
 		{
 			String msg = "funcao sem retorno";
@@ -102,9 +86,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		}
 
 		outerScope = scope.parent();
-		// for (String var : currLocalVars.peek()) // FIXME
-		// 	localVarTypes.remove(var); // FIXME
-		// currLocalVars.pop(); // FIXME
 		currFunction = null;
 		return null;
 	}
@@ -115,7 +96,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		String name = ctx.ID().getText();
 		Type type = antlrTypeConvert(ctx.type.getType());
 
-		// if (localVarTypes.containsKey(name) || varTypes.containsKey(name) || functions.containsKey(name)) // FIXME
 		if (outerScope.contains(name))
 		{
 			String msg = "'" + ctx.ID().getText() + "' ja foi declarado";
@@ -123,8 +103,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 			return type;
 		}
 		outerScope.register(new VariableSymbol(name, type));
-		// currLocalVars.peek().add(name); // FIXME
-		// localVarTypes.put(name, type); // FIXME
 
 		return type;
 	}
@@ -137,12 +115,9 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		if (ctx.expr() != null)
 			exprType = visit(ctx.expr());
 
-		// if (currFunction.returnType() != exprType && // FIXME
-		// 	!(currFunction.returnType() == Type.DOUBLE && exprType == Type.INT)) // FIXME
 		if (currFunction.type() != exprType &&
 			!(currFunction.type() == Type.DOUBLE && exprType == Type.INT))
 		{
-			// String msg = "funcao de tipo " + currFunction.returnType() + " nao pode retornar uma expressao do tipo " + exprType; // FIXME
 			String msg = "funcao de tipo " + currFunction.type() + " nao pode retornar uma expressao do tipo " + exprType;
 			raiseError(ctx.start.getLine(), ctx.start.getCharPositionInLine(), msg);
 		}
@@ -157,7 +132,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 
 		TugaParser.FuncCallContext fnCtx = (TugaParser.FuncCallContext)ctx.func_call();
 		String fnName = fnCtx.ID().getText();
-		// if (functions.containsKey(fnName) && !(functions.get(fnName).returnType() == Type.VOID)) // FIXME
 		if (functions.containsKey(fnName) && !(functions.get(fnName).type() == Type.VOID))
 		{
 			String msg = "valor de '" + fnName + "' tem de ser atribuido a uma variavel";
@@ -213,7 +187,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	{
 		int id = currArgNum.pop();
 		FunctionSymbol currFn = currFunctionCall.peek();
-		// Function currFn = currFunctionCall.peek(); // FIXME
 		currArgNum.push(id + 1);
 		if (id >= currFn.argNum())
 			return;
@@ -236,11 +209,9 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		TugaParser.FuncCallContext fnCtx = (TugaParser.FuncCallContext)ctx.func_call();
 		String fnName = fnCtx.ID().getText();
 
-		// Function fn = functions.get(fnName); // FIXME
 		FunctionSymbol fn = functions.get(fnName);
 		if (fn == null)
 			return Type.ERROR;
-		// Type result = functions.get(fnName).returnType(); // FIXME
 		Type result = functions.get(fnName).type();
 
 		types.put(ctx, result);
@@ -318,7 +289,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	public Type visitAssignInst(TugaParser.AssignInstContext ctx)
 	{
 		String var = ctx.ID().getText();
-		// if (!this.varTypes.containsKey(var) && !this.localVarTypes.containsKey(var)) // FIXME
 		if (!outerScope.contains(var) || (outerScope.contains(var) && (outerScope.getSymbol(var) instanceof FunctionSymbol)))
 		{
 			String msg = "'" + ctx.ID().getText() + "' nao eh variavel";
@@ -328,7 +298,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 		}
 
 		final String operator = "<-";
-		// Type varType = this.varTypes.get(var); // FIXME
 		Type varType = this.outerScope.getSymbol(var).type();
 		Type exprType = visit(ctx.expr());
 
@@ -576,9 +545,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitVarSingle(TugaParser.VarSingleContext ctx)
 	{
-		// if (this.varTypes.containsKey(ctx.ID().getText())) // FIXME
-			// raiseAlreadyDeclaredVarError(ctx, ctx.ID().getText());
-		// else if (this.foundFunctions.contains(ctx.ID().getText())) // FIXME
 		if (outerScope.contains(ctx.ID().getText()))
 		{
 			String msg = "'" + ctx.ID().getText() + "' ja foi declarado";
@@ -596,9 +562,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitVarMultiple(TugaParser.VarMultipleContext ctx)
 	{
-		// if (this.varTypes.containsKey(ctx.ID().getText())) // FIXME
-			// raiseAlreadyDeclaredVarError(ctx, ctx.ID().getText()); // FIXME
-		// else if (this.foundFunctions.contains(ctx.ID().getText())) // FIXME
 		if (outerScope.contains(ctx.ID().getText()))
 		{
 			String msg = "'" + ctx.ID().getText() + "' ja foi declarado";
@@ -647,9 +610,6 @@ public class SemanticAnalyser extends TugaBaseVisitor<Type>
 	@Override
 	public Type visitIDExpr(TugaParser.IDExprContext ctx)
 	{
-		// Type result = this.varTypes.get(ctx.ID().getText()); // FIXME
-		// if (result == null && this.localVarTypes != null) // FIXME
-			// result = this.localVarTypes.get(ctx.ID().getText()); // FIXME
 		String id = ctx.ID().getText();
 		Type result = null;
 		if (!outerScope.contains(id) || (outerScope.contains(id) && (outerScope.getSymbol(id) instanceof FunctionSymbol)))
