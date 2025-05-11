@@ -1,8 +1,6 @@
 package vm;
 
-import java.io.*;
 import java.util.*;
-
 import io.BytecodeEncoder;
 import types.*;
 
@@ -11,12 +9,13 @@ public class VirtualMachine
 	private boolean showTrace;
 	private boolean halt;
 	private final Stack<Value> stack;
-	// private Value[] heap;
 	private final ArrayList<Value> globalVariables;
 	private final byte[] bytecodes;
 	private final Value[] constantPool;
 	private final Instruction[] code;
-	private int ip;
+	private final Stack<Integer> lallocHistory;
+	private int ip; // instruction pointer
+	private int fp; // frame pointer
 
 	public VirtualMachine(byte[] bytecodes, boolean showTrace)
 	{
@@ -29,12 +28,14 @@ public class VirtualMachine
 		BytecodeEncoder encoder = new BytecodeEncoder(bytecodes);
 		this.constantPool = encoder.getConstantPool();
 		this.code = encoder.getInstructions();
+		this.lallocHistory = new Stack<Integer>();
 		if (showTrace)
 		{
 			//dumpInstructions();
 			// dumpInstructionsAndBytecodes();
 		}
 		this.ip = 0;
+		this.fp = 0;
 	}
 
 	public void run()
@@ -491,9 +492,6 @@ public class VirtualMachine
 
 	private void exec_galloc(int arg)
 	{
-		// Value[] tmp = new Value[heap.length + arg];
-		// System.arraycopy(heap, 0, tmp, 0, heap.length);
-		// heap = tmp;
 		for (int i = 0; i < arg; i++)
 			globalVariables.add(new Value(Type.NULL, null));
 	}
@@ -518,38 +516,73 @@ public class VirtualMachine
 
 	private void exec_lalloc(int arg)
 	{
-
+		for (int i = 0; i < arg; i++)
+			stack.push(new Value(Type.NULL, null));
+		lallocHistory.push(arg);
 	}
 
 	private void exec_lload(int arg)
 	{
-
+		stack.push(this.stack.get(fp + arg));
 	}
 
 	private void exec_lstore(int arg)
 	{
-
+		Value value = stack.pop();
+		stack.set(fp + arg, value);
 	}
 
 	private void exec_pop(int arg)
 	{
-
+		popStack(arg);
 	}
 
 	private void exec_call(int arg)
 	{
-
+		pushFrame(arg);
 	}
 
 	private void exec_retval(int arg)
 	{
-
+		Value returnValue = stack.pop();
+		popFrame(arg);
+		stack.push(returnValue);
 	}
 
 	private void exec_ret(int arg)
 	{
-
+		popFrame(arg);
 	}
+
+	//
+	// Utility functions
+	//
+
+	private void pushFrame(int nextInst)
+	{
+		stack.push(new Value(Type.INT, fp));
+		fp = this.stack.size() - 1;
+		stack.push(new Value(Type.INT, ip + 1));
+		ip = nextInst;
+	}
+
+	private void popFrame(int nArgs)
+	{
+		popStack(lallocHistory.pop()); // pop local variables
+		ip = stack.pop().getInt();
+		fp = stack.pop().getInt();
+		popStack(nArgs); // pop arguments
+	}
+
+	private void popStack(int n)
+	{
+		for (int i = 0; i < n; i++)
+			stack.pop();
+	}
+
+	//
+	// broad execution
+	//
 
 	public void exec(Instruction inst)
 	{

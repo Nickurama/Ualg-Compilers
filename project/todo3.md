@@ -23,14 +23,14 @@
 - [x] make tests
 
 # Virtual Machine
-- [ ] add frame pointer
-- [ ] lalloc
-- [ ] lload
-- [ ] lstore
-- [ ] pop
-- [ ] call
-- [ ] retval
-- [ ] ret
+- [x] add frame pointer
+- [x] lalloc
+- [x] lload
+- [x] lstore
+- [x] pop
+- [x] call
+- [x] retval
+- [x] ret
 
 # Code Generation
 - [ ] local variables
